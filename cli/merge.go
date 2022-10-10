@@ -11,8 +11,14 @@ const omniaFile = "omnia.json"
 const dataFile = "data/old.json"
 
 func mergeCmd(ctx *cli.Context) error {
-	log.SetLevel(log.DebugLevel)
+	if ctx.Bool("trace") {
+		log.SetLevel(log.TraceLevel)
+	} else if ctx.Bool("debug") {
+		log.SetLevel(log.DebugLevel)
+	}
 	client := omnia.OmniaFromFile(omniaFile)
-	client.Call("get", omnia.Audio, "all", []string{}, nil)
+	client.Call("get", omnia.Audio, "all", []string{}, &omnia.QueryParameters{
+		AddPublishingDetails: omnia.YesBool,
+	})
 	return nil
 }
