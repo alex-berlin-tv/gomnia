@@ -2,19 +2,26 @@ package omnia
 
 import (
 	"crypto/md5"
-	"encoding/json"
 	"encoding/hex"
+	"encoding/json"
 	"fmt"
-	log "github.com/sirupsen/logrus"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"strings"
+	"time"
+
+	"github.com/google/go-querystring/query"
+	log "github.com/sirupsen/logrus"
 )
+
+const omniaHeaderXRequestCid = "X-Request-CID"
+const omniaHeaderXRequestToken = "X-Request-Token"
 
 // Header for an Omnia API call.
 type omniaHeader struct {
-	xRequestCid   string `json:"X-Request-CID"`
-	xRequestToken string `json:"X-Request-Token"`
+	xRequestCid   string
+	xRequestToken string
 }
 
 func newOmniaHeader(operation, domainId, apiSecret, sessionId string) omniaHeader {
@@ -61,28 +68,57 @@ func (o Omnia) Call(
 	operation string,
 	args []string,
 	parameters *QueryParameters,
-) Response {
+) (*Response, error) {
+	method = strings.ToUpper(method)
 	args_parts := ""
 	if len(args) > 0 {
 		args_parts = strings.Join(args, "/")
 		args_parts = fmt.Sprintf("/%s", args_parts)
 	}
-	url := fmt.Sprintf(
+	reqUrl := fmt.Sprintf(
 		"https://api.nexx.cloud/v3.1/%s/%s/%s%s",
 		o.DomainId, streamType, operation, args_parts,
 	)
 	header := newOmniaHeader(operation, o.DomainId, o.ApiSecret, o.SessionId)
-	o.debugLog(method, url, header, parameters)
+	paramQuery, err := query.Values(parameters)
+	if err != nil {
+		return nil, err
+	}
+	paramUrl := paramQuery.Encode()
+	o.debugLog(method, reqUrl, header, paramUrl)
 
-	return Response{}
+	req, err := http.NewRequest(method, reqUrl, strings.NewReader(paramUrl))
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Add(omniaHeaderXRequestCid, header.xRequestCid)
+	req.Header.Add(omniaHeaderXRequestToken, header.xRequestToken)
+	client := http.Client{
+		Timeout: time.Second * 5,
+	}
+	rsp, err := client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer rsp.Body.Close()
+	body, err := io.ReadAll(rsp.Body)
+	if err != nil {
+		return nil, err
+	}
+	res := &Response{}
+	json.Unmarshal(body, res)
+	log.WithFields(res.Metadata.toMap()).Debug("Response Metadata")
+	log.WithFields(res.Paging.toMap()).Debug("Response Paging")
+	log.Trace(res.Result)
+	return res, nil
 }
 
 // Logs parameters of API call.
-func (o Omnia) debugLog(method string, url string, header omniaHeader, parameters *QueryParameters) {
+func (o Omnia) debugLog(method string, url string, header omniaHeader, parameters string) {
 	log.Debugf("METHOD:\t%s", method)
 	log.Debugf("URL:\t\t%s", url)
 	log.Debugf("HEADER:\t%+v", header)
-	if parameters != nil {
+	if parameters != "" {
 		log.Debugf("URL PARAMS:\t%+v", parameters)
 	} else {
 		log.Debug("URL PARAMS:\t{}")

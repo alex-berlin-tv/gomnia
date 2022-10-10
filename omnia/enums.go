@@ -3,8 +3,8 @@ package omnia
 type Bool int
 
 const (
-	No  Bool = 0
-	Yes      = 1
+	NoBool  Bool = 0
+	YesBool      = 1
 )
 
 type ImageFormat string
