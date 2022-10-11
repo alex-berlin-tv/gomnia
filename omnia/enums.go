@@ -46,7 +46,7 @@ const (
 	FahrenheitUnit                 = "fahrenheit"
 )
 
-// Used in conjection with `QueryParameters.ForceGateway`.
+// Used in conjection with [QueryParameters.ForceGateway].
 type Gateway string
 
 const (
