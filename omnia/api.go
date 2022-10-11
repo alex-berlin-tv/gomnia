@@ -67,7 +67,29 @@ func (o Omnia) Call(
 	streamType StreamType,
 	operation string,
 	args []string,
-	parameters *BasicParameters,
+	parameters QueryParameters,
+) (*Response, error) {
+	return o.universalCall(method, streamType, false, operation, args, parameters)
+}
+
+// Generic call to the Omnia management API.
+func (o Omnia) ManagementCall(
+	method string,
+	streamType StreamType,
+	operation string,
+	args []string,
+	parameters QueryParameters,
+) (*Response, error) {
+	return o.universalCall(method, streamType, true, operation, args, parameters)
+}
+
+func (o Omnia) universalCall(
+	method string,
+	streamType StreamType,
+	isManagement bool,
+	operation string,
+	args []string,
+	parameters QueryParameters,
 ) (*Response, error) {
 	method = strings.ToUpper(method)
 	args_parts := ""
@@ -75,14 +97,26 @@ func (o Omnia) Call(
 		args_parts = strings.Join(args, "/")
 		args_parts = fmt.Sprintf("/%s", args_parts)
 	}
-	reqUrl := fmt.Sprintf(
-		"https://api.nexx.cloud/v3.1/%s/%s/%s%s",
-		o.DomainId, streamType, operation, args_parts,
-	)
+	var reqUrl string
+	if !isManagement {
+		reqUrl = fmt.Sprintf(
+			"https://api.nexx.cloud/v3.1/%s/%s/%s%s",
+			o.DomainId, streamType, operation, args_parts,
+		)
+	} else {
+		reqUrl = fmt.Sprintf(
+			"https://api.nexx.cloud/v3.1/%s/manage/%s/%s/%s",
+			o.DomainId, streamType, args_parts, operation,
+		)
+	}
 	header := newOmniaHeader(operation, o.DomainId, o.ApiSecret, o.SessionId)
-	paramUrl, err := parameters.UrlEncode(nil)
-	if err != nil {
-		return nil, err
+	paramUrl := ""
+	if parameters != nil {
+		var err error
+		paramUrl, err = parameters.UrlEncode(nil)
+		if err != nil {
+			return nil, err
+		}
 	}
 	o.debugLog(method, reqUrl, header, paramUrl)
 
@@ -107,7 +141,9 @@ func (o Omnia) Call(
 	res := &Response{}
 	json.Unmarshal(body, res)
 	log.WithFields(res.Metadata.toMap()).Debug("Response Metadata")
-	log.WithFields(res.Paging.toMap()).Debug("Response Paging")
+	if res.Paging != nil {
+		log.WithFields(res.Paging.toMap()).Debug("Response Paging")
+	}
 	log.Trace(res.Result)
 	return res, nil
 }

@@ -1,9 +1,24 @@
 package omnia
 
-import "github.com/pasztorpisti/qs"
+import (
+	"net/url"
 
+	"github.com/pasztorpisti/qs"
+)
+
+// Provides parameters for an API call.
 type QueryParameters interface {
 	UrlEncode(extra map[string]interface{}) (string, error)
+}
+
+type CustomParameters map[string]string
+
+func (c CustomParameters) UrlEncode(extra map[string]interface{}) (string, error) {
+	values := url.Values{}
+	for key, value := range c {
+		values.Set(key, value)
+	}
+	return values.Encode(), nil
 }
 
 // General parameters for a query to the nexxOmnia API. The corresponding API
