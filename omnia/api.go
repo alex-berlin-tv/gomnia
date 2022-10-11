@@ -62,9 +62,43 @@ func OmniaFromFile(path string) Omnia {
 	return rsl
 }
 
-// Return a item by it's id and streamtype.
+// Return a item of a given streamtype by it's id.
 func (o Omnia) ById(streamType StreamType, id int, parameters QueryParameters) (*Response, error) {
 	return o.Call("get", streamType, "byid", []string{strconv.Itoa(id)}, parameters)
+}
+
+// Return a item of a given streamtype by it's global id.
+func (o Omnia) ByGlobalId(streamType StreamType, globalId int, parameters QueryParameters) (*Response, error) {
+	return o.Call("get", streamType, "byglobalid", []string{strconv.Itoa(globalId)}, parameters)
+}
+
+// Return a item of a given streamtype by it's hash.
+func (o Omnia) ByHash(streamType StreamType, hash string, parameters QueryParameters) (*Response, error) {
+	return o.Call("get", streamType, "byhash", []string{hash}, parameters)
+}
+
+// Return a item of a given streamtype by it's reference number.
+func (o Omnia) ByRefNr(streamType StreamType, reference string, parameters QueryParameters) (*Response, error) {
+	return o.Call("get", streamType, "byrefnr", []string{reference}, parameters)
+}
+
+// Return a item of a given streamtype by it's slug.
+func (o Omnia) BySlug(streamType StreamType, slug string, parameters QueryParameters) (*Response, error) {
+	return o.Call("get", streamType, "byslug", []string{slug}, parameters)
+}
+
+// Return a item of a given streamtype by it's remote reference number.
+// This Call queries for an Item, that is (possibly) not hosted by nexxOMNIA. The API will
+// call the given Remote Provider for Media Details and implicitely create the Item for
+// future References within nexxOMNIA.
+func (o Omnia) ByRemoteRef(streamType StreamType, reference string, parameters QueryParameters) (*Response, error) {
+	return o.Call("get", streamType, "byremotereference", []string{reference}, parameters)
+}
+
+// Return a item of a given streamtype by it's code name. Only available for container
+// streamtypes.
+func (o Omnia) ByCodeName(streamType StreamType, codename string, parameters QueryParameters) (*Response, error) {
+	return o.Call("get", streamType, "bycodename", []string{codename}, parameters)
 }
 
 // Generic call to the Omnia API. Won't work with the media management API.
