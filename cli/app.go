@@ -29,6 +29,7 @@ func App() *cli.App {
 				Action: importCmd,
 				Flags: []cli.Flag{
 					&debugFlag,
+					&traceFlag,
 				},
 			},
 			{
@@ -37,6 +38,7 @@ func App() *cli.App {
 				Action: mergeCmd,
 				Flags: []cli.Flag{
 					&debugFlag,
+					&traceFlag,
 				},
 			},
 		},
