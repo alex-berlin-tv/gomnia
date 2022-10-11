@@ -109,6 +109,31 @@ func (b BasicParameters) UrlEncode(extra map[string]interface{}) (string, error)
 	return qs.Marshal(&b)
 }
 
+type ByQueryParameters struct {
+	BasicParameters
+	// Defines the Way, the Query is executed. Fore more results, "classicwithor"
+	// is optimal. For a Lucene Search with Relevance, use "fulltext".
+	QueryMode QueryMode `qs:"queryMode,omitempty"`
+	// A comma seperated List of Attributes, to search within. If omitted, the
+	// Search will use all available Text Attributes.
+	QueryFields []string `qs:"queryFields,omitempty"`
+	// Skip Results with a Query Score lower than the given Value. Only usefull
+	// for querymode "fulltext".
+	MinimalQueryScore int `qs:"minimalQueryScore,omitempty"`
+	// By default, the Query will only return Results on  full Words. If also
+	// Substring Matches shall be returned, set this Parameter to 1. Only usefull,
+	// if querymode is not "fulltext".
+	IncludeSubstringMatches bool `qs:"includeSubstringMatches,omitempty"`
+	// By default, the Query will only return Results on full Words. If also
+	// Substring Matches shall be returned, set this Parameter to 1. Only usefull,
+	// if querymode is not "fulltext".
+	SkipReporting bool `qs:"skipReporting,omitempty"`
+}
+
+func (b ByQueryParameters) UrlEncode(extra map[string]interface{}) (string, error) {
+	return qs.Marshal(&b)
+}
+
 // General parameters for an MediaAPI call. Documentation is available [here].
 //
 // [here]: https://api.docs.nexx.cloud/media-api/usage

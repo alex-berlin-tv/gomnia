@@ -49,16 +49,97 @@ func (p ResponsePaging) toMap() map[string]interface{} {
 	return structToMap(p)
 }
 
+type Response interface {
+	GetMetadata() ResponseMetadata
+	GetResult() interface{}
+	GetPaging() *ResponsePaging
+}
+
 // The response of an nexxOmnia API call. As documented [here].
 //
 // [here]: https://api.docs.nexx.cloud/api-design/response-object
-type Response struct {
+type UniversalResponse struct {
 	// Metadata.
 	Metadata ResponseMetadata `json:"metadata"`
 	// Acutal result of the call. Structure can vary widely.
 	Result interface{} `json:"result"`
 	// Optional information on the paging.
 	Paging *ResponsePaging `json:"paging"`
+}
+
+func (u UniversalResponse) GetMetadata() ResponseMetadata {
+	return u.Metadata
+}
+
+func (u UniversalResponse) GetResult() interface{} {
+	return u.Result
+}
+
+func (u UniversalResponse) GetPaging() *ResponsePaging {
+	return u.Paging
+}
+
+type MediaResult struct {
+	General   MediaResultGeneral   `json:"general"`
+	ImageData MediaResultImageData `json:"imagedata"`
+}
+
+type MediaResultGeneral struct {
+	Id                       int    `json:"ID"`
+	Gid                      int    `json:"GID"`
+	Hash                     string `json:"hash"`
+	Title                    string `json:"title"`
+	Subtitle                 string `json:"subtitle"`
+	GenreRaw                 string `json:"genre_raw"`
+	Genre                    string `json:"genre"`
+	ContentModerationAspects string `json:"contentModerationAspects"`
+	Uploaded                 int    `json:"uploaded"`
+	Created                  int    `json:"created"`
+	AudioType                string `json:"audiotype"`
+	Runtime                  string `json:"runtime"`
+	IsPicked                 Bool   `json:"isPicked"`
+	ForKids                  Bool   `json:"forKids"`
+	IsPay                    Bool   `json:"isPay"`
+	IsUgc                    Bool   `json:"isUGC"`
+}
+
+type MediaResultImageData struct {
+	Language          string `json:"language"`
+	Thumb             string `json:"thumb"`
+	ThumbHasXS        Bool   `json:"thumb_hasXS"`
+	ThumbHasXL        Bool   `json:"thumb_hasXL"`
+	ThumbHasX2        Bool   `json:"thumb_hasX2"`
+	ThumbHasX3        Bool   `json:"thumb_hasX3"`
+	CoversShowTitle   Bool   `json:"coversShowTitle"`
+	Description       string `json:"description"`
+	ThumbAction       string `json:"thumb_action"`
+	DescriptionAction string `json:"description_action"`
+	ThumbBanner       string `json:"thumb_banner"`
+	ThumbQuad         string `json:"thumb_quad"`
+	ThumbAbt          string `json:"thumb_abt"`
+	DescriptionAbt    string `json:"description_abt"`
+	Waveform          string `json:"waveform"`
+}
+
+type MediaResponse struct {
+	// Metadata.
+	Metadata ResponseMetadata `json:"metadata"`
+	// Acutal result of the call. Structure can vary widely.
+	Result []MediaResult `json:"result"`
+	// Optional information on the paging.
+	Paging *ResponsePaging `json:"paging"`
+}
+
+func (m MediaResponse) GetMetadata() ResponseMetadata {
+	return m.Metadata
+}
+
+func (m MediaResponse) GetResult() interface{} {
+	return m.Result
+}
+
+func (m MediaResponse) GetPaging() *ResponsePaging {
+	return m.Paging
 }
 
 func structToMap(data interface{}) map[string]interface{} {

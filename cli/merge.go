@@ -17,7 +17,8 @@ func mergeCmd(ctx *cli.Context) error {
 		log.SetLevel(log.DebugLevel)
 	}
 	client := omnia.OmniaFromFile(omniaFile)
-	client.ById(omnia.AudioStreamType, 967567, nil)
+	client.ByQuery(omnia.AudioStreamType, "MachtWas", nil)
+	// client.ById(omnia.AudioStreamType, 967567, nil)
 	// client.Call("get", omnia.AudioStreamType, "all", []string{}, &omnia.BasicParameters{
 	// AddPublishingDetails: omnia.YesBool,
 	// })

@@ -135,3 +135,12 @@ const (
 	ForkIdsAutoFill            = "forkids"
 	EvergreenAutoFill          = "evergreen"
 )
+
+// Query modes.
+type QueryMode string
+
+const (
+	ClassicWithAndQueryMode QueryMode = "classicwithand"
+	ClassicWithOrQueryMode            = "classicwithor"
+	FulltextQueryMode                 = "fulltext"
+)
