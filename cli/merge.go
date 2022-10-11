@@ -17,11 +17,12 @@ func mergeCmd(ctx *cli.Context) error {
 		log.SetLevel(log.DebugLevel)
 	}
 	client := omnia.OmniaFromFile(omniaFile)
+	client.ById(omnia.AudioStreamType, 967567, nil)
 	// client.Call("get", omnia.AudioStreamType, "all", []string{}, &omnia.BasicParameters{
 	// AddPublishingDetails: omnia.YesBool,
 	// })
-	client.ManagementCall("put", omnia.AudioStreamType, "update", []string{"967567"}, omnia.CustomParameters{
-		"title": "fnord",
-	})
+	// client.ManagementCall("put", omnia.AudioStreamType, "update", []string{"967567"}, omnia.CustomParameters{
+	// 	"title": "fnord",
+	// })
 	return nil
 }

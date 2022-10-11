@@ -8,6 +8,7 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
 
@@ -59,6 +60,11 @@ func OmniaFromFile(path string) Omnia {
 		log.Fatal(err)
 	}
 	return rsl
+}
+
+// Return a item by it's id and streamtype.
+func (o Omnia) ById(streamType StreamType, id int, parameters QueryParameters) (*Response, error) {
+	return o.Call("get", streamType, "byid", []string{strconv.Itoa(id)}, parameters)
 }
 
 // Generic call to the Omnia API. Won't work with the media management API.
