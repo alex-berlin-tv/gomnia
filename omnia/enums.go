@@ -6,8 +6,8 @@ package omnia
 type Bool string
 
 const (
-	No  Bool = "0"
-	Yes      = "1"
+	NoBool  Bool = "0"
+	YesBool      = "1"
 )
 
 // Used to state the desired image format of a requested image.
