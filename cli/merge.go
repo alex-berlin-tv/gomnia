@@ -17,7 +17,12 @@ func mergeCmd(ctx *cli.Context) error {
 		log.SetLevel(log.DebugLevel)
 	}
 	client := omnia.OmniaFromFile(omniaFile)
-	client.ByQuery(omnia.AudioStreamType, "MachtWas", nil)
+	rsl, err := client.ByQuery(omnia.AudioStreamType, "Detektei Zukunft #5: Chatbots und Community Management Made in Brandenburg", &omnia.BasicParameters{
+		AddPublishingDetails: omnia.YesBool,
+	})
+	if err != nil {
+		log.Error(err)
+	}
 	// client.ById(omnia.AudioStreamType, 967567, nil)
 	// client.Call("get", omnia.AudioStreamType, "all", []string{}, &omnia.BasicParameters{
 	// AddPublishingDetails: omnia.YesBool,
@@ -25,5 +30,6 @@ func mergeCmd(ctx *cli.Context) error {
 	// client.ManagementCall("put", omnia.AudioStreamType, "update", []string{"967567"}, omnia.CustomParameters{
 	// 	"title": "fnord",
 	// })
+	log.Info(rsl.Result)
 	return nil
 }

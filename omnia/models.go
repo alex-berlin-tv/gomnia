@@ -21,7 +21,7 @@ type ResponseMetadata struct {
 	// The `cfo` Parameter from the API Call.
 	CalledFor *string `json:"calledfor,omitempty"`
 	// The calling Domain ID.
-	ForDomain *string `json:"fordomain,omitempty"`
+	ForDomain *int `json:"fordomain,omitempty"`
 	// The result was created by a Stage or Productive Server.
 	FromStage *int `json:"fromstage,omitempty"`
 	// If the Call uses deprecated Functionality, find here a Hint, what Attributes
@@ -97,20 +97,20 @@ type MediaResultGeneral struct {
 	Created                  int    `json:"created"`
 	AudioType                string `json:"audiotype"`
 	Runtime                  string `json:"runtime"`
-	IsPicked                 Bool   `json:"isPicked"`
-	ForKids                  Bool   `json:"forKids"`
-	IsPay                    Bool   `json:"isPay"`
-	IsUgc                    Bool   `json:"isUGC"`
+	IsPicked                 int    `json:"isPicked"`
+	ForKids                  int    `json:"forKids"`
+	IsPay                    int    `json:"isPay"`
+	IsUgc                    int    `json:"isUGC"`
 }
 
 type MediaResultImageData struct {
 	Language          string `json:"language"`
 	Thumb             string `json:"thumb"`
-	ThumbHasXS        Bool   `json:"thumb_hasXS"`
-	ThumbHasXL        Bool   `json:"thumb_hasXL"`
-	ThumbHasX2        Bool   `json:"thumb_hasX2"`
-	ThumbHasX3        Bool   `json:"thumb_hasX3"`
-	CoversShowTitle   Bool   `json:"coversShowTitle"`
+	ThumbHasXS        int    `json:"thumb_hasXS"`
+	ThumbHasXL        int    `json:"thumb_hasXL"`
+	ThumbHasX2        int    `json:"thumb_hasX2"`
+	ThumbHasX3        int    `json:"thumb_hasX3"`
+	CoversShowTitle   int    `json:"coversShowTitle"`
 	Description       string `json:"description"`
 	ThumbAction       string `json:"thumb_action"`
 	DescriptionAction string `json:"description_action"`

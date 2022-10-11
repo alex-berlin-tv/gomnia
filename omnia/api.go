@@ -130,15 +130,15 @@ func (o Omnia) ForKids(streamType StreamType, parameters QueryParameters) (Respo
 
 // Performs a regular Query on all Items. The "order" Parameters are ignored,
 // if querymode is set to "fulltext".
-func (o Omnia) ByQuery(streamType StreamType, query string, parameters QueryParameters) (MediaResponse, error) {
-	rsl, err := o.Call("get", streamType, "all", []string{query}, parameters, &MediaResponse{})
+func (o Omnia) ByQuery(streamType StreamType, query string, parameters QueryParameters) (*MediaResponse, error) {
+	rsl, err := o.Call("get", streamType, "byquery", []string{query}, parameters, &MediaResponse{})
 	if err != nil {
-		return MediaResponse{}, err
+		return &MediaResponse{}, err
 	}
-	if rsl, ok := rsl.(MediaResponse); ok {
+	if rsl, ok := rsl.(*MediaResponse); ok {
 		return rsl, nil
 	}
-	return MediaResponse{}, errors.New("Wrong type")
+	return &MediaResponse{}, errors.New(fmt.Sprintf("Wrong type, should be MediaResponse but is %T", rsl))
 }
 
 // Generic call to the Omnia API. Won't work with the media management API.
@@ -221,7 +221,11 @@ func (o Omnia) universalCall(
 	if err != nil {
 		return nil, err
 	}
-	json.Unmarshal(body, response)
+	log.Trace(string(body))
+	err = json.Unmarshal(body, response)
+	if err != nil {
+		return nil, err
+	}
 	log.WithFields(response.GetMetadata().toMap()).Debug("Response Metadata")
 	if response.GetPaging() != nil {
 		log.WithFields(response.GetPaging().toMap()).Debug("Response Paging")
