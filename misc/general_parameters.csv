@@ -1,0 +1,38 @@
+Parameter;Go Parameter;Values;Description
+createdAfter;CreatedAfter;UNIX Timestamp;restrict Result to Elements, created after the given Time
+modifiedAfter;ModifiedAfter;UNIX Timestamp;restrict Result to Elements, modified after the given Time
+publishedAfter;PublishedAfter;UNIX Timestamp;restrict Result to Elements, published after the given Time
+channel;Channel;int;restrict Result Set to Items in this Channel
+respectChannelHierarchy;RespectChannelHierarchy;Bool;If the target Channel is a Main Channel, and the Contents of its Subchannels shall also be included, set this Parameter to 1.
+format;Format;int;restrict Result Set to Items in this Format
+category;Category;int;restrict Result Set to Items in this Category
+genre;Genre;int;restrict Result Set to Items in this Genre (only for Video, Playlist, Series, Audio and Audio Album)
+type;ItemType;string;many Media Items have certain Types to define their Purpose. If necessary, you can filter by this Enum.
+contentType;ContentType;ContentType;many Media Items have a certain contentType that defines some Characteristics. If necessary, you can filter by this Enum.
+country;Country;string;restricts the Result to Media from the given Country
+noExplicit;NoExplicit;Bool;restrict Result Set to Items with defined Age Level < 13 AND without Content Moderation Aspects
+noContentModerationHints;NoContentModerationHints;Bool;restrict Result Set to Items without Content Moderation Aspects
+maxAge;MaxAge;AgeRestriction;restrict Result Set to Items with maximally the given Age Level
+minAge;MinAge;AgeRestriction;restrict Result Set to Items with at least the given Age Level
+dimension;Dimension;Dimension;restrict the Result to Media with the given Height (alternatively, this Parameter also accepts a numeric Value, which will be mapped to the Media Height)
+orientation;Orientation;Orientation;restrict the Result to Media with the given Orientation
+onlyHDR;OnlyHdr;Bool;if set to 1, only Media in HDR Quality will be returned
+excludeItems;ExcludeItems;[]int;the given Items wont be included into the Result Set
+includeUGC;IncludeUGC;Bool;add Items, uploaded by the Community, to the Result Set
+onlyUGC;OnlyUGC;Bool;restrict Result Set to Items, uploaded by the Community
+includeRemote;IncludeRemote;Bool;also include Files, that originate not by nexxOMNIA, but a Partner Provider
+onlyRemote;OnlyRemote;Bool;only include Files, that originate not by nexxOMNIA, but a Partner Provider
+includeNotListables;IncludeNotListables;Bool;also include Media Items, that are marked as not listable. This Parameter should be used only in very specific Usecases.
+includeInvalidChildMedia;IncludeInvalidChildMedia;Bool;only valid for Container Calls with addChildMedia Parameter. This Parameter will add currently invalid Elements to the Child Listing. To make this Parameter work, an active eternal Session must be used.
+includePremieres;IncludePremieres;Bool;also include Media, that are not valid YET, but will be in the near Future and allow Premiere Functionality
+onlyPay;OnlyPay;Bool;restrict Result Set to Items with Payment Attributes
+onlyPremiumPay;OnlyPremiumPay;Bool;restrict Result Set to Items with Payment Attributes AND Premium Payment Attributes
+onlyStandardPay;OnlyStandardPay;Bool;restrict Result Set to Items with Payment Attributes AND Standard Payment Attributes
+onlyPlanned;OnlyPlanned;Bool;only possible if addPublishingDetails is active. If set to 1, only planned Elements will be returned.
+onlyInactive;OnlyInactive;Bool;only possible, if addPublishingDetails is active. If set to 1, only unpublished Elements will be returned.
+forUserID;forUserID;Int;restrict Result Set to Items, that matches the given User (only valid for User-targeting Calls, that shall not match the currently loggedin User)
+autoFillResults;AutoFillResults;AutoFill;if the API Call wont find enough Items, fill the Result Set with the given Method to the given Limit
+connectedMediaDetails;ConnectedMediaDetails;OutputModifier;If the Output Modifier addConnectedMedia is used, this Parameter defines the Detail Level for each connected Item.
+parentMediaDetails;ParentMediaDetails;OutputModifier;If the Output Modifier addCParentMedia is used, this Parameter defines the Detail Level for each parent Item.
+childMediaDetails;ChildMediaDetails;OutputModifier;if the Output Modifier addChildMedia is used, this Parameter defines the Detail Level for each Child Item
+referencingMediaDetails;ReferencingMediaDetails;OutputModifier;If the Output Modifier addReferencingMedia is used, this Parameter defines the Detail Level for each referencing Item.
