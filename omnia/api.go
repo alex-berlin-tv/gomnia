@@ -11,7 +11,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/google/go-querystring/query"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -33,6 +32,7 @@ func newOmniaHeader(operation, domainId, apiSecret, sessionId string) omniaHeade
 	}
 }
 
+// Encapsulates the calls to the nexxOmnia API.
 type Omnia struct {
 	DomainId  string `json:"domain_id"`
 	ApiSecret string `json:"api_secret"`
@@ -67,7 +67,7 @@ func (o Omnia) Call(
 	streamType StreamType,
 	operation string,
 	args []string,
-	parameters *QueryParameters,
+	parameters *BasicParameters,
 ) (*Response, error) {
 	method = strings.ToUpper(method)
 	args_parts := ""
@@ -80,11 +80,10 @@ func (o Omnia) Call(
 		o.DomainId, streamType, operation, args_parts,
 	)
 	header := newOmniaHeader(operation, o.DomainId, o.ApiSecret, o.SessionId)
-	paramQuery, err := query.Values(parameters)
+	paramUrl, err := parameters.UrlEncode(nil)
 	if err != nil {
 		return nil, err
 	}
-	paramUrl := paramQuery.Encode()
 	o.debugLog(method, reqUrl, header, paramUrl)
 
 	req, err := http.NewRequest(method, reqUrl, strings.NewReader(paramUrl))

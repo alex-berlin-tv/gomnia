@@ -69,6 +69,69 @@ const (
 type StreamType string
 
 const (
-	VideoType StreamType = "videos"
-	AudioType            = "audio"
+	VideoStreamType StreamType = "videos"
+	AudioStreamType            = "audio"
+)
+
+// Content type of media items.
+type ContentType string
+
+const (
+	VideoContentType   ContentType = "video"
+	ComicContentType               = "comic"
+	CgiContentType                 = "cgi"
+	FotoContentType                = "foto"
+	DrawingContentType             = "drawing"
+	ClipartContentType             = "clipart"
+)
+
+// Age categories for age restrictions.
+type AgeRestriction string
+
+const (
+	AgeRestriction0  AgeRestriction = "0"
+	AgeRestriction6                 = "6"
+	AgeRestriction12                = "12"
+	AgeRestriction16                = "16"
+	AgeRestriction18                = "18"
+)
+
+// Geometric dimension of a media file.
+type Dimension string
+
+const (
+	HdDimension     Dimension = "hd"
+	FullHdDimension           = "fullhd"
+	I2kDimension              = "2K"
+	I4kDimension              = "4K"
+)
+
+// Media orientation.
+type Orientation string
+
+const (
+	PortraitOrientation  Orientation = "portrait"
+	LandscapeOrientation             = "landscape"
+)
+
+// Ouptut modifier used to define the detail level.
+type OutputModifier string
+
+const (
+	FullOutputModifier    OutputModifier = "full"
+	DefaultOutputModifier                = "default"
+	IdOutputModifier                     = "ID"
+	GidOutputModifier                    = "GID"
+)
+
+// Method for the auto fill method of the API.
+type AutoFill string
+
+const (
+	RandomAutoFill    AutoFill = "random"
+	LatestAutoFill             = "latest"
+	TopItemsAutoFill           = "topitems"
+	TopItemsExternal           = "topitemsexternal"
+	ForkIdsAutoFill            = "forkids"
+	EvergreenAutoFill          = "evergreen"
 )
