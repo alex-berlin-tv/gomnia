@@ -121,6 +121,7 @@ type MediaResultImageData struct {
 	Waveform          string `json:"waveform"`
 }
 
+// Response for Media API queries.
 type MediaResponse struct {
 	// Metadata.
 	Metadata ResponseMetadata `json:"metadata"`
@@ -140,6 +141,34 @@ func (m MediaResponse) GetResult() interface{} {
 
 func (m MediaResponse) GetPaging() *ResponsePaging {
 	return m.Paging
+}
+
+// Response for the system editable attributes call.
+type EditableAttributesResponse struct {
+	// Metadata.
+	Metadata ResponseMetadata `json:"metadata"`
+	// Acutal result of the call.
+	Result []map[string]EditableAttributesProperties `json:"result"`
+}
+
+func (e EditableAttributesResponse) GetMetadata() ResponseMetadata {
+	return e.Metadata
+}
+
+func (e EditableAttributesResponse) GetResult() interface{} {
+	return e.Result
+}
+
+func (e EditableAttributesResponse) GetPaging() *ResponsePaging {
+	return nil
+}
+
+type EditableAttributesProperties struct {
+	Type         string `json:"type"`
+	MaxLength    int    `json:"maxlength"`
+	Format       string `json:"format"`
+	Hint         string `json:"hint"`
+	AllowedInUgc int    `json:"allowedInUGC"`
 }
 
 func structToMap(data interface{}) map[string]interface{} {

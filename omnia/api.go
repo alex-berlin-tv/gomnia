@@ -16,6 +16,16 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+// Internal destinction for the different API's. This is needed
+// as the structure of a call differs depending on the API.
+type apiType int
+
+const (
+	mediaApiType apiType = iota
+	managementApiType
+	systemApiType
+)
+
 const omniaHeaderXRequestCid = "X-Request-CID"
 const omniaHeaderXRequestToken = "X-Request-Token"
 
@@ -141,7 +151,7 @@ func (o Omnia) ByQuery(streamType StreamType, query string, parameters QueryPara
 	return &MediaResponse{}, errors.New(fmt.Sprintf("Wrong type, should be MediaResponse but is %T", rsl))
 }
 
-// Generic call to the Omnia API. Won't work with the media management API.
+// Generic call to the Omnia Media API. Won't work with the management API's.
 func (o Omnia) Call(
 	method string,
 	streamType StreamType,
@@ -150,7 +160,7 @@ func (o Omnia) Call(
 	parameters QueryParameters,
 	response Response,
 ) (Response, error) {
-	return o.universalCall(method, streamType, false, operation, args, parameters, response)
+	return o.universalCall(method, streamType, mediaApiType, operation, args, parameters, response)
 }
 
 // Update a field in the metdata of a media item.
@@ -171,34 +181,62 @@ func (o Omnia) ManagementCall(
 	parameters QueryParameters,
 	response Response,
 ) (Response, error) {
-	return o.universalCall(method, streamType, true, operation, args, parameters, response)
+	return o.universalCall(method, streamType, managementApiType, operation, args, parameters, response)
+}
+
+// Lists all ediatble attributes for a given stream type.
+func (o Omnia) EditableAttributes(streamType StreamType) (*EditableAttributesResponse, error) {
+	rsl, err := o.SystemCall("get", "editableattributesfor", []string{string(streamType)}, &EditableAttributesResponse{})
+	if err != nil {
+		return &EditableAttributesResponse{}, err
+	}
+	if rsl, ok := rsl.(*EditableAttributesResponse); ok {
+		return rsl, nil
+	}
+	return &EditableAttributesResponse{}, errors.New(fmt.Sprintf("Wrong type, should be EditableAttributesResponse but is %T", rsl))
+}
+
+// Generic call to the Omnia system API
+func (o Omnia) SystemCall(
+	method string,
+	operation string,
+	args []string,
+	response Response,
+) (Response, error) {
+	return o.universalCall(method, VideoStreamType, systemApiType, operation, args, nil, response)
 }
 
 func (o Omnia) universalCall(
 	method string,
 	streamType StreamType,
-	isManagement bool,
+	aType apiType,
 	operation string,
 	args []string,
 	parameters QueryParameters,
 	response Response,
 ) (Response, error) {
 	method = strings.ToUpper(method)
-	args_parts := ""
+	argsParts := ""
 	if len(args) > 0 {
-		args_parts = strings.Join(args, "/")
-		args_parts = fmt.Sprintf("/%s", args_parts)
+		argsParts = strings.Join(args, "/")
+		argsParts = fmt.Sprintf("/%s", argsParts)
 	}
 	var reqUrl string
-	if !isManagement {
+	switch aType {
+	case mediaApiType:
 		reqUrl = fmt.Sprintf(
 			"https://api.nexx.cloud/v3.1/%s/%s/%s%s",
-			o.DomainId, streamType, operation, args_parts,
+			o.DomainId, streamType, operation, argsParts,
 		)
-	} else {
+	case managementApiType:
 		reqUrl = fmt.Sprintf(
 			"https://api.nexx.cloud/v3.1/%s/manage/%s/%s/%s",
-			o.DomainId, streamType, args_parts, operation,
+			o.DomainId, streamType, argsParts, operation,
+		)
+	case systemApiType:
+		reqUrl = fmt.Sprintf(
+			"https://api.nexx.cloud/v3.1/%s/system/%s%s",
+			o.DomainId, operation, argsParts,
 		)
 	}
 	header := newOmniaHeader(operation, o.DomainId, o.ApiSecret, o.SessionId)

@@ -14,6 +14,14 @@ func completeCmd(ctx *cli.Context) error {
 	}
 	data := collectionFromFile(ctx.String("input"))
 	client := omnia.OmniaFromFile(ctx.String("config"))
+
+	rsl, err := client.EditableAttributes(omnia.AudioStreamType)
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Infof("%+v", rsl.Result)
+
+	return nil
 	for i, item := range data {
 		log.Infof("[%d/%d] Update Metadata of %s", i+1, len(data), item.FileName)
 		client.Update(omnia.AudioStreamType, item.Id, omnia.CustomParameters{
