@@ -24,6 +24,23 @@ func App() *cli.App {
 		},
 		Commands: []*cli.Command{
 			{
+				Name:   "complete",
+				Usage:  "complete the omnia db with local data",
+				Action: completeCmd,
+				Flags: []cli.Flag{
+					&debugFlag,
+					&traceFlag,
+					&cli.StringFlag{
+						Name:    "config",
+						Aliases: []string{"c"},
+					},
+					&cli.StringFlag{
+						Name:    "input",
+						Aliases: []string{"i"},
+					},
+				},
+			},
+			{
 				Name:   "import",
 				Usage:  "import data from pyton script",
 				Action: importCmd,
@@ -39,6 +56,14 @@ func App() *cli.App {
 				Flags: []cli.Flag{
 					&debugFlag,
 					&traceFlag,
+					&cli.StringFlag{
+						Name:    "input",
+						Aliases: []string{"i"},
+					},
+					&cli.StringFlag{
+						Name:    "output",
+						Aliases: []string{"o"},
+					},
 				},
 			},
 		},

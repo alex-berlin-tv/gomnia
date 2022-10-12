@@ -153,6 +153,15 @@ func (o Omnia) Call(
 	return o.universalCall(method, streamType, false, operation, args, parameters, response)
 }
 
+// Update a field in the metdata of a media item.
+func (o Omnia) Update(
+	streamType StreamType,
+	id int,
+	parameters CustomParameters,
+) {
+	o.ManagementCall("put", streamType, "update", []string{strconv.Itoa(id)}, parameters, UniversalResponse{})
+}
+
 // Generic call to the Omnia management API.
 func (o Omnia) ManagementCall(
 	method string,
@@ -203,7 +212,9 @@ func (o Omnia) universalCall(
 	}
 	o.debugLog(method, reqUrl, header, paramUrl)
 
-	req, err := http.NewRequest(method, reqUrl, strings.NewReader(paramUrl))
+	reqUrl = fmt.Sprintf("%s?%s", reqUrl, paramUrl)
+
+	req, err := http.NewRequest(method, reqUrl, nil)
 	if err != nil {
 		return nil, err
 	}

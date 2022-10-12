@@ -28,6 +28,7 @@ type entry struct {
 	Description string
 	Image       string
 	Url         string
+	Id          int
 }
 
 func entryFromReader(rec []string) entry {
@@ -46,6 +47,28 @@ func entryFromReader(rec []string) entry {
 }
 
 type collection []entry
+
+func collectionFromFile(path string) collection {
+	file, err := ioutil.ReadFile(path)
+	if err != nil {
+		log.Fatal(err)
+	}
+	var rsl collection
+	if json.Unmarshal([]byte(file), &rsl); err != nil {
+		log.Fatal(err)
+	}
+	return rsl
+}
+
+func (c collection) toFile(path string) {
+	data, err := json.MarshalIndent(c, "", "  ")
+	if err != nil {
+		log.Fatal(err)
+	}
+	if err = ioutil.WriteFile(path, data, 0644); err != nil {
+		log.Fatal(err)
+	}
+}
 
 func importCmd(ctx *cli.Context) error {
 	var rsl collection
