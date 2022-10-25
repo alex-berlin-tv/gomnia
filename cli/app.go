@@ -46,21 +46,41 @@ func (e enumFlag[T]) fmtUsage(desc string) string {
 	return fmt.Sprintf("%s %s", desc, e.fmtPossibleValues())
 }
 
-var configFileFlag = cli.StringFlag{
+var configFileFlag = cli.PathFlag{
 	Name:    "config",
 	Aliases: []string{"c"},
 	Usage:   "path to config file",
 }
 
-var streamTypeValue = enumFlag[omnia.StreamType]{
-	Default: omnia.VideoStreamType,
+var idFlag = cli.StringSliceFlag{
+	Name:    "id",
+	Aliases: []string{"i"},
+	Usage:   "target item(s) id",
 }
+
+var streamTypeValue = enumFlag[omnia.StreamType]{Default: omnia.VideoStreamType}
 
 var streamTypeFlag = cli.GenericFlag{
 	Name:    "type",
 	Aliases: []string{"t"},
 	Usage:   streamTypeValue.fmtUsage("target streamtype"),
 	Value:   &streamTypeValue,
+}
+
+var ageValue = enumFlag[omnia.AgeRestriction]{Default: omnia.AgeRestriction0}
+
+var ageFlag = cli.GenericFlag{
+	Name:  "age",
+	Usage: ageValue.fmtUsage("restrict to age"),
+	Value: &ageValue,
+}
+
+var actionAfterRejectionValue = enumFlag[omnia.ActionAfterRejection]{Default: omnia.DeleteAfterRejection}
+
+var actionAfterRejectionFlag = cli.GenericFlag{
+	Name:  "action",
+	Usage: actionAfterRejectionValue.fmtUsage("action after rejecting"),
+	Value: &actionAfterRejectionValue,
 }
 
 func App() *cli.App {
@@ -84,6 +104,21 @@ func App() *cli.App {
 			return nil
 		},
 		Commands: []*cli.Command{
+			{
+				Name:   "approve",
+				Usage:  "approve an item",
+				Action: approveCmd,
+				Flags: []cli.Flag{
+					&ageFlag,
+					&idFlag,
+					&configFileFlag,
+					&streamTypeFlag,
+					&cli.BoolFlag{
+						Name:  "publish",
+						Usage: "also publish the item",
+					},
+				},
+			},
 			{
 				Name:  "internal",
 				Usage: "undocumented methods for internal use, will be removed",
@@ -137,11 +172,48 @@ func App() *cli.App {
 				},
 			},
 			{
-				Name:  "publish",
-				Usage: "publish a item",
+				Name:   "reject",
+				Usage:  "reject an item",
+				Action: unpublishCmd,
+				Flags: []cli.Flag{
+					&actionAfterRejectionFlag,
+					&configFileFlag,
+					&idFlag,
+					&streamTypeFlag,
+				},
+			},
+			{
+				Name:   "publish",
+				Usage:  "publish an item",
+				Action: unpublishCmd,
 				Flags: []cli.Flag{
 					&configFileFlag,
+					&idFlag,
 					&streamTypeFlag,
+				},
+			},
+			{
+				Name:   "unblock",
+				Usage:  "unblock a previously blocked item",
+				Action: unblockCmd,
+				Flags: []cli.Flag{
+					&configFileFlag,
+					&idFlag,
+					&streamTypeFlag,
+				},
+			},
+			{
+				Name:   "unpublish",
+				Usage:  "unpublish an item",
+				Action: unpublishCmd,
+				Flags: []cli.Flag{
+					&configFileFlag,
+					&idFlag,
+					&streamTypeFlag,
+					&cli.BoolFlag{
+						Name:  "block",
+						Usage: "publish will fail until item is unblocked",
+					},
 				},
 			},
 		},

@@ -301,8 +301,8 @@ type QueryMode string
 
 const (
 	ClassicWithAndQueryMode QueryMode = "classicwithand"
-	ClassicWithOrQueryMode            = "classicwithor"
-	FulltextQueryMode                 = "fulltext"
+	ClassicWithOrQueryMode  QueryMode = "classicwithor"
+	FulltextQueryMode       QueryMode = "fulltext"
 )
 
 // All instances of the QueryMode enum.
@@ -311,5 +311,25 @@ func (i QueryMode) Instances() []QueryMode {
 		ClassicWithAndQueryMode,
 		ClassicWithOrQueryMode,
 		FulltextQueryMode,
+	}
+}
+
+// Action after rejection of an item.
+type ActionAfterRejection string
+
+const (
+	DeleteAfterRejection     ActionAfterRejection = "delete"
+	ArchiveAfterRejection    ActionAfterRejection = "archive"
+	BlockAfterRejection      ActionAfterRejection = "block"
+	NewVersionAfterRejection ActionAfterRejection = "newversion"
+)
+
+// All instances of the ActionAfterRejection enum.
+func (i ActionAfterRejection) Instances() []ActionAfterRejection {
+	return []ActionAfterRejection{
+		DeleteAfterRejection,
+		ArchiveAfterRejection,
+		BlockAfterRejection,
+		NewVersionAfterRejection,
 	}
 }
