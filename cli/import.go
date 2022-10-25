@@ -3,6 +3,8 @@ package cli
 import (
 	"encoding/csv"
 	"encoding/json"
+	"errors"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"os"
@@ -68,6 +70,15 @@ func (c collection) toFile(path string) {
 	if err = ioutil.WriteFile(path, data, 0644); err != nil {
 		log.Fatal(err)
 	}
+}
+
+func (c collection) byId(id int) (*entry, error) {
+	for _, entry := range c {
+		if entry.Id == id {
+			return &entry, nil
+		}
+	}
+	return nil, errors.New(fmt.Sprintf("no entry found for id %d", id))
 }
 
 func importCmd(ctx *cli.Context) error {
