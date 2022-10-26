@@ -47,9 +47,10 @@ func (e enumFlag[T]) fmtUsage(desc string) string {
 }
 
 var configFileFlag = cli.PathFlag{
-	Name:    "config",
-	Aliases: []string{"c"},
-	Usage:   "path to config file",
+	Name:     "config",
+	Aliases:  []string{"c"},
+	Usage:    "path to config file",
+	Required: true,
 }
 
 var idFlag = cli.StringSliceFlag{
