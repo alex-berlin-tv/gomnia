@@ -44,7 +44,7 @@ func getIds(ctx *cli.Context) ([]int, error) {
 	if err != nil {
 		return nil, fmt.Errorf("content of clipbaord '%s' cannot be parsed as id(s)", data)
 	}
-	log.Infof("use id(s) %s from clipboard", values)
+	log.Infof("use id(s) %+v from clipboard", values)
 	return values, nil
 }
 
