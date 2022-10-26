@@ -25,6 +25,12 @@ func approveCmd(ctx *cli.Context) error {
 		if err != nil {
 			handleApiError(rsl, err, false)
 		}
+		if ctx.Bool("publish") {
+			rsl, err := client.Publish(*streamType, id)
+			if err != nil {
+				handleApiError(rsl, err, false)
+			}
+		}
 	}
 	return nil
 }
