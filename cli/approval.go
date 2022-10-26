@@ -20,11 +20,12 @@ func approveCmd(ctx *cli.Context) error {
 	if err != nil {
 		log.Panic(err)
 	}
-	rsl, err := client.Approve(*streamType, ids[0], params.Approve{})
-	if err != nil {
-		log.Error(err)
+	for _, id := range ids {
+		rsl, err := client.Approve(*streamType, id, params.Approve{})
+		if err != nil {
+			handleApiError(rsl, err, false)
+		}
 	}
-	log.Info(rsl)
 	return nil
 }
 

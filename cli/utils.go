@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/alex-berlin-tv/nexx_omnia_go/omnia"
 	log "github.com/sirupsen/logrus"
 	"github.com/urfave/cli/v2"
 	"golang.design/x/clipboard"
@@ -67,4 +68,27 @@ func parseIdValue(raw string) ([]int, error) {
 		rsl = append(rsl, value)
 	}
 	return rsl, nil
+}
+
+// Handles the errors returned by an API call. This is used
+// to present the user with in depth information if the call
+// fails on the server side (statuscode != 200).
+func handleApiError(rsp *omnia.Response[any], err error, fatalOnError bool) {
+	if rsp == nil {
+		log.Error("client side error in the API library")
+		if fatalOnError {
+			log.Fatal(err)
+		}
+		log.Error(err)
+	}
+	fields := log.Fields{
+		"status":     rsp.Metadata.Status,
+		"error_hint": *rsp.Metadata.ErrorHint,
+		"called":     *rsp.Metadata.CalledWith,
+		"action":     rsp.Metadata.Verb,
+	}
+	if fatalOnError {
+		log.WithFields(fields).Fatal("server side error")
+	}
+	log.WithFields(fields).Error("server side error")
 }

@@ -172,9 +172,7 @@ func (o Omnia) Approve(
 	id int,
 	parameters params.Approve,
 ) (*Response[any], error) {
-	rsl, err := ManagementCall(o, "post", streamType, "approve", []string{strconv.Itoa(id)}, parameters, Response[any]{})
-	log.Warn(err)
-	return rsl, err
+	return ManagementCall(o, "post", streamType, "approve", []string{strconv.Itoa(id)}, parameters, Response[any]{})
 }
 
 // Logs parameters of API call.
@@ -232,7 +230,7 @@ func SystemCall[T any](
 	args []string,
 	response Response[T],
 ) (*Response[T], error) {
-	return universalCall[T](o, method, enums.VideoStreamType, systemApiType, operation, args, nil, response)
+	return universalCall(o, method, enums.VideoStreamType, systemApiType, operation, args, nil, response)
 }
 
 func universalCall[T any](
@@ -303,12 +301,14 @@ func universalCall[T any](
 	log.Trace(string(body))
 	err = json.Unmarshal(body, &response)
 	if err != nil {
-		log.Warnf("%T", response)
 		return nil, err
 	}
 	log.WithFields(response.Metadata.toMap()).Debug("Response Metadata")
 	if response.Paging != nil {
 		log.WithFields(response.Paging.toMap()).Debug("Response Paging")
+	}
+	if response.Metadata.Status != 200 {
+		return &response, fmt.Errorf("call failed on server side, please see response object for more infromation")
 	}
 	log.Trace(response.Result)
 	return &response, nil
