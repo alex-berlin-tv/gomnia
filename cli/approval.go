@@ -30,6 +30,21 @@ func approveCmd(ctx *cli.Context) error {
 }
 
 func publishCmd(ctx *cli.Context) error {
+	client := omnia.OmniaFromFile(ctx.String("config"))
+	ids, err := getIds(ctx)
+	if err != nil {
+		log.Fatal(err)
+	}
+	streamType, err := getEnum[enums.StreamType](ctx, "type")
+	if err != nil {
+		log.Fatal(err)
+	}
+	for _, id := range ids {
+		rsl, err := client.Publish(*streamType, id)
+		if err != nil {
+			handleApiError(rsl, err, false)
+		}
+	}
 	return nil
 }
 

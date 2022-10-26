@@ -175,6 +175,17 @@ func (o Omnia) Approve(
 	return ManagementCall(o, "post", streamType, "approve", []string{strconv.Itoa(id)}, parameters, Response[any]{})
 }
 
+// Publish a media item of a given streamtype and item-id. Uses te Management API.
+// Documentation can be found [here].
+//
+// [here]: https://api.docs.nexx.cloud/management-api/endpoints/management-endpoint#publish
+func (o Omnia) Publish(
+	streamType enums.StreamType,
+	id int,
+) (*Response[any], error) {
+	return ManagementCall(o, "post", streamType, "publish", []string{strconv.Itoa(id)}, nil, Response[any]{})
+}
+
 // Rejects a media item of a given streamtype and item-id. Uses te Management API.
 // Documentation can be found [here].
 //
@@ -270,7 +281,7 @@ func universalCall[T any](
 		)
 	case managementApiType:
 		reqUrl = fmt.Sprintf(
-			"https://api.nexx.cloud/v3.1/%s/manage%s/%s/%s",
+			"https://api.nexx.cloud/v3.1/%s/manage/%s/%s/%s",
 			o.DomainId, streamType, argsParts, operation,
 		)
 	case systemApiType:
