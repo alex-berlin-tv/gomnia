@@ -9,8 +9,8 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-// Sets up the logging.
-func setupLogging(ctx *cli.Context) error {
+// Runs before each command. Used to set the logging level.
+func onStartup(ctx *cli.Context) error {
 	if ctx.Bool("debug") {
 		log.SetLevel(log.DebugLevel)
 	}
@@ -87,12 +87,16 @@ func App() *cli.App {
 	return &cli.App{
 		Name:   "omnia",
 		Usage:  "some tools for nexxOmnia",
-		Before: setupLogging,
+		Before: onStartup,
 		Flags: []cli.Flag{
 			&cli.BoolFlag{
 				Name:    "debug",
 				Aliases: []string{"d"},
 				Usage:   "enable debug mode",
+			},
+			&cli.BoolFlag{
+				Name:  "id-from-clipboard",
+				Usage: "if no specific id is set via flag, the content of the clipboard will be used",
 			},
 			&cli.BoolFlag{
 				Name:  "trace",

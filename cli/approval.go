@@ -9,8 +9,13 @@ import (
 // All stuff regarding the approval and publishing process.
 
 func approveCmd(ctx *cli.Context) error {
-	client := omnia.OmniaFromFile(ctx.String("config"))
-	log.Info(client)
+	ids, err := getIds(ctx)
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Info(ids)
+	// client := omnia.OmniaFromFile(ctx.String("config"))
+	// log.Info(client)
 	return nil
 }
 
