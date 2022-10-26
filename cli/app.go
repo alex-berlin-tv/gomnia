@@ -46,6 +46,15 @@ func (e enumFlag[T]) fmtUsage(desc string) string {
 	return fmt.Sprintf("%s %s", desc, e.fmtPossibleValues())
 }
 
+// Retruns the enum by a given context and flag name.
+func getEnum[T ~string](ctx *cli.Context, flag string) (*T, error) {
+	value, ok := ctx.Generic(flag).(*enumFlag[T])
+	if !ok {
+		return nil, fmt.Errorf("enum flag type assertion failed")
+	}
+	return &value.selected, nil
+}
+
 var configFileFlag = cli.PathFlag{
 	Name:     "config",
 	Aliases:  []string{"c"},
@@ -62,10 +71,11 @@ var idFlag = cli.StringSliceFlag{
 var streamTypeValue = enumFlag[enums.StreamType]{Default: enums.VideoStreamType}
 
 var streamTypeFlag = cli.GenericFlag{
-	Name:    "type",
-	Aliases: []string{"t"},
-	Usage:   streamTypeValue.fmtUsage("target streamtype"),
-	Value:   &streamTypeValue,
+	Name:     "type",
+	Aliases:  []string{"t"},
+	Usage:    streamTypeValue.fmtUsage("target streamtype"),
+	Value:    &streamTypeValue,
+	Required: true,
 }
 
 var ageValue = enumFlag[enums.AgeRestriction]{Default: enums.AgeRestriction0}

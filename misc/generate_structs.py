@@ -1,7 +1,7 @@
 import csv
 import textwrap
 
-INPUT_FILE = "general_parameters.csv"
+INPUT_FILE = "params.csv"
 
 
 def generate_line(row):

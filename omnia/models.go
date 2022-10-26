@@ -49,37 +49,18 @@ func (p ResponsePaging) toMap() map[string]interface{} {
 	return structToMap(p)
 }
 
-type Response interface {
-	GetMetadata() ResponseMetadata
-	GetResult() interface{}
-	GetPaging() *ResponsePaging
-}
-
 // The response of an nexxOmnia API call. As documented [here].
 //
 // [here]: https://api.docs.nexx.cloud/api-design/response-object
-type UniversalResponse struct {
-	// Metadata.
+type Response[T any] struct {
 	Metadata ResponseMetadata `json:"metadata"`
-	// Acutal result of the call. Structure can vary widely.
-	Result interface{} `json:"result"`
-	// Optional information on the paging.
-	Paging *ResponsePaging `json:"paging"`
+	Result   *T
+	Paging   *ResponsePaging `json:"paging"`
 }
 
-func (u UniversalResponse) GetMetadata() ResponseMetadata {
-	return u.Metadata
-}
+type MediaResult []MediaResultItem
 
-func (u UniversalResponse) GetResult() interface{} {
-	return u.Result
-}
-
-func (u UniversalResponse) GetPaging() *ResponsePaging {
-	return u.Paging
-}
-
-type MediaResult struct {
+type MediaResultItem struct {
 	General   MediaResultGeneral   `json:"general"`
 	ImageData MediaResultImageData `json:"imagedata"`
 }
@@ -121,47 +102,7 @@ type MediaResultImageData struct {
 	Waveform          string `json:"waveform"`
 }
 
-// Response for Media API queries.
-type MediaResponse struct {
-	// Metadata.
-	Metadata ResponseMetadata `json:"metadata"`
-	// Acutal result of the call. Structure can vary widely.
-	Result []MediaResult `json:"result"`
-	// Optional information on the paging.
-	Paging *ResponsePaging `json:"paging"`
-}
-
-func (m MediaResponse) GetMetadata() ResponseMetadata {
-	return m.Metadata
-}
-
-func (m MediaResponse) GetResult() interface{} {
-	return m.Result
-}
-
-func (m MediaResponse) GetPaging() *ResponsePaging {
-	return m.Paging
-}
-
-// Response for the system editable attributes call.
-type EditableAttributesResponse struct {
-	// Metadata.
-	Metadata ResponseMetadata `json:"metadata"`
-	// Acutal result of the call.
-	Result []map[string]EditableAttributesProperties `json:"result"`
-}
-
-func (e EditableAttributesResponse) GetMetadata() ResponseMetadata {
-	return e.Metadata
-}
-
-func (e EditableAttributesResponse) GetResult() interface{} {
-	return e.Result
-}
-
-func (e EditableAttributesResponse) GetPaging() *ResponsePaging {
-	return nil
-}
+type EditableAttributesResponse []map[string]EditableAttributesProperties
 
 type EditableAttributesProperties struct {
 	Type         string `json:"type"`

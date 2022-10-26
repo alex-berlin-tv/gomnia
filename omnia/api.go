@@ -76,147 +76,175 @@ func OmniaFromFile(path string) Omnia {
 }
 
 // Return a item of a given streamtype by it's id.
-func (o Omnia) ById(streamType enums.StreamType, id int, parameters params.QueryParameters) (Response, error) {
-	return o.Call("get", streamType, "byid", []string{strconv.Itoa(id)}, parameters, &UniversalResponse{})
+func (o Omnia) ById(streamType enums.StreamType, id int, parameters params.QueryParameters) (*Response[any], error) {
+	return Call(o, "get", streamType, "byid", []string{strconv.Itoa(id)}, parameters, Response[any]{})
 }
 
 // Return a item of a given streamtype by it's global id.
-func (o Omnia) ByGlobalId(streamType enums.StreamType, globalId int, parameters params.QueryParameters) (Response, error) {
-	return o.Call("get", streamType, "byglobalid", []string{strconv.Itoa(globalId)}, parameters, &UniversalResponse{})
+func (o Omnia) ByGlobalId(streamType enums.StreamType, globalId int, parameters params.QueryParameters) (*Response[any], error) {
+	return Call(o, "get", streamType, "byglobalid", []string{strconv.Itoa(globalId)}, parameters, Response[any]{})
 }
 
 // Return a item of a given streamtype by it's hash.
-func (o Omnia) ByHash(streamType enums.StreamType, hash string, parameters params.QueryParameters) (Response, error) {
-	return o.Call("get", streamType, "byhash", []string{hash}, parameters, &UniversalResponse{})
+func (o Omnia) ByHash(streamType enums.StreamType, hash string, parameters params.QueryParameters) (*Response[any], error) {
+	return Call(o, "get", streamType, "byhash", []string{hash}, parameters, Response[any]{})
 }
 
 // Return a item of a given streamtype by it's reference number.
-func (o Omnia) ByRefNr(streamType enums.StreamType, reference string, parameters params.QueryParameters) (Response, error) {
-	return o.Call("get", streamType, "byrefnr", []string{reference}, parameters, &UniversalResponse{})
+func (o Omnia) ByRefNr(streamType enums.StreamType, reference string, parameters params.QueryParameters) (*Response[any], error) {
+	return Call(o, "get", streamType, "byrefnr", []string{reference}, parameters, Response[any]{})
 }
 
 // Return a item of a given streamtype by it's slug.
-func (o Omnia) BySlug(streamType enums.StreamType, slug string, parameters params.QueryParameters) (Response, error) {
-	return o.Call("get", streamType, "byslug", []string{slug}, parameters, &UniversalResponse{})
+func (o Omnia) BySlug(streamType enums.StreamType, slug string, parameters params.QueryParameters) (*Response[any], error) {
+	return Call(o, "get", streamType, "byslug", []string{slug}, parameters, Response[any]{})
 }
 
 // Return a item of a given streamtype by it's remote reference number.
 // This Call queries for an Item, that is (possibly) not hosted by nexxOMNIA. The API will
 // call the given Remote Provider for Media Details and implicitely create the Item for
 // future References within nexxOMNIA.
-func (o Omnia) ByRemoteRef(streamType enums.StreamType, reference string, parameters params.QueryParameters) (Response, error) {
-	return o.Call("get", streamType, "byremotereference", []string{reference}, parameters, &UniversalResponse{})
+func (o Omnia) ByRemoteRef(streamType enums.StreamType, reference string, parameters params.QueryParameters) (*Response[any], error) {
+	return Call(o, "get", streamType, "byremotereference", []string{reference}, parameters, Response[any]{})
 }
 
 // Return a item of a given streamtype by it's code name. Only available for container
 // streamtypes.
-func (o Omnia) ByCodeName(streamType enums.StreamType, codename string, parameters params.QueryParameters) (Response, error) {
-	return o.Call("get", streamType, "bycodename", []string{codename}, parameters, &UniversalResponse{})
+func (o Omnia) ByCodeName(streamType enums.StreamType, codename string, parameters params.QueryParameters) (*Response[any], error) {
+	return Call(o, "get", streamType, "bycodename", []string{codename}, parameters, Response[any]{})
 }
 
 // Returns all media items of a given streamtype.
-func (o Omnia) All(streamType enums.StreamType, parameters params.QueryParameters) (Response, error) {
-	return o.Call("get", streamType, "all", nil, parameters, &UniversalResponse{})
+func (o Omnia) All(streamType enums.StreamType, parameters params.QueryParameters) (*Response[any], error) {
+	return Call(o, "get", streamType, "all", nil, parameters, Response[any]{})
 }
 
 // Returns all items, sorted by Creation Date (ignores the "order" Parameters).
-func (o Omnia) Latest(streamType enums.StreamType, parameters params.QueryParameters) (Response, error) {
-	return o.Call("get", streamType, "latest", nil, parameters, &UniversalResponse{})
+func (o Omnia) Latest(streamType enums.StreamType, parameters params.QueryParameters) (*Response[any], error) {
+	return Call(o, "get", streamType, "latest", nil, parameters, Response[any]{})
 }
 
 // Returns all picked media items of a given streamtype. Ignores the order parameter.
-func (o Omnia) Picked(streamType enums.StreamType, parameters params.QueryParameters) (Response, error) {
-	return o.Call("get", streamType, "picked", nil, parameters, &UniversalResponse{})
+func (o Omnia) Picked(streamType enums.StreamType, parameters params.QueryParameters) (*Response[any], error) {
+	return Call(o, "get", streamType, "picked", nil, parameters, Response[any]{})
 }
 
 // Returns all evergreen media items of a given streamtype.
-func (o Omnia) Evergreens(streamType enums.StreamType, parameters params.QueryParameters) (Response, error) {
-	return o.Call("get", streamType, "evergreens", nil, parameters, &UniversalResponse{})
+func (o Omnia) Evergreens(streamType enums.StreamType, parameters params.QueryParameters) (*Response[any], error) {
+	return Call(o, "get", streamType, "evergreens", nil, parameters, Response[any]{})
 }
 
 // eturns all Items, marked as "created for Kids". This is NOT connected to
 // any Age Restriction.
-func (o Omnia) ForKids(streamType enums.StreamType, parameters params.QueryParameters) (Response, error) {
-	return o.Call("get", streamType, "forkids", nil, parameters, &UniversalResponse{})
+func (o Omnia) ForKids(streamType enums.StreamType, parameters params.QueryParameters) (*Response[any], error) {
+	return Call(o, "get", streamType, "forkids", nil, parameters, Response[any]{})
 }
 
 // Performs a regular Query on all Items. The "order" Parameters are ignored,
 // if querymode is set to "fulltext".
-func (o Omnia) ByQuery(streamType enums.StreamType, query string, parameters params.QueryParameters) (*MediaResponse, error) {
-	rsl, err := o.Call("get", streamType, "byquery", []string{query}, parameters, &MediaResponse{})
+func (o Omnia) ByQuery(streamType enums.StreamType, query string, parameters params.QueryParameters) (*Response[MediaResult], error) {
+	rsl, err := Call(o, "get", streamType, "byquery", []string{query}, parameters, Response[MediaResult]{})
 	if err != nil {
-		return &MediaResponse{}, err
+		return nil, err
 	}
-	if rsl, ok := rsl.(*MediaResponse); ok {
-		return rsl, nil
-	}
-	return &MediaResponse{}, errors.New(fmt.Sprintf("Wrong type, should be MediaResponse but is %T", rsl))
+	return nil, errors.New(fmt.Sprintf("Wrong type, should be MediaResponse but is %T", rsl))
 }
 
-// Generic call to the Omnia Media API. Won't work with the management API's.
-func (o Omnia) Call(
-	method string,
-	streamType enums.StreamType,
-	operation string,
-	args []string,
-	parameters params.QueryParameters,
-	response Response,
-) (Response, error) {
-	return o.universalCall(method, streamType, mediaApiType, operation, args, parameters, response)
-}
-
-// Update a field in the metdata of a media item.
+// Will update the general Metadata of a Media Item. Uses the Management API.
+// Documentation can be found [here].
+//
+// [here]: https://api.docs.nexx.cloud/management-api/endpoints/management-endpoint#update
 func (o Omnia) Update(
 	streamType enums.StreamType,
 	id int,
 	parameters params.Custom,
 ) {
-	o.ManagementCall("put", streamType, "update", []string{strconv.Itoa(id)}, parameters, UniversalResponse{})
+	log.Warn("result handling not implemented yet")
+	ManagementCall(o, "put", streamType, "update", []string{strconv.Itoa(id)}, parameters, Response[any]{})
+}
+
+// Approves a media item of a given streamtype and item-id. Uses te Management API.
+// Documentation can be found [here].
+//
+// [here]: https://api.docs.nexx.cloud/management-api/endpoints/management-endpoint#approve
+func (o Omnia) Approve(
+	streamType enums.StreamType,
+	id int,
+	parameters params.Approve,
+) (*Response[any], error) {
+	rsl, err := ManagementCall(o, "post", streamType, "approve", []string{strconv.Itoa(id)}, parameters, Response[any]{})
+	log.Warn(err)
+	return rsl, err
+}
+
+// Logs parameters of API call.
+func (o Omnia) debugLog(method string, url string, header omniaHeader, parameters string) {
+	log.Debugf("METHOD:\t%s", method)
+	log.Debugf("URL:\t\t%s", url)
+	log.Debugf("HEADER:\t%+v", header)
+	if parameters != "" {
+		log.Debugf("URL PARAMS:\t%+v", parameters)
+	} else {
+		log.Debug("URL PARAMS:\t{}")
+	}
+}
+
+// Lists all ediatble attributes for a given stream type.
+func (o Omnia) EditableAttributes(streamType enums.StreamType) (*Response[EditableAttributesResponse], error) {
+	rsl, err := SystemCall(o, "get", "editableattributesfor", []string{string(streamType)}, Response[EditableAttributesResponse]{})
+	if err != nil {
+		return nil, err
+	}
+	return nil, errors.New(fmt.Sprintf("Wrong type, should be EditableAttributesResponse but is %T", rsl))
 }
 
 // Generic call to the Omnia management API.
-func (o Omnia) ManagementCall(
+func ManagementCall[T any](
+	o Omnia,
 	method string,
 	streamType enums.StreamType,
 	operation string,
 	args []string,
 	parameters params.QueryParameters,
-	response Response,
-) (Response, error) {
-	return o.universalCall(method, streamType, managementApiType, operation, args, parameters, response)
+	response Response[T],
+) (*Response[T], error) {
+	return universalCall(o, method, streamType, managementApiType, operation, args, parameters, response)
 }
 
-// Lists all ediatble attributes for a given stream type.
-func (o Omnia) EditableAttributes(streamType enums.StreamType) (*EditableAttributesResponse, error) {
-	rsl, err := o.SystemCall("get", "editableattributesfor", []string{string(streamType)}, &EditableAttributesResponse{})
-	if err != nil {
-		return &EditableAttributesResponse{}, err
-	}
-	if rsl, ok := rsl.(*EditableAttributesResponse); ok {
-		return rsl, nil
-	}
-	return &EditableAttributesResponse{}, errors.New(fmt.Sprintf("Wrong type, should be EditableAttributesResponse but is %T", rsl))
+// Generic call to the Omnia Media API. Won't work with the management API's.
+func Call[T any](
+	o Omnia,
+	method string,
+	streamType enums.StreamType,
+	operation string,
+	args []string,
+	parameters params.QueryParameters,
+	response Response[T],
+) (*Response[T], error) {
+	return universalCall(o, method, streamType, mediaApiType, operation, args, parameters, response)
 }
 
 // Generic call to the Omnia system API
-func (o Omnia) SystemCall(
+func SystemCall[T any](
+	o Omnia,
 	method string,
 	operation string,
 	args []string,
-	response Response,
-) (Response, error) {
-	return o.universalCall(method, enums.VideoStreamType, systemApiType, operation, args, nil, response)
+	response Response[T],
+) (*Response[T], error) {
+	return universalCall[T](o, method, enums.VideoStreamType, systemApiType, operation, args, nil, response)
 }
 
-func (o Omnia) universalCall(
+func universalCall[T any](
+	o Omnia,
 	method string,
 	streamType enums.StreamType,
 	aType apiType,
 	operation string,
 	args []string,
 	parameters params.QueryParameters,
-	response Response,
-) (Response, error) {
+	response Response[T],
+) (*Response[T], error) {
 	method = strings.ToUpper(method)
 	argsParts := ""
 	if len(args) > 0 {
@@ -273,26 +301,15 @@ func (o Omnia) universalCall(
 		return nil, err
 	}
 	log.Trace(string(body))
-	err = json.Unmarshal(body, response)
+	err = json.Unmarshal(body, &response)
 	if err != nil {
+		log.Warnf("%T", response)
 		return nil, err
 	}
-	log.WithFields(response.GetMetadata().toMap()).Debug("Response Metadata")
-	if response.GetPaging() != nil {
-		log.WithFields(response.GetPaging().toMap()).Debug("Response Paging")
+	log.WithFields(response.Metadata.toMap()).Debug("Response Metadata")
+	if response.Paging != nil {
+		log.WithFields(response.Paging.toMap()).Debug("Response Paging")
 	}
-	log.Trace(response.GetResult())
-	return response, nil
-}
-
-// Logs parameters of API call.
-func (o Omnia) debugLog(method string, url string, header omniaHeader, parameters string) {
-	log.Debugf("METHOD:\t%s", method)
-	log.Debugf("URL:\t\t%s", url)
-	log.Debugf("HEADER:\t%+v", header)
-	if parameters != "" {
-		log.Debugf("URL PARAMS:\t%+v", parameters)
-	} else {
-		log.Debug("URL PARAMS:\t{}")
-	}
+	log.Trace(response.Result)
+	return &response, nil
 }

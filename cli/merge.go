@@ -58,9 +58,10 @@ func getIdForTitle(client omnia.Omnia, title string) int {
 	if err != nil {
 		log.Fatal(err)
 	}
-	if len(rsl.Result) != 1 {
-		log.Error("There are %d result for the %s query", len(rsl.Result), title)
+	if len(*rsl.Result) != 1 {
+		log.Error("There are %d result for the %s query", len(*rsl.Result), title)
 		return -1
 	}
-	return rsl.Result[0].General.Id
+	tmp := *rsl.Result
+	return tmp[0].General.Id
 }
