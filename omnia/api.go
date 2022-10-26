@@ -175,6 +175,18 @@ func (o Omnia) Approve(
 	return ManagementCall(o, "post", streamType, "approve", []string{strconv.Itoa(id)}, parameters, Response[any]{})
 }
 
+// Rejects a media item of a given streamtype and item-id. Uses te Management API.
+// Documentation can be found [here].
+//
+// [here]: https://api.docs.nexx.cloud/management-api/endpoints/management-endpoint#reject
+func (o Omnia) Reject(
+	streamType enums.StreamType,
+	id int,
+	parameters params.Reject,
+) (*Response[any], error) {
+	return ManagementCall(o, "post", streamType, "reject", []string{strconv.Itoa(id)}, parameters, Response[any]{})
+}
+
 // Logs parameters of API call.
 func (o Omnia) debugLog(method string, url string, header omniaHeader, parameters string) {
 	log.Debugf("METHOD:\t%s", method)
@@ -287,7 +299,7 @@ func universalCall[T any](
 	req.Header.Add(omniaHeaderXRequestCid, header.xRequestCid)
 	req.Header.Add(omniaHeaderXRequestToken, header.xRequestToken)
 	client := http.Client{
-		Timeout: time.Second * 5,
+		Timeout: time.Second * 10,
 	}
 	rsp, err := client.Do(req)
 	if err != nil {

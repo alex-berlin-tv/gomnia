@@ -189,7 +189,7 @@ func App() *cli.App {
 			{
 				Name:   "reject",
 				Usage:  "reject an item",
-				Action: unpublishCmd,
+				Action: rejectCmd,
 				Flags: []cli.Flag{
 					&actionAfterRejectionFlag,
 					&configFileFlag,
@@ -200,7 +200,7 @@ func App() *cli.App {
 			{
 				Name:   "publish",
 				Usage:  "publish an item",
-				Action: unpublishCmd,
+				Action: publishCmd,
 				Flags: []cli.Flag{
 					&configFileFlag,
 					&idFlag,

@@ -80,6 +80,7 @@ func handleApiError(rsp *omnia.Response[any], err error, fatalOnError bool) {
 			log.Fatal(err)
 		}
 		log.Error(err)
+		return
 	}
 	fields := log.Fields{
 		"status":     rsp.Metadata.Status,
