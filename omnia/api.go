@@ -270,7 +270,7 @@ func universalCall[T any](
 		)
 	case managementApiType:
 		reqUrl = fmt.Sprintf(
-			"https://api.nexx.cloud/v3.1/%s/manage/%s/%s/%s",
+			"https://api.nexx.cloud/v3.1/%s/manage%s/%s/%s",
 			o.DomainId, streamType, argsParts, operation,
 		)
 	case systemApiType:
