@@ -129,8 +129,16 @@ func App() *cli.App {
 					&configFileFlag,
 					&streamTypeFlag,
 					&cli.BoolFlag{
+						Name:  "claim",
+						Usage: "only UGC: also claiming the media item",
+					},
+					&cli.BoolFlag{
 						Name:  "publish",
 						Usage: "also publish the item",
+					},
+					&cli.StringFlag{
+						Name:  "reason",
+						Usage: "free text reason",
 					},
 				},
 			},

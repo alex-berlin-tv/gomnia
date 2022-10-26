@@ -20,8 +20,16 @@ func approveCmd(ctx *cli.Context) error {
 	if err != nil {
 		log.Fatal(err)
 	}
+	age, err := getEnum[enums.AgeRestriction](ctx, "age")
+	if err != nil {
+		log.Fatal(err)
+	}
 	for _, id := range ids {
-		rsl, err := client.Approve(*streamType, id, params.Approve{})
+		rsl, err := client.Approve(*streamType, id, params.Approve{
+			AndClaim:      ctx.Bool("claim"),
+			Reason:        ctx.String("reason"),
+			RestrictToAge: *age,
+		})
 		if err != nil {
 			handleApiError(rsl, err, false)
 		}
