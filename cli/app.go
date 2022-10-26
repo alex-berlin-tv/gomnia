@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/alex-berlin-tv/nexx_omnia_go/omnia"
+	"github.com/alex-berlin-tv/nexx_omnia_go/omnia/enums"
 	log "github.com/sirupsen/logrus"
 	"github.com/urfave/cli/v2"
 )
@@ -21,12 +21,12 @@ func setupLogging(ctx *cli.Context) error {
 }
 
 type enumFlag[T ~string] struct {
-	Default  omnia.Enum[T]
+	Default  enums.Enum[T]
 	selected T
 }
 
 func (e *enumFlag[T]) Set(value string) error {
-	rsl, err := omnia.EnumByValue(e.Default, T(value))
+	rsl, err := enums.EnumByValue(e.Default, T(value))
 	if err != nil {
 		return err
 	}
@@ -39,7 +39,7 @@ func (e enumFlag[T]) String() string {
 }
 
 func (e enumFlag[T]) fmtPossibleValues() string {
-	return fmt.Sprintf("[%s]", strings.Join(omnia.EnumValues(e.Default), ", "))
+	return fmt.Sprintf("[%s]", strings.Join(enums.EnumValues(e.Default), ", "))
 }
 
 func (e enumFlag[T]) fmtUsage(desc string) string {
@@ -58,7 +58,7 @@ var idFlag = cli.StringSliceFlag{
 	Usage:   "target item(s) id",
 }
 
-var streamTypeValue = enumFlag[omnia.StreamType]{Default: omnia.VideoStreamType}
+var streamTypeValue = enumFlag[enums.StreamType]{Default: enums.VideoStreamType}
 
 var streamTypeFlag = cli.GenericFlag{
 	Name:    "type",
@@ -67,7 +67,7 @@ var streamTypeFlag = cli.GenericFlag{
 	Value:   &streamTypeValue,
 }
 
-var ageValue = enumFlag[omnia.AgeRestriction]{Default: omnia.AgeRestriction0}
+var ageValue = enumFlag[enums.AgeRestriction]{Default: enums.AgeRestriction0}
 
 var ageFlag = cli.GenericFlag{
 	Name:  "age",
@@ -75,7 +75,7 @@ var ageFlag = cli.GenericFlag{
 	Value: &ageValue,
 }
 
-var actionAfterRejectionValue = enumFlag[omnia.ActionAfterRejection]{Default: omnia.DeleteAfterRejection}
+var actionAfterRejectionValue = enumFlag[enums.ActionAfterRejection]{Default: enums.DeleteAfterRejection}
 
 var actionAfterRejectionFlag = cli.GenericFlag{
 	Name:  "action",

@@ -4,6 +4,8 @@ import (
 	"strings"
 
 	"github.com/alex-berlin-tv/nexx_omnia_go/omnia"
+	"github.com/alex-berlin-tv/nexx_omnia_go/omnia/enums"
+	"github.com/alex-berlin-tv/nexx_omnia_go/omnia/params"
 
 	log "github.com/sirupsen/logrus"
 	"github.com/urfave/cli/v2"
@@ -48,9 +50,9 @@ func mergeCmd(ctx *cli.Context) error {
 
 func getIdForTitle(client omnia.Omnia, title string) int {
 	title = strings.Split(title, ".")[0]
-	rsl, err := client.ByQuery(omnia.AudioStreamType, title, &omnia.ByQueryParameters{
-		BasicParameters: omnia.BasicParameters{
-			AddPublishingDetails: omnia.YesBool,
+	rsl, err := client.ByQuery(enums.AudioStreamType, title, &params.ByQueryParameters{
+		BasicParameters: params.BasicParameters{
+			AddPublishingDetails: enums.YesBool,
 		},
 	})
 	if err != nil {

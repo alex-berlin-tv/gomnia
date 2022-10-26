@@ -2,6 +2,8 @@ package cli
 
 import (
 	"github.com/alex-berlin-tv/nexx_omnia_go/omnia"
+	"github.com/alex-berlin-tv/nexx_omnia_go/omnia/enums"
+	"github.com/alex-berlin-tv/nexx_omnia_go/omnia/params"
 	log "github.com/sirupsen/logrus"
 	"github.com/urfave/cli/v2"
 )
@@ -15,7 +17,7 @@ func completeCmd(ctx *cli.Context) error {
 	data := collectionFromFile(ctx.String("input"))
 	client := omnia.OmniaFromFile(ctx.String("config"))
 
-	rsl, err := client.EditableAttributes(omnia.AudioStreamType)
+	rsl, err := client.EditableAttributes(enums.AudioStreamType)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -24,7 +26,7 @@ func completeCmd(ctx *cli.Context) error {
 	return nil
 	for i, item := range data {
 		log.Infof("[%d/%d] Update Metadata of %s", i+1, len(data), item.FileName)
-		client.Update(omnia.AudioStreamType, item.Id, omnia.CustomParameters{
+		client.Update(enums.AudioStreamType, item.Id, params.CustomParameters{
 			"title":       item.Title,
 			"description": item.Description,
 		})

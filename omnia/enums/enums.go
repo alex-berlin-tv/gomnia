@@ -1,4 +1,4 @@
-package omnia
+package enums
 
 import "fmt"
 
