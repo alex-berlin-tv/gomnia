@@ -9,7 +9,7 @@ import (
 // documentation can be found [here].
 //
 // [here]: https://api.docs.nexx.cloud/api-design/query-parameters
-type BasicParameters struct {
+type Basic struct {
 	// If set to [YesBool], the API will disable Cached Results (which will
 	// take longer, so only use this Parameter, if absolutely necessary).
 	NoCache enums.Bool `qs:"noc,omitempty"`
@@ -89,6 +89,6 @@ type BasicParameters struct {
 	AddStatistics enums.Bool `qs:"addStatistics,omitempty"`
 }
 
-func (b BasicParameters) UrlEncode(extra map[string]interface{}) (string, error) {
+func (b Basic) UrlEncode(extra map[string]interface{}) (string, error) {
 	return qs.Marshal(&b)
 }

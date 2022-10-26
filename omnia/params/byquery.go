@@ -8,8 +8,8 @@ import (
 // Parameters for the byquery MediaAPI call. The documentation is available [here].
 //
 // [here]: https://api.docs.nexx.cloud/media-api/endpoints/media-endpoint#byquery
-type ByQueryParameters struct {
-	BasicParameters
+type ByQuery struct {
+	Basic
 	// Defines the Way, the Query is executed. Fore more results, "classicwithor"
 	// is optimal. For a Lucene Search with Relevance, use "fulltext".
 	QueryMode enums.QueryMode `qs:"queryMode,omitempty"`
@@ -29,6 +29,6 @@ type ByQueryParameters struct {
 	SkipReporting bool `qs:"skipReporting,omitempty"`
 }
 
-func (b ByQueryParameters) UrlEncode(extra map[string]interface{}) (string, error) {
+func (b ByQuery) UrlEncode(extra map[string]interface{}) (string, error) {
 	return qs.Marshal(&b)
 }

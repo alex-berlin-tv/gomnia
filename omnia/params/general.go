@@ -8,7 +8,7 @@ import (
 // General parameters for an MediaAPI call. Documentation is available [here].
 //
 // [here]: https://api.docs.nexx.cloud/media-api/usage
-type GeneralParameters struct {
+type General struct {
 	// Restrict result to elements, created after the given time
 	CreatedAfter string `qs:"createdAfter,omitempty"`
 	// Restrict result to elements, modified after the given time
@@ -108,6 +108,6 @@ type GeneralParameters struct {
 	ReferencingMediaDetails enums.OutputModifier `qs:"referencingMediaDetails,omitempty"`
 }
 
-func (g GeneralParameters) UrlEncode(extra map[string]interface{}) (string, error) {
+func (g General) UrlEncode(extra map[string]interface{}) (string, error) {
 	return qs.Marshal(&g)
 }

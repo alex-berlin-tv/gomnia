@@ -26,7 +26,7 @@ func completeCmd(ctx *cli.Context) error {
 	return nil
 	for i, item := range data {
 		log.Infof("[%d/%d] Update Metadata of %s", i+1, len(data), item.FileName)
-		client.Update(enums.AudioStreamType, item.Id, params.CustomParameters{
+		client.Update(enums.AudioStreamType, item.Id, params.Custom{
 			"title":       item.Title,
 			"description": item.Description,
 		})

@@ -9,9 +9,9 @@ type QueryParameters interface {
 	UrlEncode(extra map[string]interface{}) (string, error)
 }
 
-type CustomParameters map[string]string
+type Custom map[string]string
 
-func (c CustomParameters) UrlEncode(extra map[string]interface{}) (string, error) {
+func (c Custom) UrlEncode(extra map[string]interface{}) (string, error) {
 	values := url.Values{}
 	for key, value := range c {
 		values.Set(key, value)

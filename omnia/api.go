@@ -169,7 +169,7 @@ func (o Omnia) Call(
 func (o Omnia) Update(
 	streamType enums.StreamType,
 	id int,
-	parameters params.CustomParameters,
+	parameters params.Custom,
 ) {
 	o.ManagementCall("put", streamType, "update", []string{strconv.Itoa(id)}, parameters, UniversalResponse{})
 }

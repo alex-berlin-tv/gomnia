@@ -50,8 +50,8 @@ func mergeCmd(ctx *cli.Context) error {
 
 func getIdForTitle(client omnia.Omnia, title string) int {
 	title = strings.Split(title, ".")[0]
-	rsl, err := client.ByQuery(enums.AudioStreamType, title, &params.ByQueryParameters{
-		BasicParameters: params.BasicParameters{
+	rsl, err := client.ByQuery(enums.AudioStreamType, title, &params.ByQuery{
+		Basic: params.Basic{
 			AddPublishingDetails: enums.YesBool,
 		},
 	})
