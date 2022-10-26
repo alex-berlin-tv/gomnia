@@ -82,13 +82,11 @@ func rejectCmd(ctx *cli.Context) error {
 }
 
 func unblockCmd(ctx *cli.Context) error {
-	client := omnia.OmniaFromFile(ctx.String("config"))
-	log.Info(client)
+	log.Fatal("not implemented yet")
 	return nil
 }
 
 func unpublishCmd(ctx *cli.Context) error {
-	client := omnia.OmniaFromFile(ctx.String("config"))
-	log.Info(client)
+	log.Fatal("not implemented yet")
 	return nil
 }
