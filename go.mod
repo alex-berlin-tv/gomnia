@@ -17,5 +17,4 @@ require (
 	golang.org/x/exp/shiny v0.0.0-20221026004748-78e5e7837ae6 // indirect
 	golang.org/x/image v0.1.0 // indirect
 	golang.org/x/mobile v0.0.0-20221020085226-b36e6246172e // indirect
-	Auch für den Kulturbereich v0.1.0 // indirect
 )
