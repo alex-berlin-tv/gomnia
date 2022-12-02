@@ -14,12 +14,16 @@ type Notification struct {
 
 // Returns a Notification instance based on JSON data.
 func NotificationFromJson(raw []byte) (*Notification, error) {
-	var rsl *Notification
-	fmt.Println("HERE")
-	if err := json.Unmarshal(raw, rsl); err != nil {
+	var rsl Notification
+	if err := json.Unmarshal(raw, &rsl); err != nil {
 		return nil, err
 	}
-	return rsl, nil
+	return &rsl, nil
+}
+
+// Formats a short, user-readable string which should help identify the [Notification].
+func (n Notification) ShortStr() string {
+	return fmt.Sprintf("%s event: ", n.Data.PublishingData.Origin)
 }
 
 // Information about the trigger of the notification.
