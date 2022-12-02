@@ -12,7 +12,7 @@ type Notification struct {
 	Data    Data    `json:"data"`
 }
 
-// Returns a Notification instance based on JSON data
+// Returns a Notification instance based on JSON data.
 func NotificationFromJson(raw []byte) (*Notification, error) {
 	var rsl *Notification
 	fmt.Println("HERE")
