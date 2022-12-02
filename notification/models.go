@@ -86,5 +86,5 @@ type InteractionData struct{}
 
 // Part of the `Data` struct. Based on real world data and not on any documentation.
 type PublishingData struct {
-	Origin string `json:"uploadLink"`
+	Origin string `json:"origin"`
 }
