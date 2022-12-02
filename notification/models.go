@@ -27,9 +27,9 @@ type Trigger struct {
 	// The »reason« for this trigger.
 	Event string `json:"event"`
 	// The user ID, that changed the media item (or 0, if created by nexxOMNIA).
-	User int `json:"user"`
+	User string `json:"user"`
 	// The Session ID, that changed the Media Item (or 0, if created by nexxOMNIA).
-	Session int `json:"session"`
+	Session string `json:"session"`
 	// The Timestamp of the Change.
 	Created UnixTS `json:"created"`
 	// The Timestamp of the Trigger Processing.
