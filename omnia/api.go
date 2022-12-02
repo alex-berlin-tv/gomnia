@@ -53,7 +53,7 @@ type Omnia struct {
 	SessionId string `json:"session_id"`
 }
 
-// Retuns a new Omnia instance.
+// Returns a new Omnia instance.
 func NewOmnia(domainId string, apiSecret string, sessionId string) Omnia {
 	return Omnia{
 		DomainId:  domainId,

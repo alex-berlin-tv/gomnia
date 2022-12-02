@@ -1,6 +1,9 @@
 package notification
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"fmt"
+)
 
 // A notification based on an event within omnia.
 type Notification struct {
@@ -12,6 +15,7 @@ type Notification struct {
 // Returns a Notification instance based on JSON data.
 func NotificationFromJson(raw []byte) (*Notification, error) {
 	var rsl *Notification
+	fmt.Println("HERE")
 	if err := json.Unmarshal(raw, rsl); err != nil {
 		return nil, err
 	}
