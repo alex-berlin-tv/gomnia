@@ -1,32 +1,5 @@
 package enums
 
-import "fmt"
-
-// Used to simplify the usage of the enums in the cli portion of the library.
-type Enum[T ~string] interface {
-	// A list of all possible values.
-	Instances() []T
-}
-
-// Returns an Enum instance by it's value.
-func EnumByValue[T ~string](e Enum[T], value T) (*T, error) {
-	for _, entry := range e.Instances() {
-		if entry == value {
-			return &entry, nil
-		}
-	}
-	return nil, fmt.Errorf("no enum found for value %s", value)
-}
-
-// Returns all values of an Enum type.
-func EnumValues[T ~string](e Enum[T]) []string {
-	var rsl []string
-	for _, item := range e.Instances() {
-		rsl = append(rsl, string(item))
-	}
-	return rsl
-}
-
 // A boolean value is expressed as a 0 for `false` and 1 for `true`.
 // String is used as type as it's not possible to nil integer values
 // (which is needed in order to omit unset parameters as the query parameter).
