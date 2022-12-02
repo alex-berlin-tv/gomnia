@@ -2,7 +2,6 @@ package notification
 
 import (
 	"encoding/json"
-	"fmt"
 )
 
 // A notification based on an event within omnia.
@@ -19,11 +18,6 @@ func NotificationFromJson(raw []byte) (*Notification, error) {
 		return nil, err
 	}
 	return &rsl, nil
-}
-
-// Formats a short, user-readable string which should help identify the [Notification].
-func (n Notification) ShortStr() string {
-	return fmt.Sprintf("%s event: ", n.Data.PublishingData.Origin)
 }
 
 // Information about the trigger of the notification.

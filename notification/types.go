@@ -3,6 +3,7 @@ package notification
 import (
 	"fmt"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -31,6 +32,9 @@ func (s StringOrZero) MarshallJSON() ([]byte, error) {
 }
 
 func (s *StringOrZero) UnmarshalJSON(data []byte) (err error) {
-	*(*string)(s) = string(data)
+	rsl := string(data)
+	rsl = strings.TrimPrefix(rsl, "\"")
+	rsl = strings.TrimSuffix(rsl, "\"")
+	*(*string)(s) = rsl
 	return nil
 }
