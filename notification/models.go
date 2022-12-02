@@ -1,10 +1,21 @@
 package notification
 
+import "encoding/json"
+
 // A notification based on an event within omnia.
-type Event struct {
+type Notification struct {
 	Trigger Trigger `json:"trigger"`
 	Item    Item    `json:"item"`
 	Data    Data    `json:"data"`
+}
+
+// Returns a Notification instance based on JSON data.
+func NotificationFromJson(raw []byte) (*Notification, error) {
+	var rsl *Notification
+	if err := json.Unmarshal(raw, rsl); err != nil {
+		return nil, err
+	}
+	return rsl, nil
 }
 
 // Information about the trigger of the notification.
