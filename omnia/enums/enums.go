@@ -131,8 +131,9 @@ func (i OrderDirection) Instances() []OrderDirection {
 type StreamType string
 
 const (
-	VideoStreamType StreamType = "videos"
-	AudioStreamType            = "audio"
+	VideoStreamType = StreamType("videos")
+	AudioStreamType = StreamType("audio")
+	ShowStreamType  = StreamType("shows")
 )
 
 // All instances of the StreamType enum.
@@ -140,6 +141,7 @@ func (i StreamType) Instances() []StreamType {
 	return []StreamType{
 		VideoStreamType,
 		AudioStreamType,
+		ShowStreamType,
 	}
 }
 
