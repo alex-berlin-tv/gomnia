@@ -337,7 +337,7 @@ func universalCall[T any](
 		log.WithFields(response.Paging.toMap()).Debug("Response Paging")
 	}
 	if response.Metadata.Status != 200 {
-		return &response, fmt.Errorf("call failed on server side, please see response object for more infromation")
+		return &response, fmt.Errorf("call failed on server side with status code %d, %s", response.Metadata.Status, *response.Metadata.ErrorHint)
 	}
 	log.Trace(response.Result)
 	return &response, nil
