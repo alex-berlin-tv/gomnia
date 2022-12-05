@@ -160,7 +160,10 @@ func (o Omnia) Update(
 ) error {
 	rsp, err := ManagementCall(o, "put", streamType, "update", []string{strconv.Itoa(id)}, parameters, Response[any]{})
 	if err != nil {
-		return fmtOmniaErr(*rsp)
+		if rsp != nil {
+			return fmtOmniaErr(*rsp)
+		}
+		return err
 	}
 	return nil
 }
