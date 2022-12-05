@@ -115,8 +115,8 @@ func (o Omnia) ByCodeName(streamType enums.StreamType, codename string, paramete
 }
 
 // Returns all media items of a given streamtype.
-func (o Omnia) All(streamType enums.StreamType, parameters params.QueryParameters) (*Response[any], error) {
-	return Call(o, "get", streamType, "all", nil, parameters, Response[any]{})
+func (o Omnia) All(streamType enums.StreamType, parameters params.QueryParameters) (*Response[MediaResult], error) {
+	return Call(o, "get", streamType, "all", nil, parameters, Response[MediaResult]{})
 }
 
 // Returns all items, sorted by Creation Date (ignores the "order" Parameters).
@@ -147,7 +147,7 @@ func (o Omnia) ByQuery(streamType enums.StreamType, query string, parameters par
 	if err != nil {
 		return nil, err
 	}
-	return nil, errors.New(fmt.Sprintf("Wrong type, should be MediaResponse but is %T", rsl))
+	return nil, fmt.Errorf("Wrong type, should be MediaResponse but is %T", rsl)
 }
 
 // Will update the general Metadata of a Media Item. Uses the Management API.
