@@ -157,15 +157,15 @@ func (o Omnia) Update(
 	streamType enums.StreamType,
 	id int,
 	parameters params.Custom,
-) error {
+) (*Response[any], error) {
 	rsp, err := ManagementCall(o, "put", streamType, "update", []string{strconv.Itoa(id)}, parameters, Response[any]{})
 	if err != nil {
 		if rsp != nil {
-			return fmtOmniaErr(*rsp)
+			return rsp, fmtOmniaErr(*rsp)
 		}
-		return err
+		return nil, err
 	}
-	return nil
+	return rsp, nil
 }
 
 // Approves a media item of a given streamtype and item-id. Uses te Management API.
