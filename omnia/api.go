@@ -4,11 +4,10 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -64,7 +63,7 @@ func NewOmnia(domainId string, apiSecret string, sessionId string) Omnia {
 
 // Reads an Omnia instance from a json file.
 func OmniaFromFile(path string) Omnia {
-	file, err := ioutil.ReadFile(path)
+	file, err := os.ReadFile(path)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -147,7 +146,7 @@ func (o Omnia) ByQuery(streamType enums.StreamType, query string, parameters par
 	if err != nil {
 		return nil, err
 	}
-	return nil, fmt.Errorf("Wrong type, should be MediaResponse but is %T", rsl)
+	return nil, fmt.Errorf("wrong type, should be MediaResponse but is %T", rsl)
 }
 
 // Will update the general Metadata of a Media Item. Uses the Management API.
@@ -216,7 +215,8 @@ func (o Omnia) EditableAttributes(streamType enums.StreamType) (*Response[Editab
 	if err != nil {
 		return nil, err
 	}
-	return nil, errors.New(fmt.Sprintf("Wrong type, should be EditableAttributesResponse but is %T", rsl))
+	// return nil, fmt.Errorf("wrong type, should be EditableAttributesResponse but is %T", rsl)
+	return rsl, nil
 }
 
 // Generic call to the Omnia management API.

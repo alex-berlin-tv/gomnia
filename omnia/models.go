@@ -9,13 +9,13 @@ import (
 // Metadata part of an API response.
 type ResponseMetadata struct {
 	// The HTTP Status for this Call.
-	Status int `json:"status"`
+	Status int `json:"status"` // OK
 	// Version of the API.
-	ApiVersion string `json:"apiversion,omitempty"`
+	ApiVersion string `json:"apiversion,omitempty"` // OK
 	// The used HTTP Verb.
-	Verb string `json:"verb"`
+	Verb string `json:"verb"` // OK
 	// Internal Duration, needed to create the response.
-	ProcessingTime float64 `json:"processingtime"`
+	ProcessingTime float64 `json:"processingtime"` // OK
 	// The called Endoint and Parameter.
 	CalledWith *string `json:"calledwith,omitempty"`
 	// The `cfo` Parameter from the API Call.
@@ -29,6 +29,8 @@ type ResponseMetadata struct {
 	Notice *string `json:"notice"`
 	// If the Call failed, a Hint for the Failure Reason.
 	ErrorHint *string `json:"errorhint,omitempty"`
+	// States whether result came from cache
+	FromCache *int `json:"fromcache,omitempty"`
 }
 
 func (m ResponseMetadata) toMap() map[string]interface{} {
@@ -102,13 +104,13 @@ type MediaResultImageData struct {
 	Waveform          string `json:"waveform"`
 }
 
-type EditableAttributesResponse []map[string]EditableAttributesProperties
+type EditableAttributesResponse map[string]EditableAttributesProperties
 
 type EditableAttributesProperties struct {
 	Type         string `json:"type"`
 	MaxLength    int    `json:"maxlength"`
-	Format       string `json:"format"`
-	Hint         string `json:"hint"`
+	Format       string `json:"format,omitempty"`
+	Hint         string `json:"hint,omitempty"`
 	AllowedInUgc int    `json:"allowedInUGC"`
 }
 
