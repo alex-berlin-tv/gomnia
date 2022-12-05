@@ -157,9 +157,12 @@ func (o Omnia) Update(
 	streamType enums.StreamType,
 	id int,
 	parameters params.Custom,
-) {
-	log.Warn("result handling not implemented yet")
-	ManagementCall(o, "put", streamType, "update", []string{strconv.Itoa(id)}, parameters, Response[any]{})
+) error {
+	rsp, err := ManagementCall(o, "put", streamType, "update", []string{strconv.Itoa(id)}, parameters, Response[any]{})
+	if err != nil {
+		return fmtOmniaErr(*rsp)
+	}
+	return nil
 }
 
 // Approves a media item of a given streamtype and item-id. Uses te Management API.
@@ -335,4 +338,9 @@ func universalCall[T any](
 	}
 	log.Trace(response.Result)
 	return &response, nil
+}
+
+// Formats an error message from an Omnia response.
+func fmtOmniaErr[T any](rsp Response[T]) error {
+	return fmt.Errorf("call to omnia failed with %d, %s", rsp.Metadata.Status, *rsp.Metadata.ErrorHint)
 }
