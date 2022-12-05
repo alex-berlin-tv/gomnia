@@ -79,7 +79,11 @@ type GeneralData struct {
 type ChannelData struct{}
 
 // Part of the `Data` struct. Based on real world data and not on any documentation.
-type ImageData struct{}
+type ImageData struct {
+	Thumbnail string `json:"thumb"`
+	Banner    string `json:"thumb_banner"`
+	Waveform  string `json:"waveform"`
+}
 
 // Part of the `Data` struct. Based on real world data and not on any documentation.
 type InteractionData struct{}
