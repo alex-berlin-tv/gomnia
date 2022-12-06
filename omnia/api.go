@@ -37,7 +37,7 @@ type omniaHeader struct {
 }
 
 func newOmniaHeader(operation, domainId, apiSecret, sessionId string) omniaHeader {
-	logrus.Debugf("HASH SRC:\tmd5(%s+%s+API_SECRET)", operation, domainId)
+	logrus.Debugf("hash source: md5(%s+%s+API_SECRET)", operation, domainId)
 	signature := md5.Sum([]byte(fmt.Sprintf("%s%s%s", operation, domainId, apiSecret)))
 	return omniaHeader{
 		xRequestCid:   sessionId,
@@ -205,14 +205,16 @@ func (o Omnia) Reject(
 
 // Logs parameters of API call.
 func (o Omnia) debugLog(method string, url string, header omniaHeader, parameters string) {
-	logrus.Debugf("METHOD:\t%s", method)
-	logrus.Debugf("URL:\t\t%s", url)
-	logrus.Debugf("HEADER:\t%+v", header)
+	var paramStr string
 	if parameters != "" {
-		logrus.Debugf("URL PARAMS:\t%+v", parameters)
-	} else {
-		logrus.Debug("URL PARAMS:\t{}")
+		paramStr = fmt.Sprintf("%+v", parameters)
 	}
+	logrus.WithFields(logrus.Fields{
+		"method": method,
+		"url":    url,
+		"header": fmt.Sprintf("%+v", header),
+		"params": paramStr,
+	}).Debug("send request to Omnia")
 }
 
 // Lists all editable attributes for a given stream type.
