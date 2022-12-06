@@ -14,10 +14,10 @@ import (
 
 	"github.com/alex-berlin-tv/nexx_omnia_go/omnia/enums"
 	"github.com/alex-berlin-tv/nexx_omnia_go/omnia/params"
-	log "github.com/sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 )
 
-// Internal destinction for the different API's. This is needed
+// Internal distinction for the different API's. This is needed
 // as the structure of a call differs depending on the API.
 type apiType int
 
@@ -37,7 +37,7 @@ type omniaHeader struct {
 }
 
 func newOmniaHeader(operation, domainId, apiSecret, sessionId string) omniaHeader {
-	log.Debugf("HASH SRC:\tmd5(%s+%s+API_SECRET)", operation, domainId)
+	logrus.Debugf("HASH SRC:\tmd5(%s+%s+API_SECRET)", operation, domainId)
 	signature := md5.Sum([]byte(fmt.Sprintf("%s%s%s", operation, domainId, apiSecret)))
 	return omniaHeader{
 		xRequestCid:   sessionId,
@@ -65,11 +65,11 @@ func NewOmnia(domainId string, apiSecret string, sessionId string) Omnia {
 func OmniaFromFile(path string) Omnia {
 	file, err := os.ReadFile(path)
 	if err != nil {
-		log.Fatal(err)
+		logrus.Fatal(err)
 	}
 	rsl := Omnia{}
 	if err := json.Unmarshal([]byte(file), &rsl); err != nil {
-		log.Fatal(err)
+		logrus.Fatal(err)
 	}
 	return rsl
 }
@@ -101,7 +101,7 @@ func (o Omnia) BySlug(streamType enums.StreamType, slug string, parameters param
 
 // Return a item of a given streamtype by it's remote reference number.
 // This Call queries for an Item, that is (possibly) not hosted by nexxOMNIA. The API will
-// call the given Remote Provider for Media Details and implicitely create the Item for
+// call the given Remote Provider for Media Details and implicitly create the Item for
 // future References within nexxOMNIA.
 func (o Omnia) ByRemoteRef(streamType enums.StreamType, reference string, parameters params.QueryParameters) (*Response[any], error) {
 	return Call(o, "get", streamType, "byremotereference", []string{reference}, parameters, Response[any]{})
@@ -133,14 +133,14 @@ func (o Omnia) Evergreens(streamType enums.StreamType, parameters params.QueryPa
 	return Call(o, "get", streamType, "evergreens", nil, parameters, Response[any]{})
 }
 
-// eturns all Items, marked as "created for Kids". This is NOT connected to
+// Returns all Items, marked as "created for Kids". This is NOT connected to
 // any Age Restriction.
 func (o Omnia) ForKids(streamType enums.StreamType, parameters params.QueryParameters) (*Response[any], error) {
 	return Call(o, "get", streamType, "forkids", nil, parameters, Response[any]{})
 }
 
 // Performs a regular Query on all Items. The "order" Parameters are ignored,
-// if querymode is set to "fulltext".
+// if query-mode is set to "fulltext".
 func (o Omnia) ByQuery(streamType enums.StreamType, query string, parameters params.QueryParameters) (*Response[MediaResult], error) {
 	rsl, err := Call(o, "get", streamType, "byquery", []string{query}, parameters, Response[MediaResult]{})
 	if err != nil {
@@ -205,17 +205,17 @@ func (o Omnia) Reject(
 
 // Logs parameters of API call.
 func (o Omnia) debugLog(method string, url string, header omniaHeader, parameters string) {
-	log.Debugf("METHOD:\t%s", method)
-	log.Debugf("URL:\t\t%s", url)
-	log.Debugf("HEADER:\t%+v", header)
+	logrus.Debugf("METHOD:\t%s", method)
+	logrus.Debugf("URL:\t\t%s", url)
+	logrus.Debugf("HEADER:\t%+v", header)
 	if parameters != "" {
-		log.Debugf("URL PARAMS:\t%+v", parameters)
+		logrus.Debugf("URL PARAMS:\t%+v", parameters)
 	} else {
-		log.Debug("URL PARAMS:\t{}")
+		logrus.Debug("URL PARAMS:\t{}")
 	}
 }
 
-// Lists all ediatble attributes for a given stream type.
+// Lists all editable attributes for a given stream type.
 func (o Omnia) EditableAttributes(streamType enums.StreamType) (*Response[EditableAttributesResponse], error) {
 	rsl, err := SystemCall(o, "get", "editableattributesfor", []string{string(streamType)}, Response[EditableAttributesResponse]{})
 	if err != nil {
@@ -327,19 +327,19 @@ func universalCall[T any](
 	if err != nil {
 		return nil, err
 	}
-	log.Trace(string(body))
+	logrus.Trace(string(body))
 	err = json.Unmarshal(body, &response)
 	if err != nil {
 		return nil, err
 	}
-	log.WithFields(response.Metadata.toMap()).Debug("Response Metadata")
+	logrus.WithFields(response.Metadata.toMap()).Debug("Response Metadata")
 	if response.Paging != nil {
-		log.WithFields(response.Paging.toMap()).Debug("Response Paging")
+		logrus.WithFields(response.Paging.toMap()).Debug("Response Paging")
 	}
 	if response.Metadata.Status != 200 {
 		return &response, fmt.Errorf("call failed on server side with status code %d, %s", response.Metadata.Status, *response.Metadata.ErrorHint)
 	}
-	log.Trace(response.Result)
+	logrus.Trace(response.Result)
 	return &response, nil
 }
 
