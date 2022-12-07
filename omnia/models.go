@@ -3,6 +3,8 @@ package omnia
 import (
 	"encoding/json"
 
+	"github.com/alex-berlin-tv/nexx_omnia_go/enum"
+	"github.com/alex-berlin-tv/nexx_omnia_go/types"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -68,22 +70,22 @@ type MediaResultItem struct {
 }
 
 type MediaResultGeneral struct {
-	Id                       int    `json:"ID"`
-	Gid                      int    `json:"GID"`
-	Hash                     string `json:"hash"`
-	Title                    string `json:"title"`
-	Subtitle                 string `json:"subtitle"`
-	GenreRaw                 string `json:"genre_raw"`
-	Genre                    string `json:"genre"`
-	ContentModerationAspects string `json:"contentModerationAspects"`
-	Uploaded                 int    `json:"uploaded"`
-	Created                  int    `json:"created"`
-	AudioType                string `json:"audiotype"`
-	Runtime                  string `json:"runtime"`
-	IsPicked                 int    `json:"isPicked"`
-	ForKids                  int    `json:"forKids"`
-	IsPay                    int    `json:"isPay"`
-	IsUgc                    int    `json:"isUGC"`
+	Id                       int          `json:"ID"`
+	Gid                      int          `json:"GID"`
+	Hash                     string       `json:"hash"`
+	Title                    string       `json:"title"`
+	Subtitle                 string       `json:"subtitle"`
+	GenreRaw                 string       `json:"genre_raw"`
+	Genre                    string       `json:"genre"`
+	ContentModerationAspects string       `json:"contentModerationAspects"`
+	Uploaded                 types.UnixTS `json:"uploaded"`
+	Created                  types.UnixTS `json:"created"`
+	AudioType                string       `json:"audiotype"`
+	Runtime                  string       `json:"runtime"`
+	IsPicked                 enum.Bool    `json:"isPicked"`
+	ForKids                  enum.Bool    `json:"forKids"`
+	IsPay                    enum.Bool    `json:"isPay"`
+	IsUgc                    enum.Bool    `json:"isUGC"`
 }
 
 type MediaResultImageData struct {
