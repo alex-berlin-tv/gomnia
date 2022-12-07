@@ -75,18 +75,18 @@ func OmniaFromFile(path string) Omnia {
 }
 
 // Return a item of a given streamtype by it's id.
-func (o Omnia) ById(streamType enums.StreamType, id int, parameters params.QueryParameters) (*Response[any], error) {
-	return Call(o, "get", streamType, "byid", []string{strconv.Itoa(id)}, parameters, Response[any]{})
+func (o Omnia) ById(streamType enums.StreamType, id int, parameters params.QueryParameters) (*Response[MediaResultItem], error) {
+	return Call(o, "get", streamType, "byid", []string{strconv.Itoa(id)}, parameters, Response[MediaResultItem]{})
 }
 
 // Return a item of a given streamtype by it's global id.
-func (o Omnia) ByGlobalId(streamType enums.StreamType, globalId int, parameters params.QueryParameters) (*Response[any], error) {
-	return Call(o, "get", streamType, "byglobalid", []string{strconv.Itoa(globalId)}, parameters, Response[any]{})
+func (o Omnia) ByGlobalId(streamType enums.StreamType, globalId int, parameters params.QueryParameters) (*Response[MediaResultItem], error) {
+	return Call(o, "get", streamType, "byglobalid", []string{strconv.Itoa(globalId)}, parameters, Response[MediaResultItem]{})
 }
 
 // Return a item of a given streamtype by it's hash.
-func (o Omnia) ByHash(streamType enums.StreamType, hash string, parameters params.QueryParameters) (*Response[any], error) {
-	return Call(o, "get", streamType, "byhash", []string{hash}, parameters, Response[any]{})
+func (o Omnia) ByHash(streamType enums.StreamType, hash string, parameters params.QueryParameters) (*Response[MediaResultItem], error) {
+	return Call(o, "get", streamType, "byhash", []string{hash}, parameters, Response[MediaResultItem]{})
 }
 
 // Return a item of a given streamtype by it's reference number.
@@ -201,20 +201,6 @@ func (o Omnia) Reject(
 	parameters params.Reject,
 ) (*Response[any], error) {
 	return ManagementCall(o, "post", streamType, "reject", []string{strconv.Itoa(id)}, parameters, Response[any]{})
-}
-
-// Logs parameters of API call.
-func (o Omnia) debugLog(method string, url string, header omniaHeader, parameters string) {
-	var paramStr string
-	if parameters != "" {
-		paramStr = fmt.Sprintf("%+v", parameters)
-	}
-	logrus.WithFields(logrus.Fields{
-		"method": method,
-		"url":    url,
-		"header": fmt.Sprintf("%+v", header),
-		"params": paramStr,
-	}).Debug("send request to Omnia")
 }
 
 // Lists all editable attributes for a given stream type.
@@ -343,6 +329,20 @@ func universalCall[T any](
 	}
 	logrus.Trace(response.Result)
 	return &response, nil
+}
+
+// Logs parameters of API call.
+func (o Omnia) debugLog(method string, url string, header omniaHeader, parameters string) {
+	var paramStr string
+	if parameters != "" {
+		paramStr = fmt.Sprintf("%+v", parameters)
+	}
+	logrus.WithFields(logrus.Fields{
+		"method": method,
+		"url":    url,
+		"header": fmt.Sprintf("%+v", header),
+		"params": paramStr,
+	}).Debug("send request to Omnia")
 }
 
 // Formats an error message from an Omnia response.
