@@ -53,7 +53,7 @@ type Omnia struct {
 }
 
 // Returns a new Omnia instance.
-func NewOmnia(domainId string, apiSecret string, sessionId string) Omnia {
+func NewClient(domainId string, apiSecret string, sessionId string) Omnia {
 	return Omnia{
 		DomainId:  domainId,
 		ApiSecret: apiSecret,
