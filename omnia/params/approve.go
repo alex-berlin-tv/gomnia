@@ -1,7 +1,7 @@
 package params
 
 import (
-	"github.com/alex-berlin-tv/nexx_omnia_go/omnia/enums"
+	"github.com/alex-berlin-tv/nexx_omnia_go/enum"
 	"github.com/pasztorpisti/qs"
 )
 
@@ -15,7 +15,7 @@ type Approve struct {
 	// A free Text as Reason
 	Reason string `qs:"reason,omitempty"`
 	// Restrict the Item to a dedicated Age Class
-	RestrictToAge enums.AgeRestriction `qs:"restictToAge,omitempty"`
+	RestrictToAge enum.AgeRestriction `qs:"restictToAge,omitempty"`
 	// Flag the Item with certain Warning
 	ContentModerationAspects string `qs:"contentModerationAspects,omitempty"`
 }

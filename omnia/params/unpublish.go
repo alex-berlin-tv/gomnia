@@ -1,7 +1,7 @@
 package params
 
 import (
-	"github.com/alex-berlin-tv/nexx_omnia_go/omnia/enums"
+	"github.com/alex-berlin-tv/nexx_omnia_go/enum"
 	"github.com/pasztorpisti/qs"
 )
 
@@ -11,7 +11,7 @@ import (
 type Unpublish struct {
 	// If set to 1, any call to the /publish method will fail, unless the
 	// /unblock Endpoint has been called.
-	BlockFuturePublishing enums.Bool `qs:"blockFuturePublishing,omitempty"`
+	BlockFuturePublishing enum.Bool `qs:"blockFuturePublishing,omitempty"`
 }
 
 func (u Unpublish) UrlEncode(extra map[string]interface{}) (string, error) {

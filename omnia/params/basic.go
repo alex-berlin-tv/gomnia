@@ -1,7 +1,7 @@
 package params
 
 import (
-	"github.com/alex-berlin-tv/nexx_omnia_go/omnia/enums"
+	"github.com/alex-berlin-tv/nexx_omnia_go/enum"
 	"github.com/pasztorpisti/qs"
 )
 
@@ -12,16 +12,16 @@ import (
 type Basic struct {
 	// If set to [YesBool], the API will disable Cached Results (which will
 	// take longer, so only use this Parameter, if absolutely necessary).
-	NoCache enums.Bool `qs:"noc,omitempty"`
+	NoCache enum.Bool `qs:"noc,omitempty"`
 	// A custom Reference. It will be returned in the API Response Object for
 	// further Processing by the calling Domain
 	CustomReference string `qs:",omitempty"`
 	// Will return Image Assets as WebP or AVIF, if possible or Classic (jpg/png/gif).
-	ImageFormat enums.ImageFormat `qs:"imageFormat,omitempty"`
+	ImageFormat enum.ImageFormat `qs:"imageFormat,omitempty"`
 	// Preprocesses Rich-Text Parts of all Result Elemtns – can be combined with.
 	// The API will also accept a Combination of Values, combined by "," (currently
 	// not supported by this library). Example: `d.m.Y`.
-	RichTextFormat enums.RichTextFormat `qs:"richTextFormat,omitempty"`
+	RichTextFormat enum.RichTextFormat `qs:"richTextFormat,omitempty"`
 	// A valid Date Format to pre-format Date Values (which come as Unix
 	// Timestamps by default)
 	DateFormat string `qs:"dateFormat,omitempty"`
@@ -29,20 +29,20 @@ type Basic struct {
 	// Timezone is desired, use this Parameter. Example: `Europe/Berlin`.
 	DateFormatTimezone string `qs:"dateFormatTimezone,omitempty"`
 	// Distances (for example in Geo Searches) will be returned in this Unit.
-	DistanceUnit enums.DistanceUnit `qs:"distanceUnit,omitempty"`
+	DistanceUnit enum.DistanceUnit `qs:"distanceUnit,omitempty"`
 	// Temperatures (for example in Weather Requests) will be returned in this Unit.
-	TemperatureUnit enums.TemperatureUnit `qs:"temperatureUnit,omitempty"`
+	TemperatureUnit enum.TemperatureUnit `qs:"temperatureUnit,omitempty"`
 	// If set to [YesBool], the API will include AspectRatio and Low-Res Cover
 	// DataURIs for each returned Media Item Cover (which results in far more
 	// transferred Data).
-	ExtendCoverGeometry enums.Bool `qs:"extendCoverGeometry,omitempty"`
+	ExtendCoverGeometry enum.Bool `qs:"extendCoverGeometry,omitempty"`
 	// For Item or Item List Calls, add those Item Attributes to each Item Result
 	// Object. List of attributes or `all`.
 	AdditionalFields []string `qs:"additionalFields,omitempty"`
 	// In a Frontend Call, the Item Set will be automatically reduced to those
 	// Items, that are  available for the current Frontend Gateway. If this is
 	// not desired, this can be overwritten with this Parameter.
-	ForceGateway enums.Gateway `qs:"forceGateway,omitempty"`
+	ForceGateway enum.Gateway `qs:"forceGateway,omitempty"`
 	// In a Frontend Call for a Domain, that supports multiple Language, the
 	// Text Attributes of each Item will automatically be returned in the current
 	// Session Language. If not desired, this can overwritten with this Parameter
@@ -58,7 +58,7 @@ type Basic struct {
 	// for all Network-Mode controlled Domains in this Network are returned. If only
 	// the "real" Elements of the calling Domain are desired, use this Parameter
 	// with 1.
-	RestrictToCurrentDomain enums.Bool `qs:"restrictToCurrentDomain,omitempty"`
+	RestrictToCurrentDomain enum.Bool `qs:"restrictToCurrentDomain,omitempty"`
 	// If the calling Domain belongs to a network, by default, all valid Elements
 	// for all Network-Mode controlled Domains in this Network are returned. If only
 	// the Elements of a Child Domain of the calling Domain are desired (and the
@@ -71,7 +71,7 @@ type Basic struct {
 	// via API/nexxOMNIA).
 	OrderBy string `qs:"orderBy,omitempty"`
 	// The order direction.
-	OrderDirection enums.OrderDirection `qs:"oderDir,omitempty"`
+	OrderDirection enum.OrderDirection `qs:"oderDir,omitempty"`
 	// The Result Set will start at this Item Number.
 	Start int `qs:"start,omitempty"`
 	// The maximal Size of the Result Set. Has to be between 1 and 100.
@@ -82,11 +82,11 @@ type Basic struct {
 	// Add an Object of Publishing States and Restrictions to each Item. When adding
 	// this Output Modifier, it is possible (and that’s he only accepted way) to
 	// query for inactive/unpublished Objects.
-	AddPublishingDetails enums.Bool `qs:"addPublishingDetails,omitempty"`
+	AddPublishingDetails enum.Bool `qs:"addPublishingDetails,omitempty"`
 	// Add technical Details about Origin, Delivery and CDN Locations to each Item.
-	AddStreamDetails enums.Bool `qs:"addStreamDetails,omitempty"`
+	AddStreamDetails enum.Bool `qs:"addStreamDetails,omitempty"`
 	// Add statistical Data to each Result Set Item.
-	AddStatistics enums.Bool `qs:"addStatistics,omitempty"`
+	AddStatistics enum.Bool `qs:"addStatistics,omitempty"`
 }
 
 func (b Basic) UrlEncode(extra map[string]interface{}) (string, error) {

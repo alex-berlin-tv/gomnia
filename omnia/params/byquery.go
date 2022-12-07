@@ -1,7 +1,7 @@
 package params
 
 import (
-	"github.com/alex-berlin-tv/nexx_omnia_go/omnia/enums"
+	"github.com/alex-berlin-tv/nexx_omnia_go/enum"
 	"github.com/pasztorpisti/qs"
 )
 
@@ -12,7 +12,7 @@ type ByQuery struct {
 	Basic
 	// Defines the Way, the Query is executed. Fore more results, "classicwithor"
 	// is optimal. For a Lucene Search with Relevance, use "fulltext".
-	QueryMode enums.QueryMode `qs:"queryMode,omitempty"`
+	QueryMode enum.QueryMode `qs:"queryMode,omitempty"`
 	// A comma seperated List of Attributes, to search within. If omitted, the
 	// Search will use all available Text Attributes.
 	QueryFields []string `qs:"queryFields,omitempty"`
