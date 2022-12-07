@@ -14,6 +14,6 @@ type Unpublish struct {
 	BlockFuturePublishing enum.Bool `qs:"blockFuturePublishing,omitempty"`
 }
 
-func (u Unpublish) UrlEncode(extra map[string]interface{}) (string, error) {
+func (u Unpublish) UrlEncode() (string, error) {
 	return qs.Marshal(&u)
 }

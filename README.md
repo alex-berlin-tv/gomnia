@@ -1,8 +1,8 @@
+# go nexxOMNIA API
+
 <p align="center">
   <img src="misc/logo.png" height="100px"/>
 </p>
-
-# go nexxOMNIA API
 
 Partial API Implementation for nexxOMNIA. This library is published as it is with no guarantee for support and/or bugfixes.
 
@@ -21,7 +21,7 @@ In Omnia go to »Domains« and open the info panel of your Domain. There you wil
 | API Secret             | `<API_SECRET>` |
 | Management API Session | `<DOMAIN_ID>`  |
 
-![Location of the fields in the domain information](misc/key_source.png)
+![Location of the fields in the domain information, see table above](misc/key_source.png)
 
 ```go
 client := omnia.NewClient("<DOMAIN_ID>", "<API_SECRET>", "<SESSION_ID>")
