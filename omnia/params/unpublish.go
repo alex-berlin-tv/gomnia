@@ -5,7 +5,7 @@ import (
 	"github.com/pasztorpisti/qs"
 )
 
-// Parameters for the unpublish ManagementAPI call. The documentation can be found [here].
+// Parameters for the un-publish ManagementAPI call. The documentation can be found [here].
 //
 // [here]: https://api.docs.nexx.cloud/management-api/endpoints/management-endpoint#unpublish
 type Unpublish struct {

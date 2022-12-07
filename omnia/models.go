@@ -16,7 +16,7 @@ type ResponseMetadata struct {
 	Verb string `json:"verb"` // OK
 	// Internal Duration, needed to create the response.
 	ProcessingTime float64 `json:"processingtime"` // OK
-	// The called Endoint and Parameter.
+	// The called Endpoint and Parameter.
 	CalledWith *string `json:"calledwith,omitempty"`
 	// The `cfo` Parameter from the API Call.
 	CalledFor *string `json:"calledfor,omitempty"`

@@ -2,6 +2,8 @@ package notification
 
 import (
 	"encoding/json"
+
+	"github.com/alex-berlin-tv/nexx_omnia_go/types"
 )
 
 // A notification based on an event within omnia.
@@ -25,13 +27,13 @@ type Trigger struct {
 	// The »reason« for this trigger.
 	Event string `json:"event"`
 	// The user ID, that changed the media item (or 0, if created by nexxOMNIA).
-	User StringOrZero `json:"user"`
+	User types.StringOrZero `json:"user"`
 	// The Session ID, that changed the Media Item (or 0, if created by nexxOMNIA).
-	Session StringOrZero `json:"session"`
+	Session types.StringOrZero `json:"session"`
 	// The Timestamp of the Change.
-	Created UnixTS `json:"created"`
+	Created types.UnixTS `json:"created"`
 	// The Timestamp of the Trigger Processing.
-	Sent UnixTS `json:"sent"`
+	Sent types.UnixTS `json:"sent"`
 	// The computed Secret for Comparison (if enabled).
 	Secret string `json:"secret,omitempty"`
 }
@@ -63,16 +65,16 @@ type Data struct {
 
 // Part of the `Data` struct. Based on real world data and not on any documentation.
 type GeneralData struct {
-	ID          int    `json:"ID"`
-	GID         int    `json:"GID"`
-	Hash        string `json:"hash"`
-	Title       string `json:"title"`
-	SubTitle    string `json:"subtitle"`
-	GenreRaw    string `json:"genre_raw"`
-	Uploaded    UnixTS `json:"uploaded"`
-	Created     UnixTS `json:"created"`
-	Description string `json:"description"`
-	RefNr       string `json:"refnr"`
+	ID          int          `json:"ID"`
+	GID         int          `json:"GID"`
+	Hash        string       `json:"hash"`
+	Title       string       `json:"title"`
+	SubTitle    string       `json:"subtitle"`
+	GenreRaw    string       `json:"genre_raw"`
+	Uploaded    types.UnixTS `json:"uploaded"`
+	Created     types.UnixTS `json:"created"`
+	Description string       `json:"description"`
+	RefNr       string       `json:"refnr"`
 }
 
 // Part of the `Data` struct. Based on real world data and not on any documentation.
