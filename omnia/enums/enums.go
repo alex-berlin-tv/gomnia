@@ -1,5 +1,7 @@
 package enums
 
+import "github.com/alex-berlin-tv/nexx_omnia_go/enum"
+
 // A boolean value is expressed as a 0 for `false` and 1 for `true`.
 // String is used as type as it's not possible to nil integer values
 // (which is needed in order to omit unset parameters as the query parameter).
@@ -16,6 +18,12 @@ func (b Bool) Instances() []Bool {
 		NoBool,
 		YesBool,
 	}
+}
+
+func (b *Bool) UnmarshalJSON(data []byte) (err error) {
+	value, err := enum.EnumByByteValue[Bool](YesBool, data)
+	*(*Bool)(b) = *value
+	return err
 }
 
 // Used to state the desired image format of a requested image.
@@ -35,6 +43,12 @@ func (i ImageFormat) Instances() []ImageFormat {
 		AvifImageFormat,
 		ClassicImageFormat,
 	}
+}
+
+func (i *ImageFormat) UnmarshalJSON(data []byte) (err error) {
+	value, err := enum.EnumByByteValue[ImageFormat](WebpImageFormat, data)
+	*(*ImageFormat)(i) = *value
+	return err
 }
 
 // Possible rich text formats.
@@ -57,6 +71,12 @@ func (i RichTextFormat) Instances() []RichTextFormat {
 	}
 }
 
+func (i *RichTextFormat) UnmarshalJSON(data []byte) (err error) {
+	value, err := enum.EnumByByteValue[RichTextFormat](PlainFormat, data)
+	*(*RichTextFormat)(i) = *value
+	return err
+}
+
 // Metric or imperial distance units.
 type DistanceUnit string
 
@@ -73,6 +93,12 @@ func (i DistanceUnit) Instances() []DistanceUnit {
 	}
 }
 
+func (i *DistanceUnit) UnmarshalJSON(data []byte) (err error) {
+	value, err := enum.EnumByByteValue[DistanceUnit](MetricUnit, data)
+	*(*DistanceUnit)(i) = *value
+	return err
+}
+
 // Metric or imperial temperature units.
 type TemperatureUnit string
 
@@ -87,6 +113,12 @@ func (i TemperatureUnit) Instances() []TemperatureUnit {
 		CelsiusUnit,
 		FahrenheitUnit,
 	}
+}
+
+func (i *TemperatureUnit) UnmarshalJSON(data []byte) (err error) {
+	value, err := enum.EnumByByteValue[TemperatureUnit](CelsiusUnit, data)
+	*(*TemperatureUnit)(i) = *value
+	return err
 }
 
 // Used in conjunction with [QueryParameters.ForceGateway].
@@ -111,6 +143,12 @@ func (i Gateway) Instances() []Gateway {
 	}
 }
 
+func (i *Gateway) UnmarshalJSON(data []byte) (err error) {
+	value, err := enum.EnumByByteValue[Gateway](AllGateway, data)
+	*(*Gateway)(i) = *value
+	return err
+}
+
 // Direction of ordering elements.
 type OrderDirection string
 
@@ -125,6 +163,12 @@ func (i OrderDirection) Instances() []OrderDirection {
 		AscendingOrder,
 		DescendingOrder,
 	}
+}
+
+func (i *OrderDirection) UnmarshalJSON(data []byte) (err error) {
+	value, err := enum.EnumByByteValue[OrderDirection](AscendingOrder, data)
+	*(*OrderDirection)(i) = *value
+	return err
 }
 
 // Different streamtypes used in the API call.
@@ -143,6 +187,12 @@ func (i StreamType) Instances() []StreamType {
 		AudioStreamType,
 		ShowStreamType,
 	}
+}
+
+func (i *StreamType) UnmarshalJSON(data []byte) (err error) {
+	value, err := enum.EnumByByteValue[StreamType](VideoStreamType, data)
+	*(*StreamType)(i) = *value
+	return err
 }
 
 // Content type of media items.
@@ -169,6 +219,12 @@ func (i ContentType) Instances() []ContentType {
 	}
 }
 
+func (i *ContentType) UnmarshalJSON(data []byte) (err error) {
+	value, err := enum.EnumByByteValue[ContentType](VideoContentType, data)
+	*(*ContentType)(i) = *value
+	return err
+}
+
 // Age categories for age restrictions.
 type AgeRestriction string
 
@@ -191,6 +247,12 @@ func (i AgeRestriction) Instances() []AgeRestriction {
 	}
 }
 
+func (i *AgeRestriction) UnmarshalJSON(data []byte) (err error) {
+	value, err := enum.EnumByByteValue[AgeRestriction](AgeRestriction0, data)
+	*(*AgeRestriction)(i) = *value
+	return err
+}
+
 // Geometric dimension of a media file.
 type Dimension string
 
@@ -211,6 +273,12 @@ func (i Dimension) Instances() []Dimension {
 	}
 }
 
+func (i *Dimension) UnmarshalJSON(data []byte) (err error) {
+	value, err := enum.EnumByByteValue[Dimension](HdDimension, data)
+	*(*Dimension)(i) = *value
+	return err
+}
+
 // Media orientation.
 type Orientation string
 
@@ -225,6 +293,12 @@ func (i Orientation) Instances() []Orientation {
 		PortraitOrientation,
 		LandscapeOrientation,
 	}
+}
+
+func (i *Orientation) UnmarshalJSON(data []byte) (err error) {
+	value, err := enum.EnumByByteValue[Orientation](PortraitOrientation, data)
+	*(*Orientation)(i) = *value
+	return err
 }
 
 // Output modifier used to define the detail level.
@@ -245,6 +319,12 @@ func (i OutputModifier) Instances() []OutputModifier {
 		IdOutputModifier,
 		GidOutputModifier,
 	}
+}
+
+func (i *OutputModifier) UnmarshalJSON(data []byte) (err error) {
+	value, err := enum.EnumByByteValue[OutputModifier](FullOutputModifier, data)
+	*(*OutputModifier)(i) = *value
+	return err
 }
 
 // Method for the auto fill method of the API.
@@ -271,6 +351,12 @@ func (i AutoFill) Instances() []AutoFill {
 	}
 }
 
+func (i *AutoFill) UnmarshalJSON(data []byte) (err error) {
+	value, err := enum.EnumByByteValue[AutoFill](RandomAutoFill, data)
+	*(*AutoFill)(i) = *value
+	return err
+}
+
 // Query modes.
 type QueryMode string
 
@@ -287,6 +373,12 @@ func (i QueryMode) Instances() []QueryMode {
 		ClassicWithOrQueryMode,
 		FulltextQueryMode,
 	}
+}
+
+func (i *QueryMode) UnmarshalJSON(data []byte) (err error) {
+	value, err := enum.EnumByByteValue[QueryMode](ClassicWithAndQueryMode, data)
+	*(*QueryMode)(i) = *value
+	return err
 }
 
 // Action after rejection of an item.
@@ -307,4 +399,10 @@ func (i ActionAfterRejection) Instances() []ActionAfterRejection {
 		BlockAfterRejection,
 		NewVersionAfterRejection,
 	}
+}
+
+func (i *ActionAfterRejection) UnmarshalJSON(data []byte) (err error) {
+	value, err := enum.EnumByByteValue[ActionAfterRejection](DeleteAfterRejection, data)
+	*(*ActionAfterRejection)(i) = *value
+	return err
 }
