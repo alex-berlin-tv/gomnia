@@ -6,8 +6,8 @@ package enums
 type Bool string
 
 const (
-	NoBool  Bool = "0"
-	YesBool      = "1"
+	NoBool  = Bool("0")
+	YesBool = Bool("1")
 )
 
 // All instances of the Bool enum.
@@ -22,10 +22,10 @@ func (b Bool) Instances() []Bool {
 type ImageFormat string
 
 const (
-	WebpImageFormat ImageFormat = "webp"
-	AvifImageFormat             = "avif"
+	WebpImageFormat = ImageFormat("webp")
+	AvifImageFormat = ImageFormat("avif")
 	// Will return a jpg, png or gif.
-	ClassicImageFormat = "classic"
+	ClassicImageFormat = ImageFormat("classic")
 )
 
 // All instances of the ImageFormat enum.
@@ -41,10 +41,10 @@ func (i ImageFormat) Instances() []ImageFormat {
 type RichTextFormat string
 
 const (
-	PlainFormat      RichTextFormat = "plain"
-	CoverLinksFormat                = "converlinks"
-	HtmlFormat                      = "html"
-	XmlStrictFormat                 = "xmlstrict"
+	PlainFormat      = RichTextFormat("plain")
+	CoverLinksFormat = RichTextFormat("converlinks")
+	HtmlFormat       = RichTextFormat("html")
+	XmlStrictFormat  = RichTextFormat("xmlstrict")
 )
 
 // All instances of the RichTextFormat enum.
@@ -61,8 +61,8 @@ func (i RichTextFormat) Instances() []RichTextFormat {
 type DistanceUnit string
 
 const (
-	MetricUnit   DistanceUnit = "metric"
-	ImperialUnit              = "imperial"
+	MetricUnit   = DistanceUnit("metric")
+	ImperialUnit = DistanceUnit("imperial")
 )
 
 // All instances of the DistanceUnit enum.
@@ -77,27 +77,27 @@ func (i DistanceUnit) Instances() []DistanceUnit {
 type TemperatureUnit string
 
 const (
-	CelisusUnit    TemperatureUnit = "celsius"
-	FahrenheitUnit                 = "fahrenheit"
+	CelsiusUnit    = TemperatureUnit("celsius")
+	FahrenheitUnit = TemperatureUnit("fahrenheit")
 )
 
 // All instances of the TemperatureUnit enum.
 func (i TemperatureUnit) Instances() []TemperatureUnit {
 	return []TemperatureUnit{
-		CelisusUnit,
+		CelsiusUnit,
 		FahrenheitUnit,
 	}
 }
 
-// Used in conjection with [QueryParameters.ForceGateway].
+// Used in conjunction with [QueryParameters.ForceGateway].
 type Gateway string
 
 const (
-	AllGateway     Gateway = "all"
-	DesktopGateway         = "desktop"
-	MobileGateway          = "mobile"
-	SmartTvGateway         = "smarttv"
-	CarGateway             = "car"
+	AllGateway     = Gateway("all")
+	DesktopGateway = Gateway("desktop")
+	MobileGateway  = Gateway("mobile")
+	SmartTvGateway = Gateway("smarttv")
+	CarGateway     = Gateway("car")
 )
 
 // All instances of the Gateway enum.
@@ -115,8 +115,8 @@ func (i Gateway) Instances() []Gateway {
 type OrderDirection string
 
 const (
-	AscendingOrder  OrderDirection = "ASC"
-	DescendingOrder                = "DESC"
+	AscendingOrder  = OrderDirection("ASC")
+	DescendingOrder = OrderDirection("DESC")
 )
 
 // All instances of the OrderDirection enum.
@@ -149,12 +149,12 @@ func (i StreamType) Instances() []StreamType {
 type ContentType string
 
 const (
-	VideoContentType   ContentType = "video"
-	ComicContentType               = "comic"
-	CgiContentType                 = "cgi"
-	FotoContentType                = "foto"
-	DrawingContentType             = "drawing"
-	ClipartContentType             = "clipart"
+	VideoContentType   = ContentType("video")
+	ComicContentType   = ContentType("comic")
+	CgiContentType     = ContentType("cgi")
+	FotoContentType    = ContentType("foto")
+	DrawingContentType = ContentType("drawing")
+	ClipartContentType = ContentType("clipart")
 )
 
 // All instances of the ContentType enum.
@@ -173,11 +173,11 @@ func (i ContentType) Instances() []ContentType {
 type AgeRestriction string
 
 const (
-	AgeRestriction0  AgeRestriction = "0"
-	AgeRestriction6                 = "6"
-	AgeRestriction12                = "12"
-	AgeRestriction16                = "16"
-	AgeRestriction18                = "18"
+	AgeRestriction0  = AgeRestriction("0")
+	AgeRestriction6  = AgeRestriction("6")
+	AgeRestriction12 = AgeRestriction("12")
+	AgeRestriction16 = AgeRestriction("16")
+	AgeRestriction18 = AgeRestriction("18")
 )
 
 // All instances of the AgeRestriction enum.
@@ -195,10 +195,10 @@ func (i AgeRestriction) Instances() []AgeRestriction {
 type Dimension string
 
 const (
-	HdDimension     Dimension = "hd"
-	FullHdDimension           = "fullhd"
-	I2kDimension              = "2K"
-	I4kDimension              = "4K"
+	HdDimension     = Dimension("hd")
+	FullHdDimension = Dimension("fullhd")
+	I2kDimension    = Dimension("2K")
+	I4kDimension    = Dimension("4K")
 )
 
 // All instances of the Dimension enum.
@@ -215,8 +215,8 @@ func (i Dimension) Instances() []Dimension {
 type Orientation string
 
 const (
-	PortraitOrientation  Orientation = "portrait"
-	LandscapeOrientation             = "landscape"
+	PortraitOrientation  = Orientation("portrait")
+	LandscapeOrientation = Orientation("landscape")
 )
 
 // All instances of the Orientation enum.
@@ -227,14 +227,14 @@ func (i Orientation) Instances() []Orientation {
 	}
 }
 
-// Ouptut modifier used to define the detail level.
+// Output modifier used to define the detail level.
 type OutputModifier string
 
 const (
-	FullOutputModifier    OutputModifier = "full"
-	DefaultOutputModifier                = "default"
-	IdOutputModifier                     = "ID"
-	GidOutputModifier                    = "GID"
+	FullOutputModifier    = OutputModifier("full")
+	DefaultOutputModifier = OutputModifier("default")
+	IdOutputModifier      = OutputModifier("ID")
+	GidOutputModifier     = OutputModifier("GID")
 )
 
 // All instances of the OutputModifier enum.
@@ -251,12 +251,12 @@ func (i OutputModifier) Instances() []OutputModifier {
 type AutoFill string
 
 const (
-	RandomAutoFill    AutoFill = "random"
-	LatestAutoFill             = "latest"
-	TopItemsAutoFill           = "topitems"
-	TopItemsExternal           = "topitemsexternal"
-	ForkIdsAutoFill            = "forkids"
-	EvergreenAutoFill          = "evergreen"
+	RandomAutoFill    = AutoFill("random")
+	LatestAutoFill    = AutoFill("latest")
+	TopItemsAutoFill  = AutoFill("topitems")
+	TopItemsExternal  = AutoFill("topitemsexternal")
+	ForkIdsAutoFill   = AutoFill("forkids")
+	EvergreenAutoFill = AutoFill("evergreen")
 )
 
 // All instances of the AutoFill enum.
@@ -275,9 +275,9 @@ func (i AutoFill) Instances() []AutoFill {
 type QueryMode string
 
 const (
-	ClassicWithAndQueryMode QueryMode = "classicwithand"
-	ClassicWithOrQueryMode  QueryMode = "classicwithor"
-	FulltextQueryMode       QueryMode = "fulltext"
+	ClassicWithAndQueryMode = QueryMode("classicwithand")
+	ClassicWithOrQueryMode  = QueryMode("classicwithor")
+	FulltextQueryMode       = QueryMode("fulltext")
 )
 
 // All instances of the QueryMode enum.
@@ -293,10 +293,10 @@ func (i QueryMode) Instances() []QueryMode {
 type ActionAfterRejection string
 
 const (
-	DeleteAfterRejection     ActionAfterRejection = "delete"
-	ArchiveAfterRejection    ActionAfterRejection = "archive"
-	BlockAfterRejection      ActionAfterRejection = "block"
-	NewVersionAfterRejection ActionAfterRejection = "newversion"
+	DeleteAfterRejection     = ActionAfterRejection("delete")
+	ArchiveAfterRejection    = ActionAfterRejection("archive")
+	BlockAfterRejection      = ActionAfterRejection("block")
+	NewVersionAfterRejection = ActionAfterRejection("newversion")
 )
 
 // All instances of the ActionAfterRejection enum.
