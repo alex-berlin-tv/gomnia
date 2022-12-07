@@ -24,7 +24,9 @@ type apiType int
 const (
 	mediaApiType apiType = iota
 	managementApiType
+	uploadLinkManagementApiType
 	systemApiType
+	domainApiType
 )
 
 const omniaHeaderXRequestCid = "X-Request-CID"
@@ -203,6 +205,18 @@ func (o Omnia) Reject(
 	return ManagementCall(o, "post", streamType, "reject", []string{strconv.Itoa(id)}, parameters, Response[any]{})
 }
 
+// Adds a new UploadLink. UploadsLinks are dynamic URLs, that allow external Users to
+// upload Files to a specific nexxOMNIA Account. Uses the Management API. Documentation
+// can be found [here].
+//
+// [here]: https://api.docs.nexx.cloud/management-api/endpoints/domain-management#uploadlinks
+func (o Omnia) AddUploadLink(parameters params.UploadLink) (*Response[any], error) {
+	if err := parameters.Validate(); err != nil {
+		return nil, fmt.Errorf("invalid parameters given for AddUploadLink, %s", err)
+	}
+	return universalCall(o, http.MethodPost, enum.VideoStreamType, uploadLinkManagementApiType, "add", nil, parameters, Response[any]{})
+}
+
 // Lists all editable attributes for a given stream type.
 func (o Omnia) EditableAttributes(streamType enum.StreamType) (*Response[EditableAttributesResponse], error) {
 	rsl, err := SystemCall(o, "get", "editableattributesfor", []string{string(streamType)}, Response[EditableAttributesResponse]{})
@@ -211,19 +225,6 @@ func (o Omnia) EditableAttributes(streamType enum.StreamType) (*Response[Editabl
 	}
 	// return nil, fmt.Errorf("wrong type, should be EditableAttributesResponse but is %T", rsl)
 	return rsl, nil
-}
-
-// Generic call to the Omnia management API.
-func ManagementCall[T any](
-	o Omnia,
-	method string,
-	streamType enum.StreamType,
-	operation string,
-	args []string,
-	parameters params.QueryParameters,
-	response Response[T],
-) (*Response[T], error) {
-	return universalCall(o, method, streamType, managementApiType, operation, args, parameters, response)
 }
 
 // Generic call to the Omnia Media API. Won't work with the management API's.
@@ -237,6 +238,19 @@ func Call[T any](
 	response Response[T],
 ) (*Response[T], error) {
 	return universalCall(o, method, streamType, mediaApiType, operation, args, parameters, response)
+}
+
+// Generic call to the Omnia management API.
+func ManagementCall[T any](
+	o Omnia,
+	method string,
+	streamType enum.StreamType,
+	operation string,
+	args []string,
+	parameters params.QueryParameters,
+	response Response[T],
+) (*Response[T], error) {
+	return universalCall(o, method, streamType, managementApiType, operation, args, parameters, response)
 }
 
 // Generic call to the Omnia system API
@@ -277,6 +291,11 @@ func universalCall[T any](
 		reqUrl = fmt.Sprintf(
 			"https://api.nexx.cloud/v3.1/%s/manage/%s%s/%s",
 			o.DomainId, streamType, argsParts, operation,
+		)
+	case uploadLinkManagementApiType:
+		reqUrl = fmt.Sprintf(
+			"https://api.nexx.cloud/v3.1/%s/manage/uploadlinks/%s",
+			o.DomainId, operation,
 		)
 	case systemApiType:
 		reqUrl = fmt.Sprintf(
