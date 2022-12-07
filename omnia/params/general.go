@@ -18,7 +18,7 @@ type General struct {
 	// Restrict result set to items in this channel
 	Channel int `qs:"channel,omitempty"`
 	// If the target channel is a main channel, and the contents of its
-	// Subchannels shall also be included, set this Parameter to 1.
+	// Sub-channels shall also be included, set this Parameter to 1.
 	RespectChannelHierarchy enum.Bool `qs:"respectChannelHierarchy,omitempty"`
 	// Restrict result set to items in this format
 	Format int `qs:"format,omitempty"`
@@ -30,7 +30,7 @@ type General struct {
 	// Many media items have certain types to define their purpose.  if
 	// necessary, you can filter by this Enum.
 	ItemType string `qs:"type,omitempty"`
-	// Many media items have a certain contenttype that defines some
+	// Many media items have a certain content-type that defines some
 	// Characteristics.  If necessary, you can filter by this Enum.
 	ContentType enum.ContentType `qs:"contentType,omitempty"`
 	// Restricts the result to media from the given country
@@ -58,16 +58,16 @@ type General struct {
 	IncludeUGC enum.Bool `qs:"includeUGC,omitempty"`
 	// Restrict result set to items, uploaded by the community
 	OnlyUGC enum.Bool `qs:"onlyUGC,omitempty"`
-	// Also include files, that originate not by nexxomnia, but a partner
+	// Also include files, that originate not by Nexxomnia, but a partner
 	// Provider
 	IncludeRemote enum.Bool `qs:"includeRemote,omitempty"`
-	// Only include files, that originate not by nexxomnia, but a partner
+	// Only include files, that originate not by Nexxomnia, but a partner
 	// Provider
 	OnlyRemote enum.Bool `qs:"onlyRemote,omitempty"`
 	// Also include media items, that are marked as not listable.  this
-	// Parameter should be used only in very specific Usecases.
+	// Parameter should be used only in very specific use-cases.
 	IncludeNotListables enum.Bool `qs:"includeNotListables,omitempty"`
-	// Only valid for container calls with addchildmedia parameter.  this
+	// Only valid for container calls with 'addchildmedia' parameter.  this
 	// Parameter will add currently invalid Elements to the Child Listing.  To
 	// make this Parameter work, an active eternal Session must be used.
 	IncludeInvalidChildMedia enum.Bool `qs:"includeInvalidChildMedia,omitempty"`
@@ -82,28 +82,28 @@ type General struct {
 	// Restrict result set to items with payment attributes and standard payment
 	// Attributes
 	OnlyStandardPay enum.Bool `qs:"onlyStandardPay,omitempty"`
-	// Only possible if addpublishingdetails is active.  if set to 1, only
+	// Only possible if 'addpublishingdetails' is active.  if set to 1, only
 	// planned Elements will be returned.
 	OnlyPlanned enum.Bool `qs:"onlyPlanned,omitempty"`
-	// Only possible, if addpublishingdetails is active.  if set to 1, only
+	// Only possible, if ii'addpublishingdetails' is active.  if set to 1, only
 	// unpublished Elements will be returned.
 	OnlyInactive enum.Bool `qs:"onlyInactive,omitempty"`
 	// Restrict result set to items, that matches the given user (only valid for
-	// User-targeting Calls, that shall not match the currently loggedin User)
-	forUserID int `qs:"forUserID,omitempty"`
+	// User-targeting Calls, that shall not match the currently logged-in User)
+	ForUserID int `qs:"forUserID,omitempty"`
 	// If the api call wont find enough items, fill the result set with the
 	// given Method to the given Limit
 	AutoFillResults enum.AutoFill `qs:"autoFillResults,omitempty"`
-	// If the output modifier addconnectedmedia is used, this parameter defines
+	// If the output modifier 'addconnectedmedia' is used, this parameter defines
 	// the Detail Level for each connected Item.
 	ConnectedMediaDetails enum.OutputModifier `qs:"connectedMediaDetails,omitempty"`
-	// If the output modifier addcparentmedia is used, this parameter defines
+	// If the output modifier 'addcparentmedia' is used, this parameter defines
 	// the Detail Level for each parent Item.
 	ParentMediaDetails enum.OutputModifier `qs:"parentMediaDetails,omitempty"`
-	// If the output modifier addchildmedia is used, this parameter defines the
+	// If the output modifier 'addchildmedia' is used, this parameter defines the
 	// Detail Level for each Child Item
 	ChildMediaDetails enum.OutputModifier `qs:"childMediaDetails,omitempty"`
-	// If the output modifier addreferencingmedia is used, this parameter
+	// If the output modifier 'addreferencingmedia' is used, this parameter
 	// defines the Detail Level for each referencing Item.
 	ReferencingMediaDetails enum.OutputModifier `qs:"referencingMediaDetails,omitempty"`
 }

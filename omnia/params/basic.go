@@ -18,7 +18,7 @@ type Basic struct {
 	CustomReference string `qs:",omitempty"`
 	// Will return Image Assets as WebP or AVIF, if possible or Classic (jpg/png/gif).
 	ImageFormat enum.ImageFormat `qs:"imageFormat,omitempty"`
-	// Preprocesses Rich-Text Parts of all Result Elemtns – can be combined with.
+	// Reprocesses Rich-Text Parts of all result elements – can be combined with.
 	// The API will also accept a Combination of Values, combined by "," (currently
 	// not supported by this library). Example: `d.m.Y`.
 	RichTextFormat enum.RichTextFormat `qs:"richTextFormat,omitempty"`
@@ -65,9 +65,9 @@ type Basic struct {
 	// calling Domain is the Network Mother Domain), use this Parameter with the ID
 	// of that Child Domain.
 	RestrictToChildDomain int `qs:"restrictToChildDomain,omitempty"`
-	// Orders the Resultset by the given Attribute. If omitted, the Items will be
-	// ordered by date DESC (notice, that date in this case is notuploaded or
-	// created, but apiuploaded (i.e., a virtual Attribute, that can be rewritten
+	// Orders the Result set by the given Attribute. If omitted, the Items will be
+	// ordered by date DESC (notice, that date in this case is 'notuploaded' or
+	// created, but 'apiuploaded' (i.e., a virtual Attribute, that can be rewritten
 	// via API/nexxOMNIA).
 	OrderBy string `qs:"orderBy,omitempty"`
 	// The order direction.

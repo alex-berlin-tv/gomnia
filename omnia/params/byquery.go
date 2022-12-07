@@ -13,19 +13,19 @@ type ByQuery struct {
 	// Defines the Way, the Query is executed. Fore more results, "classicwithor"
 	// is optimal. For a Lucene Search with Relevance, use "fulltext".
 	QueryMode enum.QueryMode `qs:"queryMode,omitempty"`
-	// A comma seperated List of Attributes, to search within. If omitted, the
+	// A comma separated List of Attributes, to search within. If omitted, the
 	// Search will use all available Text Attributes.
 	QueryFields []string `qs:"queryFields,omitempty"`
-	// Skip Results with a Query Score lower than the given Value. Only usefull
-	// for querymode "fulltext".
+	// Skip Results with a Query Score lower than the given Value. Only useful
+	// for query-mode "fulltext".
 	MinimalQueryScore int `qs:"minimalQueryScore,omitempty"`
 	// By default, the Query will only return Results on  full Words. If also
-	// Substring Matches shall be returned, set this Parameter to 1. Only usefull,
-	// if querymode is not "fulltext".
+	// Substring Matches shall be returned, set this Parameter to 1. Only useful,
+	// if query-mode is not "fulltext".
 	IncludeSubstringMatches bool `qs:"includeSubstringMatches,omitempty"`
 	// By default, the Query will only return Results on full Words. If also
-	// Substring Matches shall be returned, set this Parameter to 1. Only usefull,
-	// if querymode is not "fulltext".
+	// Substring Matches shall be returned, set this Parameter to 1. Only useful,
+	// if query-mode is not "fulltext".
 	SkipReporting bool `qs:"skipReporting,omitempty"`
 }
 
