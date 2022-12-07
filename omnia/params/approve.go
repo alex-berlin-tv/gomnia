@@ -20,6 +20,6 @@ type Approve struct {
 	ContentModerationAspects string `qs:"contentModerationAspects,omitempty"`
 }
 
-func (a Approve) UrlEncode(extra map[string]interface{}) (string, error) {
+func (a Approve) UrlEncode() (string, error) {
 	return qs.Marshal(&a)
 }

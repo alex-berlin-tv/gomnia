@@ -89,6 +89,6 @@ type Basic struct {
 	AddStatistics enum.Bool `qs:"addStatistics,omitempty"`
 }
 
-func (b Basic) UrlEncode(extra map[string]interface{}) (string, error) {
+func (b Basic) UrlEncode() (string, error) {
 	return qs.Marshal(&b)
 }

@@ -307,7 +307,7 @@ func universalCall[T any](
 	paramUrl := ""
 	if parameters != nil {
 		var err error
-		paramUrl, err = parameters.UrlEncode(nil)
+		paramUrl, err = parameters.UrlEncode()
 		if err != nil {
 			return nil, err
 		}

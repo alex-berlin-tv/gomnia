@@ -29,6 +29,6 @@ type ByQuery struct {
 	SkipReporting bool `qs:"skipReporting,omitempty"`
 }
 
-func (b ByQuery) UrlEncode(extra map[string]interface{}) (string, error) {
+func (b ByQuery) UrlEncode() (string, error) {
 	return qs.Marshal(&b)
 }

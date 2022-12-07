@@ -15,6 +15,6 @@ type Reject struct {
 	Action enum.ActionAfterRejection `qs:"action,omitempty"`
 }
 
-func (r Reject) UrlEncode(extra map[string]interface{}) (string, error) {
+func (r Reject) UrlEncode() (string, error) {
 	return qs.Marshal(&r)
 }

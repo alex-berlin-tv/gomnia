@@ -108,6 +108,6 @@ type General struct {
 	ReferencingMediaDetails enum.OutputModifier `qs:"referencingMediaDetails,omitempty"`
 }
 
-func (g General) UrlEncode(extra map[string]interface{}) (string, error) {
+func (g General) UrlEncode() (string, error) {
 	return qs.Marshal(&g)
 }
