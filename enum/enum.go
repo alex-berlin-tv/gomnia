@@ -1,6 +1,8 @@
 package enum
 
-import "fmt"
+import (
+	"fmt"
+)
 
 // Used to simplify the usage of the enums in the cli and notification
 // portion of the library.
@@ -16,7 +18,12 @@ func EnumByValue[T ~string](e Enum[T], value T) (*T, error) {
 			return &entry, nil
 		}
 	}
-	return nil, fmt.Errorf("no enum found for value %s", value)
+	return nil, fmt.Errorf("no %T enum  found for value '%s'", e, value)
+}
+
+// Returns an Enum instance based on it's value from a byte slice.
+func EnumByByteValue[T ~string](e Enum[T], value []byte) (*T, error) {
+	return EnumByValue(e, T(value))
 }
 
 // Returns all values of an Enum type.

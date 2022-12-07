@@ -1,6 +1,4 @@
-package enums
-
-import "github.com/alex-berlin-tv/nexx_omnia_go/enum"
+package enum
 
 // A boolean value is expressed as a 0 for `false` and 1 for `true`.
 // String is used as type as it's not possible to nil integer values
@@ -12,7 +10,7 @@ const (
 	YesBool = Bool("1")
 )
 
-// All instances of the Bool enum.
+// All instances of the Bool
 func (b Bool) Instances() []Bool {
 	return []Bool{
 		NoBool,
@@ -21,7 +19,7 @@ func (b Bool) Instances() []Bool {
 }
 
 func (b *Bool) UnmarshalJSON(data []byte) (err error) {
-	value, err := enum.EnumByByteValue[Bool](YesBool, data)
+	value, err := EnumByByteValue[Bool](YesBool, data)
 	*(*Bool)(b) = *value
 	return err
 }
@@ -36,7 +34,7 @@ const (
 	ClassicImageFormat = ImageFormat("classic")
 )
 
-// All instances of the ImageFormat enum.
+// All instances of the ImageFormat
 func (i ImageFormat) Instances() []ImageFormat {
 	return []ImageFormat{
 		WebpImageFormat,
@@ -46,7 +44,7 @@ func (i ImageFormat) Instances() []ImageFormat {
 }
 
 func (i *ImageFormat) UnmarshalJSON(data []byte) (err error) {
-	value, err := enum.EnumByByteValue[ImageFormat](WebpImageFormat, data)
+	value, err := EnumByByteValue[ImageFormat](WebpImageFormat, data)
 	*(*ImageFormat)(i) = *value
 	return err
 }
@@ -61,7 +59,7 @@ const (
 	XmlStrictFormat  = RichTextFormat("xmlstrict")
 )
 
-// All instances of the RichTextFormat enum.
+// All instances of the RichTextFormat
 func (i RichTextFormat) Instances() []RichTextFormat {
 	return []RichTextFormat{
 		PlainFormat,
@@ -72,7 +70,7 @@ func (i RichTextFormat) Instances() []RichTextFormat {
 }
 
 func (i *RichTextFormat) UnmarshalJSON(data []byte) (err error) {
-	value, err := enum.EnumByByteValue[RichTextFormat](PlainFormat, data)
+	value, err := EnumByByteValue[RichTextFormat](PlainFormat, data)
 	*(*RichTextFormat)(i) = *value
 	return err
 }
@@ -85,7 +83,7 @@ const (
 	ImperialUnit = DistanceUnit("imperial")
 )
 
-// All instances of the DistanceUnit enum.
+// All instances of the DistanceUnit
 func (i DistanceUnit) Instances() []DistanceUnit {
 	return []DistanceUnit{
 		MetricUnit,
@@ -94,7 +92,7 @@ func (i DistanceUnit) Instances() []DistanceUnit {
 }
 
 func (i *DistanceUnit) UnmarshalJSON(data []byte) (err error) {
-	value, err := enum.EnumByByteValue[DistanceUnit](MetricUnit, data)
+	value, err := EnumByByteValue[DistanceUnit](MetricUnit, data)
 	*(*DistanceUnit)(i) = *value
 	return err
 }
@@ -107,7 +105,7 @@ const (
 	FahrenheitUnit = TemperatureUnit("fahrenheit")
 )
 
-// All instances of the TemperatureUnit enum.
+// All instances of the TemperatureUnit
 func (i TemperatureUnit) Instances() []TemperatureUnit {
 	return []TemperatureUnit{
 		CelsiusUnit,
@@ -116,7 +114,7 @@ func (i TemperatureUnit) Instances() []TemperatureUnit {
 }
 
 func (i *TemperatureUnit) UnmarshalJSON(data []byte) (err error) {
-	value, err := enum.EnumByByteValue[TemperatureUnit](CelsiusUnit, data)
+	value, err := EnumByByteValue[TemperatureUnit](CelsiusUnit, data)
 	*(*TemperatureUnit)(i) = *value
 	return err
 }
@@ -132,7 +130,7 @@ const (
 	CarGateway     = Gateway("car")
 )
 
-// All instances of the Gateway enum.
+// All instances of the Gateway
 func (i Gateway) Instances() []Gateway {
 	return []Gateway{
 		AllGateway,
@@ -144,7 +142,7 @@ func (i Gateway) Instances() []Gateway {
 }
 
 func (i *Gateway) UnmarshalJSON(data []byte) (err error) {
-	value, err := enum.EnumByByteValue[Gateway](AllGateway, data)
+	value, err := EnumByByteValue[Gateway](AllGateway, data)
 	*(*Gateway)(i) = *value
 	return err
 }
@@ -157,7 +155,7 @@ const (
 	DescendingOrder = OrderDirection("DESC")
 )
 
-// All instances of the OrderDirection enum.
+// All instances of the OrderDirection
 func (i OrderDirection) Instances() []OrderDirection {
 	return []OrderDirection{
 		AscendingOrder,
@@ -166,7 +164,7 @@ func (i OrderDirection) Instances() []OrderDirection {
 }
 
 func (i *OrderDirection) UnmarshalJSON(data []byte) (err error) {
-	value, err := enum.EnumByByteValue[OrderDirection](AscendingOrder, data)
+	value, err := EnumByByteValue[OrderDirection](AscendingOrder, data)
 	*(*OrderDirection)(i) = *value
 	return err
 }
@@ -180,7 +178,7 @@ const (
 	ShowStreamType  = StreamType("shows")
 )
 
-// All instances of the StreamType enum.
+// All instances of the StreamType
 func (i StreamType) Instances() []StreamType {
 	return []StreamType{
 		VideoStreamType,
@@ -190,7 +188,7 @@ func (i StreamType) Instances() []StreamType {
 }
 
 func (i *StreamType) UnmarshalJSON(data []byte) (err error) {
-	value, err := enum.EnumByByteValue[StreamType](VideoStreamType, data)
+	value, err := EnumByByteValue[StreamType](VideoStreamType, data)
 	*(*StreamType)(i) = *value
 	return err
 }
@@ -207,7 +205,7 @@ const (
 	ClipartContentType = ContentType("clipart")
 )
 
-// All instances of the ContentType enum.
+// All instances of the ContentType
 func (i ContentType) Instances() []ContentType {
 	return []ContentType{
 		VideoContentType,
@@ -220,7 +218,7 @@ func (i ContentType) Instances() []ContentType {
 }
 
 func (i *ContentType) UnmarshalJSON(data []byte) (err error) {
-	value, err := enum.EnumByByteValue[ContentType](VideoContentType, data)
+	value, err := EnumByByteValue[ContentType](VideoContentType, data)
 	*(*ContentType)(i) = *value
 	return err
 }
@@ -236,7 +234,7 @@ const (
 	AgeRestriction18 = AgeRestriction("18")
 )
 
-// All instances of the AgeRestriction enum.
+// All instances of the AgeRestriction
 func (i AgeRestriction) Instances() []AgeRestriction {
 	return []AgeRestriction{
 		AgeRestriction0,
@@ -248,7 +246,7 @@ func (i AgeRestriction) Instances() []AgeRestriction {
 }
 
 func (i *AgeRestriction) UnmarshalJSON(data []byte) (err error) {
-	value, err := enum.EnumByByteValue[AgeRestriction](AgeRestriction0, data)
+	value, err := EnumByByteValue[AgeRestriction](AgeRestriction0, data)
 	*(*AgeRestriction)(i) = *value
 	return err
 }
@@ -263,7 +261,7 @@ const (
 	I4kDimension    = Dimension("4K")
 )
 
-// All instances of the Dimension enum.
+// All instances of the Dimension
 func (i Dimension) Instances() []Dimension {
 	return []Dimension{
 		HdDimension,
@@ -274,7 +272,7 @@ func (i Dimension) Instances() []Dimension {
 }
 
 func (i *Dimension) UnmarshalJSON(data []byte) (err error) {
-	value, err := enum.EnumByByteValue[Dimension](HdDimension, data)
+	value, err := EnumByByteValue[Dimension](HdDimension, data)
 	*(*Dimension)(i) = *value
 	return err
 }
@@ -287,7 +285,7 @@ const (
 	LandscapeOrientation = Orientation("landscape")
 )
 
-// All instances of the Orientation enum.
+// All instances of the Orientation
 func (i Orientation) Instances() []Orientation {
 	return []Orientation{
 		PortraitOrientation,
@@ -296,7 +294,7 @@ func (i Orientation) Instances() []Orientation {
 }
 
 func (i *Orientation) UnmarshalJSON(data []byte) (err error) {
-	value, err := enum.EnumByByteValue[Orientation](PortraitOrientation, data)
+	value, err := EnumByByteValue[Orientation](PortraitOrientation, data)
 	*(*Orientation)(i) = *value
 	return err
 }
@@ -311,7 +309,7 @@ const (
 	GidOutputModifier     = OutputModifier("GID")
 )
 
-// All instances of the OutputModifier enum.
+// All instances of the OutputModifier
 func (i OutputModifier) Instances() []OutputModifier {
 	return []OutputModifier{
 		FullOutputModifier,
@@ -322,7 +320,7 @@ func (i OutputModifier) Instances() []OutputModifier {
 }
 
 func (i *OutputModifier) UnmarshalJSON(data []byte) (err error) {
-	value, err := enum.EnumByByteValue[OutputModifier](FullOutputModifier, data)
+	value, err := EnumByByteValue[OutputModifier](FullOutputModifier, data)
 	*(*OutputModifier)(i) = *value
 	return err
 }
@@ -339,7 +337,7 @@ const (
 	EvergreenAutoFill = AutoFill("evergreen")
 )
 
-// All instances of the AutoFill enum.
+// All instances of the AutoFill
 func (i AutoFill) Instances() []AutoFill {
 	return []AutoFill{
 		RandomAutoFill,
@@ -352,7 +350,7 @@ func (i AutoFill) Instances() []AutoFill {
 }
 
 func (i *AutoFill) UnmarshalJSON(data []byte) (err error) {
-	value, err := enum.EnumByByteValue[AutoFill](RandomAutoFill, data)
+	value, err := EnumByByteValue[AutoFill](RandomAutoFill, data)
 	*(*AutoFill)(i) = *value
 	return err
 }
@@ -366,7 +364,7 @@ const (
 	FulltextQueryMode       = QueryMode("fulltext")
 )
 
-// All instances of the QueryMode enum.
+// All instances of the QueryMode
 func (i QueryMode) Instances() []QueryMode {
 	return []QueryMode{
 		ClassicWithAndQueryMode,
@@ -376,7 +374,7 @@ func (i QueryMode) Instances() []QueryMode {
 }
 
 func (i *QueryMode) UnmarshalJSON(data []byte) (err error) {
-	value, err := enum.EnumByByteValue[QueryMode](ClassicWithAndQueryMode, data)
+	value, err := EnumByByteValue[QueryMode](ClassicWithAndQueryMode, data)
 	*(*QueryMode)(i) = *value
 	return err
 }
@@ -391,7 +389,7 @@ const (
 	NewVersionAfterRejection = ActionAfterRejection("newversion")
 )
 
-// All instances of the ActionAfterRejection enum.
+// All instances of the ActionAfterRejection
 func (i ActionAfterRejection) Instances() []ActionAfterRejection {
 	return []ActionAfterRejection{
 		DeleteAfterRejection,
@@ -402,7 +400,7 @@ func (i ActionAfterRejection) Instances() []ActionAfterRejection {
 }
 
 func (i *ActionAfterRejection) UnmarshalJSON(data []byte) (err error) {
-	value, err := enum.EnumByByteValue[ActionAfterRejection](DeleteAfterRejection, data)
+	value, err := EnumByByteValue[ActionAfterRejection](DeleteAfterRejection, data)
 	*(*ActionAfterRejection)(i) = *value
 	return err
 }
