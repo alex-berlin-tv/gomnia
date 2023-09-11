@@ -65,8 +65,9 @@ type Response[T any] struct {
 type MediaResult []MediaResultItem
 
 type MediaResultItem struct {
-	General   MediaResultGeneral   `json:"general"`
-	ImageData MediaResultImageData `json:"imagedata"`
+	General        MediaResultGeneral        `json:"general"`
+	ImageData      MediaResultImageData      `json:"imagedata"`
+	ConnectedMedia MediaResultConnectedMedia `json:"connectedmedia"`
 }
 
 type MediaResultGeneral struct {
@@ -104,6 +105,10 @@ type MediaResultImageData struct {
 	ThumbAbt          string `json:"thumb_abt"`
 	DescriptionAbt    string `json:"description_abt"`
 	Waveform          string `json:"waveform"`
+}
+
+type MediaResultConnectedMedia struct {
+	Shows []MediaResultGeneral `json:"shows"`
 }
 
 type EditableAttributesResponse map[string]EditableAttributesProperties
