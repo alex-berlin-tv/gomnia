@@ -173,6 +173,7 @@ func (i *OrderDirection) UnmarshalJSON(data []byte) (err error) {
 type StreamType string
 
 const (
+	AllStreamType   = StreamType("allmedia")
 	VideoStreamType = StreamType("videos")
 	AudioStreamType = StreamType("audio")
 	ShowStreamType  = StreamType("shows")
@@ -181,6 +182,7 @@ const (
 // All instances of the StreamType
 func (i StreamType) Instances() []StreamType {
 	return []StreamType{
+		AllStreamType,
 		VideoStreamType,
 		AudioStreamType,
 		ShowStreamType,
@@ -197,7 +199,6 @@ func (i *StreamType) UnmarshalJSON(data []byte) (err error) {
 type ContentType string
 
 const (
-	AllContentType     = ContentType("allmedia")
 	VideoContentType   = ContentType("video")
 	ComicContentType   = ContentType("comic")
 	CgiContentType     = ContentType("cgi")
