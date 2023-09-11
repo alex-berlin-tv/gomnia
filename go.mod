@@ -2,6 +2,8 @@ module github.com/alex-berlin-tv/nexx_omnia_go
 
 go 1.19
 
+retract v1.2.2
+
 require (
 	github.com/pasztorpisti/qs v0.0.0-20171216220353-8d6c33ee906c
 	github.com/sirupsen/logrus v1.9.0
