@@ -85,6 +85,7 @@ type MediaResultGeneral struct {
 	Runtime                  string       `json:"runtime"`
 	IsPicked                 enum.Bool    `json:"isPicked"`
 	ForKids                  enum.Bool    `json:"forKids"`
+	Channel                  int          `json:"channel,omitempty"`
 	IsPay                    enum.Bool    `json:"isPay"`
 	IsUgc                    enum.Bool    `json:"isUGC"`
 }
