@@ -5,6 +5,7 @@
         "addcparentmedia",
         "addpublishingdetails",
         "addreferencingmedia",
+        "allmedia",
         "apiuploaded",
         "apiversion",
         "audiotype",

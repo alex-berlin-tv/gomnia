@@ -197,6 +197,7 @@ func (i *StreamType) UnmarshalJSON(data []byte) (err error) {
 type ContentType string
 
 const (
+	AllContentType     = ContentType("allmedia")
 	VideoContentType   = ContentType("video")
 	ComicContentType   = ContentType("comic")
 	CgiContentType     = ContentType("cgi")
