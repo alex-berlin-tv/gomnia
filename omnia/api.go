@@ -68,7 +68,7 @@ type Client struct {
 
 // Returns a new Omnia instance. For mor information on how to obtain the needed
 // parameters please refer to the documentation of the [Client] type.
-func NewClient(domainId string, apiSecret string, sessionId string, unfoldPaging bool) Client {
+func NewClient(domainId string, apiSecret string, sessionId string) Client {
 	return Client{
 		DomainId:  domainId,
 		ApiSecret: apiSecret,
