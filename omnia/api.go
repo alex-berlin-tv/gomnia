@@ -140,7 +140,7 @@ func (o Client) All(streamType enum.StreamType, parameters params.QueryParameter
 	return Call(o, "get", streamType, "all", nil, parameters, 1, Response[MediaResult]{})
 }
 
-// Concat results of multiple pages if there are more than 100 items and
+// Joins results of multiple pages if there are more than 100 items and
 // the API starts to use paging.
 func (o Client) AllPaged(streamType enum.StreamType, parameters params.QueryParameters) (*Response[MediaResult], error) {
 	rqs, err := Call(o, "get", streamType, "all", nil, parameters, 1, Response[MediaResult]{})
@@ -325,53 +325,6 @@ func SystemCall[T any](
 ) (*Response[T], error) {
 	return universalCall(o, method, enum.VideoStreamType, systemApiType, operation, args, nil, 1, response)
 }
-
-// func b[T MediaResult](
-// 	o Client,
-// 	method string,
-// 	streamType enum.StreamType,
-// 	aType apiType,
-// 	operation string,
-// 	args []string,
-// 	parameters params.QueryParameters,
-// 	response Response[T],
-// ) (*Response[T], error) {
-// 	isMediaResult := false
-// 	firstRqs, err := universalCall[T](o, method, streamType, aType, operation, args, parameters, 1, response)
-// 	var rsl MediaResult
-// 	if data, isMediaResult := any(firstRqs.Result).(MediaResult); isMediaResult {
-// 		rsl = data
-// 	}
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	if !o.UnfoldPaging || firstRqs.Paging.ResultCount <= 100 {
-// 		return firstRqs, nil
-// 	}
-// 	if !isMediaResult {
-// 		return nil, fmt.Errorf("unfolding of paging is only implemented for MediaResult, got %T instead", response.Result)
-// 	}
-
-// 	for i := 101; i < firstRqs.Paging.ResultCount; i += 100 {
-// 		tmp, err := universalCall[T](o, method, streamType, aType, operation, args, parameters, i, response)
-// 		if err != nil {
-// 			return nil, err
-// 		}
-// 		if data, ok := any(tmp.Result).(MediaResult); ok {
-// 			rsl = append(rsl, data...)
-// 		} else {
-// 			// TODO: Write a helpful error message.
-// 			logrus.Fatal("glitch in the matrix")
-// 		}
-// 	}
-// 	var rt *Response[MediaResult]
-// 	rt = &Response[MediaResult]{
-// 		Metadata: firstRqs.Metadata,
-// 		Result:   rsl,
-// 		Paging:   firstRqs.Paging,
-// 	}
-// 	return rt, nil
-// }
 
 func universalCall[T any](
 	o Client,
