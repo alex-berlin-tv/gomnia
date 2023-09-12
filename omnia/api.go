@@ -205,6 +205,13 @@ func (o Client) Reject(
 	return ManagementCall(o, "post", streamType, "reject", []string{strconv.Itoa(id)}, parameters, Response[any]{})
 }
 
+// Add a new channel. Documentation can be found [here].
+//
+// [here]: https://api.nexx.cloud/v3.1/manage/channels/add
+func (o Client) AddChannel(parameters params.Channel) (*Response[any], error) {
+	return ManagementCall(o, "post", "channels", "add", nil, parameters, Response[any]{})
+}
+
 // Adds a new UploadLink. UploadsLinks are dynamic URLs, that allow external Users to
 // upload Files to a specific nexxOMNIA Account. Uses the Management API. Documentation
 // can be found [here].
@@ -343,7 +350,7 @@ func universalCall[T any](
 	if response.Paging != nil {
 		logrus.WithFields(response.Paging.toMap()).Debug("Response Paging")
 	}
-	if response.Metadata.Status != 200 {
+	if response.Metadata.Status != 200 && response.Metadata.Status != 201 {
 		return &response, fmt.Errorf("call failed on server side with status code %d, %s", response.Metadata.Status, *response.Metadata.ErrorHint)
 	}
 	logrus.Trace(response.Result)
