@@ -53,7 +53,9 @@ func (p ResponsePaging) toMap() map[string]interface{} {
 	return structToMap(p)
 }
 
-// The response of an nexxOmnia API call. As documented [here].
+// Response represents the response structure obtained from a nexxOmnia
+// API call. It encapsulates the metadata, result, and paging information
+// as documented [here].
 //
 // [here]: https://api.docs.nexx.cloud/api-design/response-object
 type Response[T any] struct {
@@ -62,14 +64,32 @@ type Response[T any] struct {
 	Paging   *ResponsePaging `json:"paging"`
 }
 
+// MediaResult is a collection of MediaResultItem instances, each representing
+// a media result. The decision for using a dedicated type for a slice of
+// [MediaResultItem]s was made to ease the further work with results outside
+// this package.
 type MediaResult []MediaResultItem
 
+// MediaResultItem holds detailed information about a single media result item.
 type MediaResultItem struct {
 	General        MediaResultGeneral        `json:"general"`
 	ImageData      MediaResultImageData      `json:"imagedata"`
 	ConnectedMedia MediaResultConnectedMedia `json:"connectedmedia"`
 }
 
+// MediaResultGeneral provides general information about a media item, including
+// its ID, title, and more.
+//
+// Some fields (like Channel) are optional (or as omnia calls them »additional«)
+// fields. You have to use the »additionalFields« parameter for the request. For
+// example:
+//
+//	client := omnia.NewClient("23", "Secret", "42")
+//	rsl, err := client.All(enum.AudioStreamType, id, params.Custom{
+//		"additionalFields": "channel",
+//	})
+//
+// In order to get all additional fields use the keyword »all«.
 type MediaResultGeneral struct {
 	Id                       int          `json:"ID"`
 	Gid                      int          `json:"GID"`
@@ -85,11 +105,13 @@ type MediaResultGeneral struct {
 	Runtime                  string       `json:"runtime"`
 	IsPicked                 enum.Bool    `json:"isPicked"`
 	ForKids                  enum.Bool    `json:"forKids"`
-	Channel                  int          `json:"channel,omitempty"`
+	Channel                  int          `json:"channel,omitempty"` // Optional field.
 	IsPay                    enum.Bool    `json:"isPay"`
 	IsUgc                    enum.Bool    `json:"isUGC"`
 }
 
+// MediaResultImageData contains image-related data for a media item, including
+// thumbnails and descriptions.
 type MediaResultImageData struct {
 	Language          string `json:"language"`
 	Thumb             string `json:"thumb"`
@@ -108,12 +130,18 @@ type MediaResultImageData struct {
 	Waveform          string `json:"waveform"`
 }
 
+// MediaResultConnectedMedia represents connected media items associated with
+// a media item.
 type MediaResultConnectedMedia struct {
 	Shows []MediaResultGeneral `json:"shows"`
 }
 
+// EditableAttributesResponse is a map that associates attribute names with their
+// editable properties.
 type EditableAttributesResponse map[string]EditableAttributesProperties
 
+// EditableAttributesProperties contains information about the editable properties
+// of an attribute.
 type EditableAttributesProperties struct {
 	Type         string `json:"type"`
 	MaxLength    int    `json:"maxlength"`

@@ -1,3 +1,5 @@
+// Additional types which are used in requests to the API but are not built-ins
+// and thus not implemented by the json package.
 package types
 
 import (

@@ -1,3 +1,8 @@
+// The omnia package provides a way to interact with the API of the media
+// management platform 3q nexx omnia. More information on the API can be
+// obtained by reading the [official API documentation].
+//
+// [official API documentation]: https://api.docs.nexx.cloud/
 package omnia
 
 import (
@@ -47,14 +52,22 @@ func newOmniaHeader(operation, domainId, apiSecret, sessionId string) omniaHeade
 	}
 }
 
-// Encapsulates the calls to the nexxOmnia API.
+// Encapsulates the calls to the nexxOmnia API. All implemented API methods are available
+// as a method of this struct. In order to obtain the needed information in omnia go to
+// Domains & Services > Domains and open the detail view (»Details anzeigen«) for the domain
+// you want to wish to control with this package. You find the name of the variables in the
+// documentation of the field.
 type Client struct {
-	DomainId  string `json:"domain_id"`
+	// Named »ID« in the domain detail view.
+	DomainId string `json:"domain_id"`
+	// Named »API Secret« in the domain detail view.
 	ApiSecret string `json:"api_secret"`
+	// Named »Management API Session« in the domain detail view.
 	SessionId string `json:"session_id"`
 }
 
-// Returns a new Omnia instance.
+// Returns a new Omnia instance. For mor information on how to obtain the needed
+// parameters please refer to the documentation of the [Client] type.
 func NewClient(domainId string, apiSecret string, sessionId string) Client {
 	return Client{
 		DomainId:  domainId,
@@ -76,7 +89,14 @@ func OmniaFromFile(path string) Client {
 	return rsl
 }
 
-// Return a item of a given streamtype by it's id.
+// Return a item of a given streamtype by it's id. Example, get the audio item with
+// the id 72 with the publishing details:
+//
+//	id := 72
+//	client := omnia.NewClient("23", "Secret", "42")
+//	rsl, err := client.ById(enum.AudioStreamType, id, params.Custom{
+//		"addPublishingDetails": 1,
+//	})
 func (o Client) ById(streamType enum.StreamType, id int, parameters params.QueryParameters) (*Response[MediaResultItem], error) {
 	return Call(o, "get", streamType, "byid", []string{strconv.Itoa(id)}, parameters, Response[MediaResultItem]{})
 }
@@ -152,7 +172,17 @@ func (o Client) ByQuery(streamType enum.StreamType, query string, parameters par
 }
 
 // Will update the general Metadata of a Media Item. Uses the Management API.
-// Documentation can be found [here].
+// Documentation can be found [here]. Example, change the title of the video
+// item with the id 72:
+//
+//	client := omnia.NewClient("23", "Secret", "42")
+//	client.Update(enums.VideoStreamType, 72, params.Custom{
+//		"title": "My cool new title",
+//	})
+//
+// As you see using a params.Custom map you can alter all the available metadata
+// fields. You can use the [Client.EditableAttributes] method to get a list of all fields
+// which are available and editable for an media item in omnia.
 //
 // [here]: https://api.docs.nexx.cloud/management-api/endpoints/management-endpoint#update
 func (o Client) Update(
@@ -225,6 +255,10 @@ func (o Client) AddUploadLink(parameters params.UploadLink) (*Response[any], err
 }
 
 // Lists all editable attributes for a given stream type.
+//
+// This method is needed as there is no other documentation of all the available metadata
+// fields in omnia. Especially useful if you want to know which metadata attributes
+// you can alter using the [Client.Update] method.
 func (o Client) EditableAttributes(streamType enum.StreamType) (*Response[EditableAttributesResponse], error) {
 	rsl, err := SystemCall(o, "get", "editableattributesfor", []string{string(streamType)}, Response[EditableAttributesResponse]{})
 	if err != nil {

@@ -1,3 +1,4 @@
+// Contains all the preset enumerations as defined and used in the API.
 package enum
 
 import (

@@ -5,6 +5,9 @@ package enum
 // (which is needed in order to omit unset parameters as the query parameter).
 type Bool string
 
+// A boolean value is expressed as a 0 for `false` and 1 for `true`.
+// String is used as type as it's not possible to nil integer values
+// (which is needed in order to omit unset parameters as the query parameter).
 const (
 	NoBool  = Bool("0")
 	YesBool = Bool("1")
@@ -27,6 +30,7 @@ func (b *Bool) UnmarshalJSON(data []byte) (err error) {
 // Used to state the desired image format of a requested image.
 type ImageFormat string
 
+// Used to state the desired image format of a requested image.
 const (
 	WebpImageFormat = ImageFormat("webp")
 	AvifImageFormat = ImageFormat("avif")
@@ -52,6 +56,7 @@ func (i *ImageFormat) UnmarshalJSON(data []byte) (err error) {
 // Possible rich text formats.
 type RichTextFormat string
 
+// Possible rich text formats.
 const (
 	PlainFormat      = RichTextFormat("plain")
 	CoverLinksFormat = RichTextFormat("converlinks")
@@ -78,6 +83,7 @@ func (i *RichTextFormat) UnmarshalJSON(data []byte) (err error) {
 // Metric or imperial distance units.
 type DistanceUnit string
 
+// Metric or imperial distance units.
 const (
 	MetricUnit   = DistanceUnit("metric")
 	ImperialUnit = DistanceUnit("imperial")
@@ -100,6 +106,7 @@ func (i *DistanceUnit) UnmarshalJSON(data []byte) (err error) {
 // Metric or imperial temperature units.
 type TemperatureUnit string
 
+// Metric or imperial temperature units.
 const (
 	CelsiusUnit    = TemperatureUnit("celsius")
 	FahrenheitUnit = TemperatureUnit("fahrenheit")
@@ -122,6 +129,7 @@ func (i *TemperatureUnit) UnmarshalJSON(data []byte) (err error) {
 // Used in conjunction with [QueryParameters.ForceGateway].
 type Gateway string
 
+// Used in conjunction with [QueryParameters.ForceGateway].
 const (
 	AllGateway     = Gateway("all")
 	DesktopGateway = Gateway("desktop")
@@ -150,6 +158,7 @@ func (i *Gateway) UnmarshalJSON(data []byte) (err error) {
 // Direction of ordering elements.
 type OrderDirection string
 
+// Direction of ordering elements.
 const (
 	AscendingOrder  = OrderDirection("ASC")
 	DescendingOrder = OrderDirection("DESC")
@@ -172,6 +181,7 @@ func (i *OrderDirection) UnmarshalJSON(data []byte) (err error) {
 // Different streamtypes used in the API call.
 type StreamType string
 
+// Streamtypes represent the different types of media items.
 const (
 	AllStreamType   = StreamType("allmedia")
 	VideoStreamType = StreamType("videos")
@@ -198,6 +208,7 @@ func (i *StreamType) UnmarshalJSON(data []byte) (err error) {
 // Content type of media items.
 type ContentType string
 
+// The content types of media.
 const (
 	VideoContentType   = ContentType("video")
 	ComicContentType   = ContentType("comic")
@@ -228,6 +239,7 @@ func (i *ContentType) UnmarshalJSON(data []byte) (err error) {
 // Age categories for age restrictions.
 type AgeRestriction string
 
+// The different age restrictions as defined by the FSK.
 const (
 	AgeRestriction0  = AgeRestriction("0")
 	AgeRestriction6  = AgeRestriction("6")
@@ -256,6 +268,7 @@ func (i *AgeRestriction) UnmarshalJSON(data []byte) (err error) {
 // Geometric dimension of a media file.
 type Dimension string
 
+// Geometric dimension of a media file.
 const (
 	HdDimension     = Dimension("hd")
 	FullHdDimension = Dimension("fullhd")
@@ -282,6 +295,7 @@ func (i *Dimension) UnmarshalJSON(data []byte) (err error) {
 // Media orientation.
 type Orientation string
 
+// Media orientation.
 const (
 	PortraitOrientation  = Orientation("portrait")
 	LandscapeOrientation = Orientation("landscape")
@@ -304,6 +318,7 @@ func (i *Orientation) UnmarshalJSON(data []byte) (err error) {
 // Output modifier used to define the detail level.
 type OutputModifier string
 
+// Output modifier used to define the detail level.
 const (
 	FullOutputModifier    = OutputModifier("full")
 	DefaultOutputModifier = OutputModifier("default")
@@ -330,6 +345,7 @@ func (i *OutputModifier) UnmarshalJSON(data []byte) (err error) {
 // Method for the auto fill method of the API.
 type AutoFill string
 
+// Method for the auto fill method of the API.
 const (
 	RandomAutoFill    = AutoFill("random")
 	LatestAutoFill    = AutoFill("latest")
@@ -360,6 +376,7 @@ func (i *AutoFill) UnmarshalJSON(data []byte) (err error) {
 // Query modes.
 type QueryMode string
 
+// Query modes.
 const (
 	ClassicWithAndQueryMode = QueryMode("classicwithand")
 	ClassicWithOrQueryMode  = QueryMode("classicwithor")
@@ -384,6 +401,7 @@ func (i *QueryMode) UnmarshalJSON(data []byte) (err error) {
 // Action after rejection of an item.
 type ActionAfterRejection string
 
+// Action after rejection of an item.
 const (
 	DeleteAfterRejection     = ActionAfterRejection("delete")
 	ArchiveAfterRejection    = ActionAfterRejection("archive")
