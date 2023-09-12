@@ -135,7 +135,10 @@ func (o Client) ByCodeName(streamType enum.StreamType, codename string, paramete
 	return Call(o, "get", streamType, "bycodename", []string{codename}, parameters, 1, Response[any]{})
 }
 
-// Returns all media items of a given streamtype.
+// Returns all media items of a given streamtype. Please note that it's not possible
+// to retrieve more than 100 items at once using the API. Thus if you have more than
+// 100 items of a given streamtype you'll should use the [Client.AllPaged] method
+// in order to get all items.
 func (o Client) All(streamType enum.StreamType, parameters params.QueryParameters) (*Response[MediaResult], error) {
 	return Call(o, "get", streamType, "all", nil, parameters, 1, Response[MediaResult]{})
 }
