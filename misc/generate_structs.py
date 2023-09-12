@@ -10,56 +10,86 @@ import csv
 import sys
 import textwrap
 
-INPUT_FILE = "params.csv"
+
+TYPES = {
+    "Bool": "enum.Bool",
+    "integer": "int",
+    "UNIX Timestamp": "TODO",
+}
 
 
-def generate_client_line(row):
+def parse_file(path: str) -> list[dict[str, str]]:
+    rsl = []
+    with open(path) as f:
+        raw = [line.strip() for line in f]
+    i = 0
+    while i < len(raw):
+        item = {}
+        for j in range(3):
+            if j == 0:
+                item["name"] = raw[i + 0]
+            elif j == 1:
+                item["type"] = raw[i + 1]
+            elif j == 2:
+                item["description"] = raw[i + 2]
+            if i + j + 1 == len(raw):
+                break
+        rsl.append(item)
+        i += 4
+    return rsl
+
+def fmt_go_name(data: dict[str, str]) -> str:
+    return data["name"].removesuffix("*").title()
+
+def fmt_api_name(data: dict[str, str]) -> str:
+    return data["name"].removesuffix("*")
+
+def fmt_type(data: dict[str, str]) -> str:
+    raw = data["type"]
+    if raw in TYPES:
+        return TYPES[raw]
+    return raw
+
+def fmt_comment(data: dict[str, str]) -> str:
+    required = data["name"].endswith("*")
+    if "description" not in data and not required:
+        return ""
+    raw = data["description"]
+    if raw is None or raw == "" and not required:
+        return ""
+    if required:
+        raw = f"Required. {raw}"
     comment_lines = textwrap.wrap(
-        row["Description"], width=73, fix_sentence_endings=True)
+        raw, width=73, fix_sentence_endings=True
+    )
     comment_lines[0] = comment_lines[0].capitalize()
     for i in range(len(comment_lines)):
         comment_lines[i] = "// " + comment_lines[i]
     comment = "\n".join(comment_lines)
 
-    return f"{comment}\n{row['Go Parameter']} {row['Type']} `qs:\"{row['Parameter']},omitempty\"`"
+    return f"{comment}\n"
+
+def generate_client_line(item):
+    return f"{fmt_comment(item)}{fmt_go_name(item)} {fmt_type(item)} `qs:\"{fmt_api_name(item)},omitempty\"`"
 
 
-def client_cmd(path):
-    data = csv.DictReader(open(path), delimiter=";")
-    rsl = ""
-    for row in data:
-        rsl = f"{rsl}\n{generate_client_line(row)}"
-    print(rsl)
-
-def notification_cmd(path):
-    print("Not implemented, just do it manually, fnord.")
-
-def template_cmd(typ):
-    if typ == "client":
-        print("Parameter;Go Parameter;Type;Description")
-    elif typ == "notification":
-        print("Not implemented.")
-    else:
-        print("No valid type, supported: client|notification")
-        sys.exit(1)
+def help():
+    print("Usage: generate_structs.py PATH")
+    print("Help: generate_structs.py --help\n")
+    print("INPUT FILE: Select the table in the API documentation and paste it to a text file.")
+    print("Struct of the text file: <PARAM_NAME>\\n<TYPE>\\n<DESCRIPTION>\\n\\n <Next item>")
 
 
 if __name__ == "__main__":
-    if len(sys.argv) in range(2, 3):
-        print("Invalid arguments. Allowed:")
-        print("client PATH\t\t\t generate code for the client API")
-        print("notification PATH\t\t generate code for the notification gateway")
-        print("template [client|notification]\t outputs an empty csv template")
+    if len(sys.argv) != 2:
+        print("Invalid arguments.") 
+        help()
         sys.exit(1)
-    
-    if sys.argv[1] == "client":
-        client_cmd(sys.argv[1])
-    elif sys.argv[1] == "notification":
-        notification_cmd(sys.argv[1])
-    elif sys.argv[1] == "template":
-        template_cmd(sys.argv[2])
-    else:
-        print("Invalid command")
-        print("Valid client|notification|template")
-        sys.exit(1)
-    
+    if sys.argv[1] == "--help":
+        help()
+        sys.exit(0)
+    print("type NAME struct {")
+    data = parse_file(sys.argv[1]) 
+    for item in data:
+        print(generate_client_line(item))
+    print("}")
