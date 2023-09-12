@@ -60,7 +60,7 @@ func (p ResponsePaging) toMap() map[string]interface{} {
 // [here]: https://api.docs.nexx.cloud/api-design/response-object
 type Response[T any] struct {
 	Metadata ResponseMetadata `json:"metadata"`
-	Result   *T
+	Result   T
 	Paging   *ResponsePaging `json:"paging"`
 }
 

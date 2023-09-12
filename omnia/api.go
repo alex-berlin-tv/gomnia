@@ -68,7 +68,7 @@ type Client struct {
 
 // Returns a new Omnia instance. For mor information on how to obtain the needed
 // parameters please refer to the documentation of the [Client] type.
-func NewClient(domainId string, apiSecret string, sessionId string) Client {
+func NewClient(domainId string, apiSecret string, sessionId string, unfoldPaging bool) Client {
 	return Client{
 		DomainId:  domainId,
 		ApiSecret: apiSecret,
@@ -98,27 +98,27 @@ func OmniaFromFile(path string) Client {
 //		"addPublishingDetails": 1,
 //	})
 func (o Client) ById(streamType enum.StreamType, id int, parameters params.QueryParameters) (*Response[MediaResultItem], error) {
-	return Call(o, "get", streamType, "byid", []string{strconv.Itoa(id)}, parameters, Response[MediaResultItem]{})
+	return Call(o, "get", streamType, "byid", []string{strconv.Itoa(id)}, parameters, 1, Response[MediaResultItem]{})
 }
 
 // Return a item of a given streamtype by it's global id.
 func (o Client) ByGlobalId(streamType enum.StreamType, globalId int, parameters params.QueryParameters) (*Response[MediaResultItem], error) {
-	return Call(o, "get", streamType, "byglobalid", []string{strconv.Itoa(globalId)}, parameters, Response[MediaResultItem]{})
+	return Call(o, "get", streamType, "byglobalid", []string{strconv.Itoa(globalId)}, parameters, 1, Response[MediaResultItem]{})
 }
 
 // Return a item of a given streamtype by it's hash.
 func (o Client) ByHash(streamType enum.StreamType, hash string, parameters params.QueryParameters) (*Response[MediaResultItem], error) {
-	return Call(o, "get", streamType, "byhash", []string{hash}, parameters, Response[MediaResultItem]{})
+	return Call(o, "get", streamType, "byhash", []string{hash}, parameters, 1, Response[MediaResultItem]{})
 }
 
 // Return a item of a given streamtype by it's reference number.
 func (o Client) ByRefNr(streamType enum.StreamType, reference string, parameters params.QueryParameters) (*Response[any], error) {
-	return Call(o, "get", streamType, "byrefnr", []string{reference}, parameters, Response[any]{})
+	return Call(o, "get", streamType, "byrefnr", []string{reference}, parameters, 1, Response[any]{})
 }
 
 // Return a item of a given streamtype by it's slug.
 func (o Client) BySlug(streamType enum.StreamType, slug string, parameters params.QueryParameters) (*Response[any], error) {
-	return Call(o, "get", streamType, "byslug", []string{slug}, parameters, Response[any]{})
+	return Call(o, "get", streamType, "byslug", []string{slug}, parameters, 1, Response[any]{})
 }
 
 // Return a item of a given streamtype by it's remote reference number.
@@ -126,45 +126,65 @@ func (o Client) BySlug(streamType enum.StreamType, slug string, parameters param
 // call the given Remote Provider for Media Details and implicitly create the Item for
 // future References within nexxOMNIA.
 func (o Client) ByRemoteRef(streamType enum.StreamType, reference string, parameters params.QueryParameters) (*Response[any], error) {
-	return Call(o, "get", streamType, "byremotereference", []string{reference}, parameters, Response[any]{})
+	return Call(o, "get", streamType, "byremotereference", []string{reference}, parameters, 1, Response[any]{})
 }
 
 // Return a item of a given streamtype by it's code name. Only available for container
 // streamtypes.
 func (o Client) ByCodeName(streamType enum.StreamType, codename string, parameters params.QueryParameters) (*Response[any], error) {
-	return Call(o, "get", streamType, "bycodename", []string{codename}, parameters, Response[any]{})
+	return Call(o, "get", streamType, "bycodename", []string{codename}, parameters, 1, Response[any]{})
 }
 
 // Returns all media items of a given streamtype.
 func (o Client) All(streamType enum.StreamType, parameters params.QueryParameters) (*Response[MediaResult], error) {
-	return Call(o, "get", streamType, "all", nil, parameters, Response[MediaResult]{})
+	return Call(o, "get", streamType, "all", nil, parameters, 1, Response[MediaResult]{})
+}
+
+// Concat results of multiple pages if there are more than 100 items and
+// the API starts to use paging.
+func (o Client) AllPaged(streamType enum.StreamType, parameters params.QueryParameters) (*Response[MediaResult], error) {
+	rqs, err := Call(o, "get", streamType, "all", nil, parameters, 1, Response[MediaResult]{})
+	if err != nil {
+		return nil, err
+	}
+	if rqs.Paging.ResultCount <= 100 {
+		return rqs, nil
+	}
+	for i := 100; i < rqs.Paging.ResultCount; i += 100 {
+		tmp, err := Call(o, "get", streamType, "all", nil, parameters, i, Response[MediaResult]{})
+		if err != nil {
+			return nil, err
+		}
+		rqs.Result = append(rqs.Result, tmp.Result...)
+	}
+	return rqs, nil
 }
 
 // Returns all items, sorted by Creation Date (ignores the "order" Parameters).
 func (o Client) Latest(streamType enum.StreamType, parameters params.QueryParameters) (*Response[any], error) {
-	return Call(o, "get", streamType, "latest", nil, parameters, Response[any]{})
+	return Call(o, "get", streamType, "latest", nil, parameters, 1, Response[any]{})
 }
 
 // Returns all picked media items of a given streamtype. Ignores the order parameter.
 func (o Client) Picked(streamType enum.StreamType, parameters params.QueryParameters) (*Response[any], error) {
-	return Call(o, "get", streamType, "picked", nil, parameters, Response[any]{})
+	return Call(o, "get", streamType, "picked", nil, parameters, 1, Response[any]{})
 }
 
 // Returns all evergreen media items of a given streamtype.
 func (o Client) Evergreens(streamType enum.StreamType, parameters params.QueryParameters) (*Response[any], error) {
-	return Call(o, "get", streamType, "evergreens", nil, parameters, Response[any]{})
+	return Call(o, "get", streamType, "evergreens", nil, parameters, 1, Response[any]{})
 }
 
 // Returns all Items, marked as "created for Kids". This is NOT connected to
 // any Age Restriction.
 func (o Client) ForKids(streamType enum.StreamType, parameters params.QueryParameters) (*Response[any], error) {
-	return Call(o, "get", streamType, "forkids", nil, parameters, Response[any]{})
+	return Call(o, "get", streamType, "forkids", nil, parameters, 1, Response[any]{})
 }
 
 // Performs a regular Query on all Items. The "order" Parameters are ignored,
 // if query-mode is set to "fulltext".
 func (o Client) ByQuery(streamType enum.StreamType, query string, parameters params.QueryParameters) (*Response[MediaResult], error) {
-	rsl, err := Call(o, "get", streamType, "byquery", []string{query}, parameters, Response[MediaResult]{})
+	rsl, err := Call(o, "get", streamType, "byquery", []string{query}, parameters, 1, Response[MediaResult]{})
 	if err != nil {
 		return nil, err
 	}
@@ -251,7 +271,7 @@ func (o Client) AddUploadLink(parameters params.UploadLink) (*Response[any], err
 	if err := parameters.Validate(); err != nil {
 		return nil, fmt.Errorf("invalid parameters given for AddUploadLink, %s", err)
 	}
-	return universalCall(o, http.MethodPost, enum.VideoStreamType, uploadLinkManagementApiType, "add", nil, parameters, Response[any]{})
+	return universalCall(o, http.MethodPost, enum.VideoStreamType, uploadLinkManagementApiType, "add", nil, parameters, 1, Response[any]{})
 }
 
 // Lists all editable attributes for a given stream type.
@@ -276,9 +296,10 @@ func Call[T any](
 	operation string,
 	args []string,
 	parameters params.QueryParameters,
+	pagingStart int,
 	response Response[T],
 ) (*Response[T], error) {
-	return universalCall(o, method, streamType, mediaApiType, operation, args, parameters, response)
+	return universalCall(o, method, streamType, mediaApiType, operation, args, parameters, pagingStart, response)
 }
 
 // Generic call to the Omnia management API.
@@ -291,7 +312,7 @@ func ManagementCall[T any](
 	parameters params.QueryParameters,
 	response Response[T],
 ) (*Response[T], error) {
-	return universalCall(o, method, streamType, managementApiType, operation, args, parameters, response)
+	return universalCall(o, method, streamType, managementApiType, operation, args, parameters, 1, response)
 }
 
 // Generic call to the Omnia system API
@@ -302,8 +323,55 @@ func SystemCall[T any](
 	args []string,
 	response Response[T],
 ) (*Response[T], error) {
-	return universalCall(o, method, enum.VideoStreamType, systemApiType, operation, args, nil, response)
+	return universalCall(o, method, enum.VideoStreamType, systemApiType, operation, args, nil, 1, response)
 }
+
+// func b[T MediaResult](
+// 	o Client,
+// 	method string,
+// 	streamType enum.StreamType,
+// 	aType apiType,
+// 	operation string,
+// 	args []string,
+// 	parameters params.QueryParameters,
+// 	response Response[T],
+// ) (*Response[T], error) {
+// 	isMediaResult := false
+// 	firstRqs, err := universalCall[T](o, method, streamType, aType, operation, args, parameters, 1, response)
+// 	var rsl MediaResult
+// 	if data, isMediaResult := any(firstRqs.Result).(MediaResult); isMediaResult {
+// 		rsl = data
+// 	}
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	if !o.UnfoldPaging || firstRqs.Paging.ResultCount <= 100 {
+// 		return firstRqs, nil
+// 	}
+// 	if !isMediaResult {
+// 		return nil, fmt.Errorf("unfolding of paging is only implemented for MediaResult, got %T instead", response.Result)
+// 	}
+
+// 	for i := 101; i < firstRqs.Paging.ResultCount; i += 100 {
+// 		tmp, err := universalCall[T](o, method, streamType, aType, operation, args, parameters, i, response)
+// 		if err != nil {
+// 			return nil, err
+// 		}
+// 		if data, ok := any(tmp.Result).(MediaResult); ok {
+// 			rsl = append(rsl, data...)
+// 		} else {
+// 			// TODO: Write a helpful error message.
+// 			logrus.Fatal("glitch in the matrix")
+// 		}
+// 	}
+// 	var rt *Response[MediaResult]
+// 	rt = &Response[MediaResult]{
+// 		Metadata: firstRqs.Metadata,
+// 		Result:   rsl,
+// 		Paging:   firstRqs.Paging,
+// 	}
+// 	return rt, nil
+// }
 
 func universalCall[T any](
 	o Client,
@@ -313,6 +381,7 @@ func universalCall[T any](
 	operation string,
 	args []string,
 	parameters params.QueryParameters,
+	pagingStart int,
 	response Response[T],
 ) (*Response[T], error) {
 	method = strings.ToUpper(method)
@@ -345,13 +414,24 @@ func universalCall[T any](
 		)
 	}
 	header := newOmniaHeader(operation, o.DomainId, o.ApiSecret, o.SessionId)
-	paramUrl := ""
+
+	limitParam, err := params.Basic{
+		Limit: 100,
+		Start: pagingStart,
+	}.UrlEncode()
+	if err != nil {
+		return nil, err
+	}
+	var paramUrl string
 	if parameters != nil {
 		var err error
 		paramUrl, err = parameters.UrlEncode()
 		if err != nil {
 			return nil, err
 		}
+		paramUrl = fmt.Sprintf("%s&%s", paramUrl, limitParam)
+	} else {
+		paramUrl = limitParam
 	}
 	o.debugLog(method, reqUrl, header, paramUrl)
 
