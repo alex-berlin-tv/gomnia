@@ -333,6 +333,13 @@ func (o Client) AddChannel(parameters params.Channel) (*Response[any], error) {
 	return ManagementCall(o, "post", "channels", "add", nil, parameters, Response[any]{})
 }
 
+// Returns all available video categories in omnia. Documentation can be found [here].
+//
+// [here]: https://api.nexx.cloud/v3.1/domain/videocategories
+func (o Client) VideoCategories() (*Response[MediaResult], error) {
+	return DomainDataCall(o, "get", "videocategories", nil, nil, Response[MediaResult]{})
+}
+
 // Adds a new UploadLink. UploadsLinks are dynamic URLs, that allow external Users to
 // upload Files to a specific nexxOMNIA Account. Uses the Management API. Documentation
 // can be found [here].
