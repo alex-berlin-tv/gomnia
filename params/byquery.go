@@ -1,7 +1,7 @@
 package params
 
 import (
-	"github.com/alex-berlin-tv/nexx_omnia_go/enum"
+	"github.com/alex-berlin-tv/gomnia/enum"
 	"github.com/pasztorpisti/qs"
 )
 

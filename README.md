@@ -4,7 +4,7 @@
   <img src="misc/logo.png" height="100px"/>
 </p>
 
-[Link to documentation](https://pkg.go.dev/github.com/alex-berlin-tv/nexx_omnia_go)
+[Link to documentation](https://pkg.go.dev/github.com/alex-berlin-tv/gomnia)
 
 Partial API Implementation for nexxOMNIA. This library is published as it is with no guarantee for support and/or bugfixes.
 
