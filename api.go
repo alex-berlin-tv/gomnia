@@ -299,6 +299,13 @@ func (o Client) Reject(
 	return ManagementCall(o, "post", streamType, "reject", []string{strconv.Itoa(id)}, parameters, Response[any]{})
 }
 
+// Returns all available channels in omnia. Documentation can be found [here].
+//
+// [here]: https://api.nexx.cloud/v3.1/domain/channels
+func (o Client) Channels() (*Response[MediaResult], error) {
+	return DomainDataCall(o, "get", "channels", nil, nil, Response[MediaResult]{})
+}
+
 // Add a new channel. Documentation can be found [here].
 //
 // [here]: https://api.nexx.cloud/v3.1/manage/channels/add
