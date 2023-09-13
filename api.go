@@ -48,9 +48,9 @@ func (t managementApiType) UrlBuilder(domainId string, streamType enum.StreamTyp
 	)
 }
 
-type domainManagementApiTyp struct{}
+type domainDataApiType struct{}
 
-func (t domainManagementApiTyp) UrlBuilder(domainId string, streamType enum.StreamType, operation string, args string) string {
+func (t domainDataApiType) UrlBuilder(domainId string, streamType enum.StreamType, operation string, args string) string {
 	return fmt.Sprintf(
 		"https://api.nexx.cloud/v3.1/%s/domain/%s",
 		domainId, operation,
@@ -69,32 +69,11 @@ func (t uploadLinkManagementApiType) UrlBuilder(domainId string, streamType enum
 type systemApiType struct{}
 
 func (t systemApiType) UrlBuilder(domainId string, streamType enum.StreamType, operation string, args string) string {
-	fmt.Sprintf(
+	return fmt.Sprintf(
 		"https://api.nexx.cloud/v3.1/%s/system/%s%s",
 		domainId, operation, args,
 	)
 }
-
-// Internal distinction for the different API's. This is needed
-// as the structure of a call differs depending on the API.
-type oldApiType int
-
-// The different classes of omnia's API endpoints. Each class has it's own URL structure.
-// [Response.universalCall] uses this type to apply the correct URL template.
-const (
-	// Basic URL structure:
-	oldMediaApiType oldApiType = iota
-	// Basic URL structure:
-	oldManagementApiType
-	// Basic URL structure: https://api.nexx.cloud/v3.1/<domain_id>/domain/<operation>
-	oldDomainManagementApiType
-	// Basic URL structure:
-	oldUploadLinkManagementApiType
-	// Basic URL structure:
-	oldSystemApiType
-	// Basic URL structure:
-	oldDomainApiType
-)
 
 const omniaHeaderXRequestCid = "X-Request-CID"
 const omniaHeaderXRequestToken = "X-Request-Token"
@@ -320,13 +299,6 @@ func (o Client) Reject(
 	return ManagementCall(o, "post", streamType, "reject", []string{strconv.Itoa(id)}, parameters, Response[any]{})
 }
 
-// Returns all available channels in omnia. Documentation can be found [here].
-//
-// [here]: https://api.nexx.cloud/v3.1/domain/channels
-func (o Client) Channels() (*Response[any], error) {
-	return ManagementCall()
-}
-
 // Add a new channel. Documentation can be found [here].
 //
 // [here]: https://api.nexx.cloud/v3.1/manage/channels/add
@@ -343,7 +315,7 @@ func (o Client) AddUploadLink(parameters params.UploadLink) (*Response[any], err
 	if err := parameters.Validate(); err != nil {
 		return nil, fmt.Errorf("invalid parameters given for AddUploadLink, %s", err)
 	}
-	return universalCall(o, http.MethodPost, enum.VideoStreamType, oldUploadLinkManagementApiType, "add", nil, parameters, 1, Response[any]{})
+	return universalCall(o, http.MethodPost, enum.VideoStreamType, uploadLinkManagementApiType{}, "add", nil, parameters, 1, Response[any]{})
 }
 
 // Lists all editable attributes for a given stream type.
@@ -371,7 +343,19 @@ func Call[T any](
 	pagingStart int,
 	response Response[T],
 ) (*Response[T], error) {
-	return universalCall(o, method, streamType, oldMediaApiType, operation, args, parameters, pagingStart, response)
+	return universalCall(o, method, streamType, mediaApiType{}, operation, args, parameters, pagingStart, response)
+}
+
+// Generic call to omnia's domain data API.
+func DomainDataCall[T any](
+	o Client,
+	method string,
+	operation string,
+	args []string,
+	parameters params.QueryParameters,
+	response Response[T],
+) (*Response[T], error) {
+	return universalCall(o, method, enum.AllStreamType, domainDataApiType{}, operation, args, parameters, 1, response)
 }
 
 // Generic call to the Omnia management API.
@@ -384,7 +368,7 @@ func ManagementCall[T any](
 	parameters params.QueryParameters,
 	response Response[T],
 ) (*Response[T], error) {
-	return universalCall(o, method, streamType, oldManagementApiType, operation, args, parameters, 1, response)
+	return universalCall(o, method, streamType, managementApiType{}, operation, args, parameters, 1, response)
 }
 
 // Generic call to the Omnia system API
@@ -395,14 +379,14 @@ func SystemCall[T any](
 	args []string,
 	response Response[T],
 ) (*Response[T], error) {
-	return universalCall(o, method, enum.VideoStreamType, oldSystemApiType, operation, args, nil, 1, response)
+	return universalCall(o, method, enum.VideoStreamType, systemApiType{}, operation, args, nil, 1, response)
 }
 
 func universalCall[T any](
 	o Client,
 	method string,
 	streamType enum.StreamType,
-	aType oldApiType,
+	aType apiType,
 	operation string,
 	args []string,
 	parameters params.QueryParameters,
@@ -415,31 +399,7 @@ func universalCall[T any](
 		argsParts = strings.Join(args, "/")
 		argsParts = fmt.Sprintf("/%s", argsParts)
 	}
-	/*
-		var reqUrl string
-		switch aType {
-		case oldMediaApiType:
-			reqUrl = fmt.Sprintf(
-				"https://api.nexx.cloud/v3.1/%s/%s/%s%s",
-				o.DomainId, streamType, operation, argsParts,
-			)
-		case oldManagementApiType:
-			reqUrl = fmt.Sprintf(
-				"https://api.nexx.cloud/v3.1/%s/manage/%s%s/%s",
-				o.DomainId, streamType, argsParts, operation,
-			)
-		case oldUploadLinkManagementApiType:
-			reqUrl = fmt.Sprintf(
-				"https://api.nexx.cloud/v3.1/%s/manage/uploadlinks/%s",
-				o.DomainId, operation,
-			)
-		case oldSystemApiType:
-			reqUrl = fmt.Sprintf(
-				"https://api.nexx.cloud/v3.1/%s/system/%s%s",
-				o.DomainId, operation, argsParts,
-			)
-		}
-	*/
+	reqUrl := aType.UrlBuilder(o.DomainId, streamType, operation, argsParts)
 	header := newOmniaHeader(operation, o.DomainId, o.ApiSecret, o.SessionId)
 
 	limitParam, err := params.Basic{
