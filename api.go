@@ -18,7 +18,7 @@ import (
 	"time"
 
 	"github.com/alex-berlin-tv/nexx_omnia_go/enum"
-	"github.com/alex-berlin-tv/nexx_omnia_go/omnia/params"
+	"github.com/alex-berlin-tv/nexx_omnia_go/params"
 	"github.com/sirupsen/logrus"
 )
 
