@@ -27,12 +27,12 @@ import (
 // provides a sane way of defining the different URL composition schemas.
 type apiType interface {
 	// Build the correct URL based on the endpoint type.
-	UrlBuilder(domainId string, streamType enum.StreamType, operation string, args string) string
+	UrlBuilder(domainId string, streamType enum.StreamType, operation, args, tail string) string
 }
 
 type mediaApiType struct{}
 
-func (t mediaApiType) UrlBuilder(domainId string, streamType enum.StreamType, operation string, args string) string {
+func (t mediaApiType) UrlBuilder(domainId string, streamType enum.StreamType, operation, args, tail string) string {
 	return fmt.Sprintf(
 		"https://api.nexx.cloud/v3.1/%s/%s/%s%s",
 		domainId, streamType, operation, args,
@@ -41,16 +41,25 @@ func (t mediaApiType) UrlBuilder(domainId string, streamType enum.StreamType, op
 
 type managementApiType struct{}
 
-func (t managementApiType) UrlBuilder(domainId string, streamType enum.StreamType, operation string, args string) string {
+func (t managementApiType) UrlBuilder(domainId string, streamType enum.StreamType, operation, args, tail string) string {
 	return fmt.Sprintf(
 		"https://api.nexx.cloud/v3.1/%s/manage/%s%s/%s",
 		domainId, streamType, args, operation,
 	)
 }
 
+type connectManagementApiType struct{}
+
+func (t connectManagementApiType) UrlBuilder(domainId string, streamType enum.StreamType, operation, args, tail string) string {
+	return fmt.Sprintf(
+		"https://api.nexx.cloud/v3.1/%s/manage/%s%s/%s/%s",
+		domainId, streamType, args, operation, tail,
+	)
+}
+
 type domainDataApiType struct{}
 
-func (t domainDataApiType) UrlBuilder(domainId string, streamType enum.StreamType, operation string, args string) string {
+func (t domainDataApiType) UrlBuilder(domainId string, streamType enum.StreamType, operation, args, tail string) string {
 	return fmt.Sprintf(
 		"https://api.nexx.cloud/v3.1/%s/domain/%s",
 		domainId, operation,
@@ -59,7 +68,7 @@ func (t domainDataApiType) UrlBuilder(domainId string, streamType enum.StreamTyp
 
 type uploadLinkManagementApiType struct{}
 
-func (t uploadLinkManagementApiType) UrlBuilder(domainId string, streamType enum.StreamType, operation string, args string) string {
+func (t uploadLinkManagementApiType) UrlBuilder(domainId string, streamType enum.StreamType, operation, args, tail string) string {
 	return fmt.Sprintf(
 		"https://api.nexx.cloud/v3.1/%s/manage/uploadlinks/%s",
 		domainId, operation,
@@ -68,7 +77,7 @@ func (t uploadLinkManagementApiType) UrlBuilder(domainId string, streamType enum
 
 type systemApiType struct{}
 
-func (t systemApiType) UrlBuilder(domainId string, streamType enum.StreamType, operation string, args string) string {
+func (t systemApiType) UrlBuilder(domainId string, streamType enum.StreamType, operation, args, tail string) string {
 	return fmt.Sprintf(
 		"https://api.nexx.cloud/v3.1/%s/system/%s%s",
 		domainId, operation, args,
@@ -299,6 +308,17 @@ func (o Client) Reject(
 	return ManagementCall(o, "post", streamType, "reject", []string{strconv.Itoa(id)}, parameters, Response[any]{})
 }
 
+// Connect an media item to a show. Documentation can be found [here].
+//
+// [here]: https://api.nexx.cloud/v3.1/manage/:streamtype/:item/connectshow/:showid
+func (o Client) ConnectShow(
+	streamType enum.StreamType,
+	id int,
+	showId int,
+) (*Response[any], error) {
+	return universalCall(o, "put", streamType, connectManagementApiType{}, "connectshow", []string{fmt.Sprint(id)}, fmt.Sprint(showId), nil, 1, Response[any]{})
+}
+
 // Returns all available channels in omnia. Documentation can be found [here].
 //
 // [here]: https://api.nexx.cloud/v3.1/domain/channels
@@ -322,7 +342,7 @@ func (o Client) AddUploadLink(parameters params.UploadLink) (*Response[any], err
 	if err := parameters.Validate(); err != nil {
 		return nil, fmt.Errorf("invalid parameters given for AddUploadLink, %s", err)
 	}
-	return universalCall(o, http.MethodPost, enum.VideoStreamType, uploadLinkManagementApiType{}, "add", nil, parameters, 1, Response[any]{})
+	return universalCall(o, http.MethodPost, enum.VideoStreamType, uploadLinkManagementApiType{}, "add", nil, "", parameters, 1, Response[any]{})
 }
 
 // Lists all editable attributes for a given stream type.
@@ -350,7 +370,7 @@ func Call[T any](
 	pagingStart int,
 	response Response[T],
 ) (*Response[T], error) {
-	return universalCall(o, method, streamType, mediaApiType{}, operation, args, parameters, pagingStart, response)
+	return universalCall(o, method, streamType, mediaApiType{}, operation, args, "", parameters, pagingStart, response)
 }
 
 // Generic call to omnia's domain data API.
@@ -362,7 +382,7 @@ func DomainDataCall[T any](
 	parameters params.QueryParameters,
 	response Response[T],
 ) (*Response[T], error) {
-	return universalCall(o, method, enum.AllStreamType, domainDataApiType{}, operation, args, parameters, 1, response)
+	return universalCall(o, method, enum.AllStreamType, domainDataApiType{}, operation, args, "", parameters, 1, response)
 }
 
 // Generic call to the Omnia management API.
@@ -375,7 +395,7 @@ func ManagementCall[T any](
 	parameters params.QueryParameters,
 	response Response[T],
 ) (*Response[T], error) {
-	return universalCall(o, method, streamType, managementApiType{}, operation, args, parameters, 1, response)
+	return universalCall(o, method, streamType, managementApiType{}, operation, args, "", parameters, 1, response)
 }
 
 // Generic call to the Omnia system API
@@ -386,7 +406,7 @@ func SystemCall[T any](
 	args []string,
 	response Response[T],
 ) (*Response[T], error) {
-	return universalCall(o, method, enum.VideoStreamType, systemApiType{}, operation, args, nil, 1, response)
+	return universalCall(o, method, enum.VideoStreamType, systemApiType{}, operation, args, "", nil, 1, response)
 }
 
 func universalCall[T any](
@@ -396,6 +416,7 @@ func universalCall[T any](
 	aType apiType,
 	operation string,
 	args []string,
+	tail string,
 	parameters params.QueryParameters,
 	pagingStart int,
 	response Response[T],
@@ -406,7 +427,7 @@ func universalCall[T any](
 		argsParts = strings.Join(args, "/")
 		argsParts = fmt.Sprintf("/%s", argsParts)
 	}
-	reqUrl := aType.UrlBuilder(o.DomainId, streamType, operation, argsParts)
+	reqUrl := aType.UrlBuilder(o.DomainId, streamType, operation, argsParts, tail)
 	header := newOmniaHeader(operation, o.DomainId, o.ApiSecret, o.SessionId)
 
 	limitParam, err := params.Basic{
