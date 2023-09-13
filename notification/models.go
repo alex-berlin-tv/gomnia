@@ -3,7 +3,7 @@ package notification
 import (
 	"encoding/json"
 
-	"github.com/alex-berlin-tv/nexx_omnia_go/types"
+	"github.com/alex-berlin-tv/gomnia/types"
 )
 
 // A notification based on an event within omnia.

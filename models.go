@@ -1,10 +1,10 @@
-package omnia
+package gomnia
 
 import (
 	"encoding/json"
 
-	"github.com/alex-berlin-tv/nexx_omnia_go/enum"
-	"github.com/alex-berlin-tv/nexx_omnia_go/types"
+	"github.com/alex-berlin-tv/gomnia/enum"
+	"github.com/alex-berlin-tv/gomnia/types"
 	log "github.com/sirupsen/logrus"
 )
 

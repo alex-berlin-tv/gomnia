@@ -3,7 +3,7 @@
 // obtained by reading the [official API documentation].
 //
 // [official API documentation]: https://api.docs.nexx.cloud/
-package omnia
+package gomnia
 
 import (
 	"crypto/md5"
@@ -17,8 +17,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/alex-berlin-tv/nexx_omnia_go/enum"
-	"github.com/alex-berlin-tv/nexx_omnia_go/params"
+	"github.com/alex-berlin-tv/gomnia/enum"
+	"github.com/alex-berlin-tv/gomnia/params"
 	"github.com/sirupsen/logrus"
 )
 
