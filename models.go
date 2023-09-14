@@ -91,23 +91,25 @@ type MediaResultItem struct {
 //
 // In order to get all additional fields use the keyword »all«.
 type MediaResultGeneral struct {
-	Id                       int          `json:"ID"`
-	Gid                      int          `json:"GID"`
-	Hash                     string       `json:"hash"`
-	Title                    string       `json:"title"`
-	Subtitle                 string       `json:"subtitle"`
-	GenreRaw                 string       `json:"genre_raw"`
-	Genre                    string       `json:"genre"`
-	ContentModerationAspects string       `json:"contentModerationAspects"`
-	Uploaded                 types.UnixTS `json:"uploaded"`
-	Created                  types.UnixTS `json:"created"`
-	AudioType                string       `json:"audiotype"`
-	Runtime                  string       `json:"runtime"`
-	IsPicked                 enum.Bool    `json:"isPicked"`
-	ForKids                  enum.Bool    `json:"forKids"`
-	Channel                  int          `json:"channel,omitempty"` // Optional field.
-	IsPay                    enum.Bool    `json:"isPay"`
-	IsUgc                    enum.Bool    `json:"isUGC"`
+	Id                       int                `json:"ID"`
+	Gid                      int                `json:"GID"`
+	Hash                     string             `json:"hash"`
+	Title                    string             `json:"title"`
+	Subtitle                 string             `json:"subtitle"`
+	GenreRaw                 string             `json:"genre_raw"`
+	Genre                    string             `json:"genre"`
+	ContentModerationAspects string             `json:"contentModerationAspects"`
+	Uploaded                 types.UnixTS       `json:"uploaded"`
+	Created                  types.UnixTS       `json:"created"`
+	AudioType                string             `json:"audiotype"`
+	Runtime                  string             `json:"runtime"`
+	IsPicked                 enum.Bool          `json:"isPicked"`
+	ForKids                  enum.Bool          `json:"forKids"`
+	Channel                  int                `json:"channel,omitempty"` // Optional field.
+	IsPay                    enum.Bool          `json:"isPay"`
+	IsUgc                    enum.Bool          `json:"isUGC"`
+	CategoryRaw              types.StringOrZero `json:"category_raw"`
+	Category                 string             `json:"category"`
 }
 
 // MediaResultImageData contains image-related data for a media item, including
