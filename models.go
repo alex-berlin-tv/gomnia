@@ -152,6 +152,9 @@ type EditableAttributesProperties struct {
 	AllowedInUgc int    `json:"allowedInUGC"`
 }
 
+// The available YouTube categories. An id mapped to the name of the category.
+type YouTubeCategories map[int]string
+
 func structToMap(data interface{}) map[string]interface{} {
 	var rsl map[string]interface{}
 	tmp, err := json.Marshal(data)

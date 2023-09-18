@@ -352,11 +352,13 @@ func (o Client) AddUploadLink(parameters params.UploadLink) (*Response[any], err
 	return universalCall(o, http.MethodPost, enum.VideoStreamType, uploadLinkManagementApiType{}, "add", nil, "", parameters, 1, Response[any]{})
 }
 
-// Lists all editable attributes for a given stream type.
+// Lists all editable attributes for a given stream type. Documentation can be found [here].
 //
 // This method is needed as there is no other documentation of all the available metadata
 // fields in omnia. Especially useful if you want to know which metadata attributes
 // you can alter using the [Client.Update] method.
+//
+// [here]: https://api.nexx.cloud/v3.1/system/editablerestrictionsfor/:streamtype
 func (o Client) EditableAttributes(streamType enum.StreamType) (*Response[EditableAttributesResponse], error) {
 	rsl, err := SystemCall(o, "get", "editableattributesfor", []string{string(streamType)}, Response[EditableAttributesResponse]{})
 	if err != nil {
@@ -364,6 +366,13 @@ func (o Client) EditableAttributes(streamType enum.StreamType) (*Response[Editab
 	}
 	// return nil, fmt.Errorf("wrong type, should be EditableAttributesResponse but is %T", rsl)
 	return rsl, nil
+}
+
+// Get the available YouTube-Categories. Documentation can be found [here].
+//
+// [here]: https://api.nexx.cloud/v3.1/system/youtubecategories
+func (o Client) YouTubeCategories() (*Response[YouTubeCategories], error) {
+	return SystemCall(o, "get", "youtubecategories", nil, Response[YouTubeCategories]{})
 }
 
 // Generic call to the Omnia Media API. Won't work with the management API's.

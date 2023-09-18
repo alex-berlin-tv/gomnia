@@ -63,7 +63,8 @@
         "Unpublish",
         "videocategories",
         "Webp",
-        "xmlstrict"
+        "xmlstrict",
+        "youtubecategories"
     ],
     "cSpell.language": "en,de-DE"
 }
