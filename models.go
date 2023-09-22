@@ -110,6 +110,7 @@ type MediaResultGeneral struct {
 	IsUgc                    enum.Bool          `json:"isUGC"`
 	CategoryRaw              types.StringOrZero `json:"category_raw"`
 	Category                 string             `json:"category"`
+	Description              string             `json:"description"`
 }
 
 // MediaResultImageData contains image-related data for a media item, including
