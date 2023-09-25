@@ -340,6 +340,13 @@ func (o Client) VideoCategories() (*Response[MediaResult], error) {
 	return DomainDataCall(o, "get", "videocategories", nil, nil, Response[MediaResult]{})
 }
 
+// Returns all available audio categories in omnia. Documentation can be found [here].
+//
+// [here]: https://api.nexx.cloud/v3.1/domain/audiocategories
+func (o Client) AudioCategories() (*Response[MediaResult], error) {
+	return DomainDataCall(o, "get", "audiocategories", nil, nil, Response[MediaResult]{})
+}
+
 // Adds a new UploadLink. UploadsLinks are dynamic URLs, that allow external Users to
 // upload Files to a specific nexxOMNIA Account. Uses the Management API. Documentation
 // can be found [here].
