@@ -53,6 +53,7 @@
         "processingtime",
         "publishingdata",
         "refnr",
+        "releasedate",
         "restict",
         "resultcount",
         "sirupsen",

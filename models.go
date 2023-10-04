@@ -101,6 +101,7 @@ type MediaResultGeneral struct {
 	ContentModerationAspects string             `json:"contentModerationAspects"`
 	Uploaded                 types.UnixTS       `json:"uploaded"`
 	Created                  types.UnixTS       `json:"created"`
+	Released                 types.UnixTS       `json:"releasedate"`
 	AudioType                string             `json:"audiotype"`
 	Runtime                  string             `json:"runtime"`
 	IsPicked                 enum.Bool          `json:"isPicked"`
