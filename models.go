@@ -111,6 +111,7 @@ type MediaResultGeneral struct {
 	CategoryRaw              types.StringOrZero `json:"category_raw"`
 	Category                 string             `json:"category"`
 	Description              string             `json:"description"`
+	ReferenceNumber          string             `json:"refnr"`
 }
 
 // MediaResultImageData contains image-related data for a media item, including
